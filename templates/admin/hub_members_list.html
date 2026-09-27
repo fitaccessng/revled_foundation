@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Hub Members | Revled Admin{% endblock %}
+{% block admin_heading %}Hub Members{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Hub access</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Hub member accounts</h2>
+        </div>
+        <div class="flex items-center gap-3">
+            <form method="get" class="flex items-center gap-2">
+                <label class="text-sm text-slate-600">Filter</label>
+                <select name="user_type" class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+                    <option value="" {% if not selected_user_type %}selected{% endif %}>All user types</option>
+                    {% for code, label in hub_user_types.items() %}
+                    <option value="{{ code }}" {% if selected_user_type == code %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="rounded-full bg-slate-800 text-white px-3 py-2 text-sm">Apply</button>
+            </form>
+            <a href="{{ url_for('admin_hub_member_new') }}" class="inline-flex rounded-full bg-orange-500 px-5 py-3 font-semibold text-white">Create member</a>
+        </div>
+    </div>
+
+    <div class="mt-8 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Member</th>
+                    <th class="pb-3 pr-4">User type</th>
+                    <th class="pb-3 pr-4">Track</th>
+                    <th class="pb-3 pr-4">Tier</th>
+                    <th class="pb-3 pr-4">Progress</th>
+                    <th class="pb-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for member in members %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ member['full_name'] }}</p>
+                        <p class="text-xs text-slate-500">{{ member['email'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ member['user_type_label'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ member['industry_track'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ member['membership_label'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ member['progress_percentage'] }}%</td>
+                    <td class="py-4">
+                        <a href="{{ url_for('admin_hub_member_edit', member_id=member['id']) }}" class="font-semibold text-[#0A192F]">Edit</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="py-8 text-slate-500">No hub members yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,581 @@
+{% extends "hub_base.html" %}
+
+{% block title %}{{ config['label'] }} | Revled Hub{% endblock %}
+
+{% block hub_content %}
+<div class="explorer-wrapper">
+    
+    <!-- Clean Workspace Banner -->
+    <header class="explorer-header">
+        <div class="header-main">
+            <span class="context-pill">
+                <span class="dot-pulse"></span>
+                {{ member['membership_label'] }} Access
+            </span>
+            <h1 class="display-title">{{ config['label'] }}</h1>
+            <p class="display-subtitle">{{ config['description'] }}</p>
+        </div>
+        
+        <div class="header-stats">
+            <div class="h-stat-card">
+                <span class="h-label">Available Items</span>
+                <span class="h-value">{{ items|length }}</span>
+            </div>
+            <div class="h-stat-card">
+                <span class="h-label">Target Lane</span>
+                <span class="h-value">{{ member['user_type_label'] }}</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="explorer-grid">
+        
+        <!-- Sidebar Metrics & Info -->
+        <aside class="explorer-sidebar">
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">Track Completion</h3>
+                <div class="radial-progress-container">
+                    <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" stroke-dasharray="{{ member['progress_percentage'] }}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <text x="18" y="20.35" class="percentage">{{ member['progress_percentage'] }}%</text>
+                    </svg>
+                </div>
+                <p class="sidebar-note">Updates automatically as activities in your <strong>{{ member['user_type_label'] }}</strong> path are completed.</p>
+            </div>
+
+            <div class="sidebar-card info-card">
+                <i class="fas fa-sync-alt info-icon"></i>
+                <p>Synced to <strong>{{ member['membership_label'] }}</strong>. Updates reflect in real time.</p>
+            </div>
+        </aside>
+
+        <!-- Main Items Collection Stack -->
+        <main class="collection-area">
+            <div class="collection-header">
+                <div class="collection-title-group">
+                    <h3>Verified Assets</h3>
+                    <span class="count-badge">{{ items|length }}</span>
+                </div>
+                <div class="view-toggle" title="List View Active">
+                    <i class="fas fa-list"></i>
+                </div>
+            </div>
+
+            {% if items %}
+            <div class="asset-stack">
+                {% for item in items %}
+                <article class="asset-card">
+                    <div class="asset-body">
+                        <div class="asset-meta-top">
+                            <span class="badge-outline">{{ item['access_tier']|replace('_', ' ')|upper }}</span>
+                            {% if item['status_text'] %}<span class="badge-status">{{ item['status_text'] }}</span>{% endif %}
+                        </div>
+                        
+                        <h4 class="asset-title">{{ item['title'] }}</h4>
+                        <p class="asset-summary">{{ item['summary'] }}</p>
+                        
+                        {% if item['description'] %}
+                        <div class="asset-desc-well">
+                            {{ item['description'] }}
+                        </div>
+                        {% endif %}
+
+                        <div class="asset-tags">
+                            {% if item['meta_one'] %}<span class="t-tag"><strong>{{ config['meta_one_label'] }}:</strong> {{ item['meta_one'] }}</span>{% endif %}
+                            {% if item['location'] %}<span class="t-tag"><i class="fas fa-map-pin"></i> {{ item['location'] }}</span>{% endif %}
+                            {% if item['starts_at'] %}<span class="t-tag"><i class="far fa-clock"></i> {{ item['starts_at'] }}</span>{% endif %}
+                            {% if item['content_type'] == 'resources' and item['has_uploaded_file'] %}
+                            <span class="t-tag secure"><i class="fas fa-shield-alt"></i> Secure Viewer</span>
+                            {% endif %}
+                            {% if not item['is_released'] %}
+                            <span class="t-tag locked"><i class="fas fa-lock"></i> Unlocks {{ item['release_label'] or 'soon' }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="asset-action">
+                        {% if item['badge_text'] %}<span class="accent-badge">{{ item['badge_text'] }}</span>{% endif %}
+                        
+                        <div class="btn-group">
+                            {% if item['is_released'] %}
+                            <a href="{{ item['resource_link'] or item['cta_url'] or '#' }}" class="action-btn">
+                                <span>{{ item['cta_label'] or 'Access' }}</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            {% if item['content_type'] == 'resources' and item['has_uploaded_file'] %}
+                            <a href="{{ url_for('hub_resource_download', item_id=item['id']) }}" class="action-btn download-btn" title="Download Asset">
+                                <i class="fas fa-download"></i>
+                            </a>
+                            {% endif %}
+                            {% else %}
+                            <span class="action-btn locked-btn" aria-disabled="true">
+                                <span>Locked</span>
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state-card">
+                <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+                <p>{{ config['empty_message'] }}</p>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+</div>
+
+<style>
+    /* White Executive Palette */
+    :root {
+        --e-bg: #ffffff;
+        --e-surface: #f8fafc;
+        --e-card-bg: #ffffff;
+        --e-border: #e2e8f0;
+        --e-border-subtle: #f1f5f9;
+        
+        --e-text-dark: #0f172a;
+        --e-text-sub: #64748b;
+        --e-text-muted: #94a3b8;
+        
+        --e-accent: #4f46e5;
+        --e-accent-light: #eef2ff;
+        --e-accent-green: #10b981;
+        --e-accent-amber: #d97706;
+        
+        --e-radius-sm: 8px;
+        --e-radius-md: 12px;
+        --e-radius-lg: 16px;
+        
+        --e-shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+        --e-shadow-hover: 0 4px 12px rgba(0,0,0,0.05);
+        --e-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body, main, .explorer-wrapper {
+        background: var(--e-bg) !important;
+        color: var(--e-text-dark);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .explorer-wrapper {
+        padding: 1.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    /* Header Banner */
+    .explorer-header { 
+        background: var(--e-surface); 
+        padding: 2rem; 
+        border-radius: var(--e-radius-lg); 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: flex-end;
+        border: 1px solid var(--e-border);
+        margin-bottom: 1.5rem;
+    }
+
+    .context-pill { 
+        display: inline-flex;
+        align-items: center;
+        gap: 6px; 
+        background: var(--e-accent-light);
+        color: var(--e-accent);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.725rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.75rem;
+    }
+
+    .dot-pulse {
+        width: 6px;
+        height: 6px;
+        background: var(--e-accent);
+        border-radius: 50%;
+    }
+
+    .display-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.025em;
+        color: var(--e-text-dark);
+    }
+
+    .display-subtitle {
+        color: var(--e-text-sub);
+        margin: 0.35rem 0 0 0;
+        max-width: 550px;
+        font-size: 0.925rem;
+        line-height: 1.5;
+    }
+    
+    .header-stats { display: flex; gap: 0.75rem; }
+
+    .h-stat-card {
+        background: #ffffff;
+        border: 1px solid var(--e-border);
+        padding: 0.75rem 1.1rem;
+        border-radius: var(--e-radius-md);
+        min-width: 130px;
+        text-align: right;
+    }
+
+    .h-label {
+        display: block;
+        font-size: 0.68rem;
+        color: var(--e-text-sub);
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+    }
+
+    .h-value {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--e-text-dark);
+        margin-top: 0.15rem;
+        display: block;
+    }
+
+    /* Layout Grid */
+    .explorer-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Sidebar Cards */
+    .sidebar-card {
+        background: var(--e-surface);
+        border: 1px solid var(--e-border);
+        border-radius: var(--e-radius-lg);
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .sidebar-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin: 0 0 1rem 0;
+        color: var(--e-text-dark);
+    }
+
+    .sidebar-note {
+        font-size: 0.8rem;
+        color: var(--e-text-sub);
+        margin: 1rem 0 0 0;
+        line-height: 1.45;
+    }
+
+    .info-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        background: #ffffff;
+    }
+
+    .info-icon {
+        color: var(--e-accent);
+        font-size: 1rem;
+        margin-top: 0.15rem;
+        flex-shrink: 0;
+    }
+
+    .info-card p {
+        margin: 0;
+        font-size: 0.825rem;
+        color: var(--e-text-sub);
+        line-height: 1.45;
+    }
+
+    /* Circular SVG Ring */
+    .circular-chart {
+        display: block;
+        margin: 0 auto;
+        max-width: 75%;
+        max-height: 180px;
+    }
+
+    .circle-bg {
+        fill: none;
+        stroke: var(--e-border);
+        stroke-width: 2.8;
+    }
+
+    .circle {
+        fill: none;
+        stroke: var(--e-accent);
+        stroke-width: 2.8;
+        stroke-linecap: round;
+        transition: stroke-dasharray 0.4s ease;
+    }
+
+    .percentage {
+        fill: var(--e-text-dark);
+        font-family: system-ui, sans-serif;
+        font-size: 0.55rem;
+        text-anchor: middle;
+        font-weight: 800;
+    }
+
+    /* Collection Area */
+    .collection-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .collection-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .collection-title-group h3 {
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--e-text-dark);
+    }
+
+    .count-badge {
+        background: var(--e-surface);
+        border: 1px solid var(--e-border);
+        padding: 0.15rem 0.5rem;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--e-text-sub);
+    }
+
+    .view-toggle {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--e-radius-sm);
+        border: 1px solid var(--e-border);
+        background: var(--e-surface);
+        display: grid;
+        place-items: center;
+        color: var(--e-text-sub);
+        font-size: 0.85rem;
+    }
+
+    /* Asset Row Cards */
+    .asset-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .asset-card { 
+        background: var(--e-card-bg); 
+        border: 1px solid var(--e-border); 
+        border-radius: var(--e-radius-lg); 
+        display: flex; 
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+        transition: var(--e-transition);
+        box-shadow: var(--e-shadow-sm);
+    }
+
+    .asset-card:hover { 
+        border-color: var(--e-accent); 
+        box-shadow: var(--e-shadow-hover);
+        transform: translateY(-1px);
+    }
+
+    .asset-body { flex: 1; min-width: 0; padding-right: 1.5rem; }
+
+    .asset-meta-top {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .badge-outline { 
+        border: 1px solid var(--e-border); 
+        background: var(--e-surface);
+        color: var(--e-text-sub); 
+        font-size: 0.65rem; 
+        padding: 2px 8px; 
+        border-radius: 4px; 
+        font-weight: 700; 
+        letter-spacing: 0.03em;
+    }
+
+    .badge-status {
+        font-size: 0.65rem;
+        font-weight: 700;
+        background: #fef3c7;
+        color: var(--e-accent-amber);
+        padding: 2px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+    }
+
+    .asset-title { 
+        font-size: 1.05rem; 
+        font-weight: 700;
+        margin: 0 0 0.35rem 0; 
+        color: var(--e-text-dark);
+    }
+
+    .asset-summary { 
+        color: var(--e-text-sub); 
+        font-size: 0.875rem; 
+        margin: 0 0 0.85rem 0; 
+        line-height: 1.5;
+    }
+    
+    .asset-desc-well { 
+        background: var(--e-surface); 
+        border-left: 3px solid var(--e-accent); 
+        padding: 0.65rem 0.85rem; 
+        border-radius: 4px; 
+        font-size: 0.825rem; 
+        color: var(--e-text-sub);
+        margin-bottom: 0.85rem;
+    }
+
+    .asset-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .t-tag { 
+        font-size: 0.725rem; 
+        color: var(--e-text-sub); 
+        background: var(--e-surface); 
+        border: 1px solid var(--e-border);
+        padding: 3px 8px; 
+        border-radius: 6px; 
+    }
+
+    .t-tag.secure { 
+        color: #047857; 
+        background: #ecfdf5; 
+        border-color: #a7f3d0; 
+        font-weight: 600;
+    }
+
+    .t-tag.locked { 
+        color: var(--e-accent-amber); 
+        background: #fffdfa; 
+        border-color: #fef3c7; 
+        font-weight: 600;
+    }
+
+    /* Action & CTA Buttons */
+    .asset-action { 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between; 
+        align-items: flex-end; 
+        min-width: 150px; 
+        flex-shrink: 0;
+    }
+
+    .accent-badge { 
+        background: var(--e-accent-light); 
+        color: var(--e-accent); 
+        font-size: 0.68rem; 
+        font-weight: 700; 
+        padding: 3px 10px; 
+        border-radius: 99px; 
+        text-transform: uppercase;
+    }
+
+    .btn-group {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: auto;
+    }
+
+    .action-btn { 
+        text-decoration: none; 
+        background: var(--e-text-dark); 
+        color: #ffffff !important; 
+        padding: 0.5rem 0.9rem; 
+        border-radius: var(--e-radius-sm); 
+        font-weight: 600; 
+        font-size: 0.8rem; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 6px;
+        transition: var(--e-transition);
+        white-space: nowrap;
+    }
+
+    .action-btn:hover { 
+        background: var(--e-accent); 
+    }
+
+    .download-btn {
+        background: var(--e-surface);
+        color: var(--e-text-dark) !important;
+        border: 1px solid var(--e-border);
+        padding: 0.5rem 0.7rem;
+    }
+
+    .download-btn:hover {
+        background: var(--e-accent-light);
+        color: var(--e-accent) !important;
+        border-color: var(--e-accent-light);
+    }
+
+    .locked-btn {
+        background: var(--e-surface); 
+        color: var(--e-text-muted) !important; 
+        border: 1px solid var(--e-border); 
+        cursor: not-allowed;
+    }
+
+    .locked-btn:hover { 
+        background: var(--e-surface); 
+    }
+
+    /* Empty Placeholder */
+    .empty-state-card {
+        text-align: center;
+        padding: 3rem 1.5rem;
+        background: var(--e-surface);
+        border: 1px dashed var(--e-border);
+        border-radius: var(--e-radius-lg);
+        color: var(--e-text-sub);
+    }
+
+    .empty-icon {
+        font-size: 1.75rem;
+        color: var(--e-text-muted);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state-card p {
+        margin: 0;
+        font-size: 0.875rem;
+    }
+
+    @media (max-width: 900px) {
+        .explorer-grid { grid-template-columns: 1fr; }
+        .explorer-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+        .header-stats { width: 100%; }
+        .h-stat-card { flex: 1; text-align: left; }
+        .asset-card { flex-direction: column; gap: 1.25rem; }
+        .asset-body { padding-right: 0; }
+        .asset-action { align-items: flex-start; width: 100%; }
+        .btn-group { width: 100%; }
+        .action-btn { flex: 1; justify-content: center; }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}About | Revled Foundation{% endblock %}
+{% block meta_description %}Learn about Revled Foundation, its mission, vision, team, philosophy, and CAC registration details.{% endblock %}
+
+{% block content %}
+<div class="scroll-smooth antialiased bg-white text-slate-800">
+
+    <!-- Hero Section -->
+    <section class="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-tr from-[#FDFCF0]/60 via-[#FFF8F0]/30 to-white overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="flex flex-col items-center text-center reveal-on-scroll space-y-6">
+                <span class="px-4 py-1.5 bg-orange-50 border border-orange-100 text-orange-600 rounded-full text-xs font-bold tracking-widest uppercase shadow-sm">
+                    Our DNA
+                </span>
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-[#0A192F] tracking-tight leading-[1.1]">
+                    About <span class="text-orange-600">Revled Foundation</span>
+                </h1>
+                <p class="text-xl sm:text-2xl font-serif italic text-orange-500 font-medium max-w-2xl mt-2">
+                    "Talent is everywhere Opportunity starts here."
+                </p>
+                <p class="text-base sm:text-lg text-slate-600 font-normal max-w-3xl leading-relaxed pt-2">
+                    Every child deserves the opportunity to fulfil their potential, yet too many young people are expected to navigate life without the guidance, skills, support, and opportunities they need to thrive. At Revled Foundation, we exist to change that.
+                </p>
+            </div>
+        </div>
+        <!-- Blur Accents -->
+        <div class="absolute top-0 right-0 w-80 h-80 bg-orange-200/20 rounded-full blur-3xl pointer-events-none -translate-y-1/4 translate-x-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl pointer-events-none translate-y-1/4 -translate-x-1/4"></div>
+    </section>
+
+    <!-- Origin & Manifesto Section -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100/80">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <!-- Media Frame -->
+            <div class="relative reveal-on-scroll lg:col-span-5 px-2">
+                <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl p-3 bg-white shadow-xl border border-slate-100">
+                    <div class="aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100">
+                        <img src="{{ url_for('static', filename='images/image1.jpeg') }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-102" alt="Revled students standing together" loading="lazy">
+                    </div>
+                </div>
+                <!-- Foundation Stamp Overlay -->
+              
+            </div>
+            
+            <!-- Text content -->
+            <div class="reveal-on-scroll lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 text-xs font-bold text-orange-600 uppercase tracking-widest">
+                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                    The Origin Narrative
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-black text-[#0A192F] tracking-tight leading-tight">
+                    It started with a simple observation.
+                </h2>
+                <div class="space-y-4 text-base text-slate-600 font-normal leading-relaxed">
+                    <p>
+                        We saw young people with incredible potential but little access to mentorship, practical skills, or pathways that could help them build the future they deserved. We quickly realised that potential is not the problem, access is.
+                    </p>
+                    <p>
+                        What began as small group sessions in 2021 became something much bigger: a commitment to walk alongside children and young people through every stage of their development.
+                    </p>
+                    <div class="p-5 rounded-2xl bg-gradient-to-r from-[#FDFCF0] to-white border border-orange-100/60 mt-4">
+                        <p class="text-[#0A192F] font-bold italic text-lg">
+                            "We do not design for moments. We design for decades."
+                        </p>
+                    </div>
+                    <p class="pt-2">
+                        Our four-stage developmental model: <span class="font-semibold text-[#0A192F]">Origin, Explorers, Catalyst, and Vanguard</span>, supports children and young people from birth to age 25, ensuring every stage builds on the one before it. Instead of short-term interventions, we create lifelong pathways that develop confident learners, resilient leaders, skilled professionals, and purpose-driven entrepreneurs.
+                    </p>
+                    <p class="pt-2">
+                        Revled Foundation is the operating name of <span class="font-semibold text-[#0A192F]">Revled Empowerment Initiative</span>, a registered nonprofit entity incorporated in Nigeria under CAC Registration Number: <span class="font-bold text-orange-400 tracking-wide">{{ cac_registration_number }}</span> 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Unified Vision & Mission Split Block -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#0A192F] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+            <!-- Vision -->
+            <div class="p-8 sm:p-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl reveal-on-scroll flex flex-col justify-between group hover:border-white/20 transition-all">
+                <div class="space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.3em] text-orange-400">The Vision</span>
+                    <p class="text-xl sm:text-2xl text-white font-bold leading-snug tracking-tight">
+                        A world where every child and young person has the opportunity to realise their full potential, lead purposeful lives, and build thriving, inclusive, and sustainable communities.
+                    </p>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs font-bold mt-8">✓</div>
+            </div>
+
+            <!-- Mission -->
+            <div class="p-8 sm:p-12 bg-orange-600 rounded-3xl reveal-on-scroll delay-100 flex flex-col justify-between shadow-xl shadow-orange-950/20 group hover:bg-orange-500 transition-all">
+                <div class="space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.3em] text-white opacity-90">The Mission</span>
+                    <p class="text-xl sm:text-2xl text-[#0A192F] font-black leading-snug tracking-tight">
+                        To equip children and young people, particularly those from underserved communities, with the emotional intelligence, practical skills, mentorship, career readiness, and leadership capabilities they need to thrive while creating resilient, inclusive, and sustainable communities.
+                    </p>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-[#0A192F] flex items-center justify-center text-white text-xs font-bold mt-8">✓</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Shared Belief Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-4xl mx-auto rounded-3xl bg-[#FDFCF0] p-8 sm:p-12 border border-orange-100/60 shadow-sm reveal-on-scroll text-center md:text-left space-y-4">
+            <span class="text-xs font-bold uppercase tracking-widest text-orange-600">Our Shared Core Belief</span>
+            <p class="text-xl sm:text-2xl font-bold text-[#0A192F] leading-snug">
+                We also believe that communities already possess untapped potential, not only in their people, but in their ideas, creativity, and resources. By helping young people solve real-world challenges, create opportunities from what already exists, and build sustainable livelihoods, we strengthen families, communities, and futures.
+            </p>
+            <div class="pt-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                Because when young people thrive, communities thrive.
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap (Ages 0-25 Framework Grid) -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 border-t border-b border-slate-100/70">
+        <div class="max-w-7xl mx-auto space-y-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-orange-600">Strategic Evolution</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-[#0A192F] tracking-tight">The 25-Year Delivery Journey</h2>
+                </div>
+                <a href="{{ url_for('program_detail', program_slug='roots') }}" class="text-sm font-bold text-orange-600 flex items-center gap-1.5 group hover:text-orange-700 transition-colors">
+                    Explore Program Channels <span class="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+            </div>
+
+            <!-- Pipeline Step Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Origin -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 reveal-on-scroll flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center font-bold text-sm">01</div>
+                        <h4 class="font-bold text-[#0A192F] text-lg">Origin</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wide">Ages 0 - 8</p>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">Foundation through strategic play, organic bonding architectures, and foundational discovery modules.</p>
+                    </div>
+                </div>
+                <!-- Explorers -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 reveal-on-scroll delay-70 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-bold text-sm">02</div>
+                        <h4 class="font-bold text-[#0A192F] text-lg">Explorers</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wide">Ages 9 - 13</p>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">Identity discovery channels, logic exploration grids, and resource mindfulness tracking tools.</p>
+                    </div>
+                </div>
+                <!-- Catalyst -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 reveal-on-scroll delay-140 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold text-sm">03</div>
+                        <h4 class="font-bold text-[#0A192F] text-lg">Catalyst</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wide">Ages 14 - 17</p>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">Conversion of potential into tangible technical focus tracks and actionable peer leadership programs.</p>
+                    </div>
+                </div>
+                <!-- Vanguard -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 reveal-on-scroll delay-210 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center font-bold text-sm">04</div>
+                        <h4 class="font-bold text-[#0A192F] text-lg">Vanguard</h4>
+                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wide">Ages 18 - 25</p>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">Professional networking optimization, systemic enterprise deployment, and direct placement loops.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto space-y-12">
+            <div class="max-w-3xl space-y-3 text-center md:text-left">
+                <span class="inline-flex items-center rounded-full bg-orange-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-orange-600 border border-orange-100">Our Team</span>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-[#0A192F]">Changemakers behind the mission.</h2>
+                <p class="text-base text-slate-600 font-normal">
+                    Meet the team shaping Revled's core pillars across leadership, operational systems, programs, and strategic partnerships.
+                </p>
+            </div>
+
+            <!-- Profiles Container -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- CA -->
+                <article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow reveal-on-scroll">
+                    <div class="relative aspect-[4/5] overflow-hidden bg-slate-50">
+                        <img src="{{ url_for('static', filename='images/CAPic.png') }}" alt="Portrait of Chidimma Azike" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-102" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/60 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <h3 class="text-lg font-bold text-[#0A192F]">Chidimma Azike</h3>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-orange-600">Founder / Executive Director</p>
+                    </div>
+                     <a href="https://www.linkedin.com/in/chidimmaazike?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-slate-400 hover:text-blue-600 transition-colors pt-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+            </svg>
+        </a>
+                </article>
+
+                <!-- AO -->
+                <article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow reveal-on-scroll delay-70">
+                    <div class="relative aspect-[4/5] overflow-hidden bg-slate-50">
+                        <img src="{{ url_for('static', filename='images/staff.png') }}" alt="Portrait of Charis Turner" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-102" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/60 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <h3 class="text-lg font-bold text-[#0A192F]">Charis Turner</h3>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-orange-600">Content Creator & Storytelling Officer</p>
+                    </div>
+                 <a href="https://www.linkedin.com/in/charis-turner-3a3106240?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-slate-400 hover:text-blue-600 transition-colors pt-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+            </svg>
+        </a>
+                </article>
+
+                <!-- FI -->
+                <!-- <article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow reveal-on-scroll delay-140">
+                    <div class="relative aspect-[4/5] overflow-hidden bg-[#0A192F]/10 flex items-center justify-center">
+                        <span class="text-4xl text-[#0A192F]/40 font-black tracking-widest">FI</span>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <h3 class="text-lg font-bold text-[#0A192F]">Faith Idowu</h3>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-orange-600">Programme Manager</p>
+                    </div>
+                </article> -->
+
+                <!-- DB -->
+                <!-- <article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow reveal-on-scroll delay-210">
+                    <div class="relative aspect-[4/5] overflow-hidden bg-[#0A192F]/10 flex items-center justify-center">
+                        <span class="text-4xl text-[#0A192F]/40 font-black tracking-widest">DB</span>
+                    </div>
+                    <div class="p-5 space-y-1">
+                        <h3 class="text-lg font-bold text-[#0A192F]">Dawn Bassey</h3>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-orange-600">Partnerships &amp; Fundraising</p>
+                    </div>
+                </article> -->
+
+                <!-- JO -->
+               <!-- JO -->
+<article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow reveal-on-scroll delay-280">
+    <div class="relative aspect-[4/5] overflow-hidden bg-slate-50">
+        <img src="{{ url_for('static', filename='images/james.jpeg') }}" alt="Portrait of Oladipupo James Oluwatosin" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-102" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/60 via-transparent to-transparent"></div>
+    </div>
+    <div class="p-5 space-y-2">
+        <h3 class="text-lg font-bold text-[#0A192F]">Oladipupo James </h3>
+        <p class="text-xs font-semibold uppercase tracking-wider text-orange-600">Programme Coordinator</p>
+        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Revled Catalyst | Revled Explorers</p>
+        <!-- LinkedIn Link -->
+        <a href="https://www.linkedin.com/in/james-oladipupo-47621533a" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-slate-400 hover:text-blue-600 transition-colors pt-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+            </svg>
+        </a>
+    </div>
+</article>
+
+<!-- VO -->
+<article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow reveal-on-scroll delay-350">
+    <div class="relative aspect-[4/5] overflow-hidden bg-slate-50">
+        <img src="{{ url_for('static', filename='images/vivian.jpeg') }}" alt="Portrait of Vivian Okafor" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-102" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/60 via-transparent to-transparent"></div>
+    </div>
+    <div class="p-5 space-y-2">
+        <h3 class="text-lg font-bold text-[#0A192F]">Vivian Okafor</h3>
+        <p class="text-xs font-semibold uppercase tracking-wider text-orange-600">Programme Coordinator</p>
+        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Revled Vanguard | Revled Origin</p>
+        <!-- LinkedIn Link -->
+        <a href="https://www.linkedin.com/in/okafor-vivian-60957a19b" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-slate-400 hover:text-blue-600 transition-colors pt-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+            </svg>
+        </a>
+    </div>
+</article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Governance, Transparency & Philosophy Section -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#0A192F]">
+        <div class="max-w-6xl mx-auto grid gap-6 md:grid-cols-2">
+            <!-- Regulatory Card -->
+            <!-- <div class="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 text-white space-y-3">
+                <h4 class="text-xl font-bold tracking-tight text-white">Transparency Notice</h4>
+                <p class="text-sm leading-relaxed text-slate-300 font-normal">
+                    Revled Foundation is the operating name of <span class="text-white font-semibold">Revled Empowerment Initiative</span>, a registered nonprofit entity structuralized in Nigeria under CAC Registration Number: <span class="text-orange-400 font-bold tracking-wide">{{ cac_registration_number }}</span> (RC 164929).
+                </p>
+            </div> -->
+            <!-- Philosophy Card -->
+            <div class="rounded-2xl bg-orange-600 p-6 sm:p-8 text-[#0A192F] space-y-3 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-white">Operational Philosophy</span>
+                </div>
+                <p class="text-xl sm:text-2xl font-black leading-tight tracking-tight pt-2 text-white">
+                    Creating opportunities from potential, people, and possibilities.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action Section -->
+    <section class="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-4xl mx-auto bg-orange-600 rounded-3xl p-8 sm:p-16 text-center relative overflow-hidden shadow-xl shadow-orange-900/10 reveal-on-scroll">
+            <div class="relative z-10 space-y-6 max-w-2xl mx-auto">
+                <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                    Ready to make an impact?
+                </h2>
+                <p class="text-sm sm:text-base text-white font-medium leading-relaxed">
+Join our system as industry partner, project mentor, or funding partner to help equip the next generation with the skills, mentorship, and opportunities they need to thrive.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                    <a href="{{ url_for('get_involved') }}" class="bg-[#0A192F] text-white px-8 py-3.5 rounded-xl text-sm font-bold shadow-md hover:bg-slate-900 transition-all text-center">
+                        Get Involved
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="bg-white text-[#0A192F] px-8 py-3.5 rounded-xl text-sm font-bold shadow-sm hover:bg-slate-50 transition-all text-center">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+            <!-- Decorative circle backgrounds -->
+            <div class="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-16 -left-16 w-48 h-48 bg-[#0A192F]/5 rounded-full blur-2xl pointer-events-none"></div>
+        </div>
+    </section>
+
+</div>
+
+<style>
+    .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const config = { threshold: 0.15, rootMargin: '0px 0px -40px 0px' };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, config);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(element => scrollObserver.observe(element));
+    });
+</script>
+{% endblock %}

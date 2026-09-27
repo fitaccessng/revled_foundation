@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Impact | Revled Foundation{% endblock %}
+{% block meta_description %}See how Revled Foundation transforms youth potential into skills, community projects, and sustainable outcomes.{% endblock %}
+
+{% block content %}
+<div class="scroll-smooth bg-white text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-24 md:pt-44 md:pb-36 px-4 sm:px-6 lg:px-8 bg-[#0A192F] overflow-hidden">
+        <!-- Optimized Background Lighting Shapes -->
+        <div class="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen">
+            <div class="absolute top-1/4 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-orange-600 rounded-full blur-[90px] md:blur-[130px] animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-10 w-64 h-64 sm:w-96 sm:h-96 bg-blue-600 rounded-full blur-[110px] md:blur-[160px] animate-pulse" style="animation-delay: 1.5s;"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10 reveal-on-scroll">
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 tracking-tight leading-none">
+                How we support young people
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
+                We build learning, practical support, and direction into every stage of the journey.
+            </p>
+        </div>
+    </section>
+
+    <!-- Focus areas -->
+    <section class="px-4 sm:px-6 lg:px-8 relative -mt-10 md:make -mt-16 z-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100/60 text-center reveal-on-scroll">
+                    <div class="text-3xl font-black text-[#0A192F] mb-1 tracking-tight">Learning</div>
+                    <p class="text-orange-600 text-[11px] font-bold uppercase tracking-widest">Foundations and skills</p>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100/60 text-center reveal-on-scroll transition-delay-100">
+                    <div class="text-3xl font-black text-[#0A192F] mb-1 tracking-tight">Mentorship</div>
+                    <p class="text-orange-600 text-[11px] font-bold uppercase tracking-widest">Guidance and accountability</p>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100/60 text-center reveal-on-scroll transition-delay-200">
+                    <div class="text-3xl font-black text-[#0A192F] mb-1 tracking-tight">Projects</div>
+                    <p class="text-orange-600 text-[11px] font-bold uppercase tracking-widest">Hands-on practice</p>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100/60 text-center reveal-on-scroll transition-delay-300">
+                    <div class="text-3xl font-black text-[#0A192F] mb-1 tracking-tight">Opportunity</div>
+                    <p class="text-orange-600 text-[11px] font-bold uppercase tracking-widest">Work and career pathways</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformations Pipeline -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-3xl mb-12 sm:mb-16 reveal-on-scroll text-center md:text-left">
+                <span class="text-xs font-bold text-orange-600 uppercase tracking-widest bg-orange-50 px-3 py-1 rounded-full">How we work</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-[#0A192F] tracking-tight mt-3">Progress is built over time.</h2>
+                <p class="mt-2 text-sm sm:text-base text-slate-600">We support learning, confidence, and practical experience in stages that build real momentum.</p>
+            </div>
+            
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {% set themes = [
+                    ('Learning', 'Core knowledge and confidence'),
+                    ('Skills', 'Hands-on practice and creativity'),
+                    ('Mentorship', 'Guidance and accountability'),
+                    ('Projects', 'Applied problem-solving'),
+                    ('Career support', 'Direction and opportunity'),
+                    ('Community', 'Shared growth and responsibility'),
+                ] %}
+                {% for item in themes %}
+                <div class="reveal-on-scroll rounded-2xl border border-slate-100 bg-[#FDFCF0] p-5 shadow-sm flex flex-col justify-center">
+                    <div class="flex flex-row items-center justify-between gap-3">
+                        <div class="flex-1 text-center rounded-xl bg-white px-3 py-2.5 text-xs font-bold text-[#0A192F] shadow-sm border border-slate-100">
+                            {{ item[0] }}
+                        </div>
+                        <span class="text-xl font-black text-orange-500 shrink-0 select-none">→</span>
+                        <div class="flex-1 text-center rounded-xl bg-[#0A192F] px-3 py-2.5 text-xs font-bold text-white shadow-sm">
+                            {{ item[1] }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Progression Pipeline (Before/After Outcomes) -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FDFCF0]/50 border-t border-b border-orange-100/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                <!-- Text Grid -->
+                <div class="reveal-on-scroll lg:col-span-7 space-y-6">
+                    <div>
+                        <h2 class="text-orange-600 font-bold text-xs uppercase tracking-widest mb-2">The Evolution</h2>
+                        <h3 class="text-3xl sm:text-4xl font-black text-[#0A192F] tracking-tight">From Uncertainty to Excellence</h3>
+                    </div>
+                    <p class="text-base text-slate-600 font-light leading-relaxed">
+                        We help young people grow through consistent support, clear development pathways, and opportunities to practise new skills in real settings.
+                    </p>
+                    
+                    <div class="space-y-4 pt-2">
+                        <!-- Before -->
+                        <div class="flex gap-4 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 font-bold text-sm">A</div>
+                            <div class="space-y-0.5">
+                                <h4 class="font-bold text-[#0A192F] text-sm sm:text-base">The starting point</h4>
+                                <p class="text-xs sm:text-sm text-slate-500 leading-relaxed">Potential is there, but support, structure, and direction are not always in place.</p>
+                            </div>
+                        </div>
+                        <!-- After -->
+                        <div class="flex gap-4 p-5 bg-[#0A192F] rounded-2xl shadow-xl shadow-slate-900/10">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 font-bold text-sm">B</div>
+                            <div class="space-y-0.5">
+                                <h4 class="font-bold text-white text-sm sm:text-base">The pathway forward</h4>
+                                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Greater confidence, practical skill, and clearer direction for life and work.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Graphic Image Container Frame -->
+                <div class="relative reveal-on-scroll lg:col-span-5 px-4 sm:px-0">
+                    <div class="relative mx-auto max-w-sm lg:max-w-none aspect-[4/5] rounded-3xl overflow-hidden shadow-xl z-10 bg-slate-100">
+                        <img src="{{ url_for('static', filename='images/1.png') }}" class="w-full h-full object-cover" alt="Community members joining hands" loading="lazy">
+                    </div>
+                    <!-- Decorative back frame block adjusted safely for safe mobile workflow -->
+                    <div class="absolute inset-0 bg-orange-500 rounded-3xl translate-x-4 translate-y-4 -z-10 hidden sm:block"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials / Voices Section -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <span class="text-xs font-bold text-orange-600 uppercase tracking-widest">Ecosystem Stories</span>
+                <h3 class="text-3xl sm:text-4xl font-black text-[#0A192F] tracking-tight mt-1">Voices of the Future</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Card 1 -->
+                <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100/80 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal-on-scroll">
+                    <div class="space-y-4">
+                        <div class="text-4xl font-serif text-orange-400 leading-none select-none">“</div>
+                        <p class="text-slate-600 text-sm sm:text-base italic leading-relaxed">"Revled helped me believe I could learn. I used to struggle with reading, but now I am confident in class."</p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-6 pt-4 border-t border-slate-200/60">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-700 shrink-0">CA</div>
+                        <div>
+                            <h5 class="font-bold text-sm text-[#0A192F]">Chioma A.</h5>
+                            <p class="text-[11px] text-orange-600 font-bold uppercase tracking-wider">Revled Explorers</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100/80 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal-on-scroll transition-delay-100">
+                    <div class="space-y-4">
+                        <div class="text-4xl font-serif text-blue-400 leading-none select-none">“</div>
+                        <p class="text-slate-600 text-sm sm:text-base italic leading-relaxed">"Revled gave me clarity, skills, and confidence. Today, I am turning my ideas into a real tech startup."</p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-6 pt-4 border-t border-slate-200/60">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-700 shrink-0">DO</div>
+                        <div>
+                            <h5 class="font-bold text-sm text-[#0A192F]">David O.</h5>
+                            <p class="text-[11px] text-blue-600 font-bold uppercase tracking-wider">Revled Catalyst</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100/80 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal-on-scroll transition-delay-200">
+                    <div class="space-y-4">
+                        <div class="text-4xl font-serif text-purple-400 leading-none select-none">“</div>
+                        <p class="text-slate-600 text-sm sm:text-base italic leading-relaxed">"Revled helped me move from uncertainty to purpose. Now, I am building my career and giving back."</p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-6 pt-4 border-t border-slate-200/60">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-xs font-bold text-purple-700 shrink-0">NE</div>
+                        <div>
+                            <h5 class="font-bold text-sm text-[#0A192F]">Ngozi E.</h5>
+                            <p class="text-[11px] text-purple-600 font-bold uppercase tracking-wider">Revled Vanguard</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Geographic Footprint & Hub Map Section -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#0A192F] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <!-- Geographical Locations Info Grid -->
+            <div class="reveal-on-scroll lg:col-span-7 space-y-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-orange-400">Expansion Footprint</span>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">Communities We Serve</h3>
+                </div>
+                <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-light max-w-2xl">
+                    Our footprint is growing. From the bustling streets of Lagos to emerging rural hubs in Ogun and Oyo, we ensure no child is left behind.
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                    <div class="space-y-2">
+                        <h5 class="text-orange-400 font-bold text-xs uppercase tracking-wider border-l-2 border-orange-500 pl-2">Urban Centers</h5>
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 font-light">
+                            <li>• Lagos Island &amp; Ajah</li>
+                            <li>• Yaba &amp; Bariga</li>
+                            <li>• Ikoyi &amp; Victoria Island</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-2">
+                        <h5 class="text-orange-400 font-bold text-xs uppercase tracking-wider border-l-2 border-orange-500 pl-2">Regional Hubs</h5>
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 font-light">
+                            <li>• Sagamu &amp; Ijebu-Ode</li>
+                            <li>• Akure &amp; Ibadan</li>
+                            <li>• Ogun State Outreach</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Graphic Media Panel Grid -->
+            <div class="reveal-on-scroll lg:col-span-5 px-2 sm:px-0 transition-delay-200">
+                <div class="relative w-full aspect-square max-w-md mx-auto rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center overflow-hidden shadow-2xl">
+                    <img src="{{ url_for('static', filename='images/image5.jpeg') }}" class="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none" alt="Young women walking together" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/40 to-transparent"></div>
+                    <div class="text-center relative z-10 p-6">
+                        <p class="text-5xl font-black text-white tracking-tight leading-none">15+</p>
+                        <p class="text-orange-400 uppercase font-bold text-[11px] tracking-widest mt-2">Active Communities Enabled</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Stylesheet Configurations -->
+<style>
+    .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .transition-delay-100 { transition-delay: 100ms; }
+    .transition-delay-200 { transition-delay: 200ms; }
+    .transition-delay-300 { transition-delay: 300ms; }
+</style>
+
+<!-- Functional Intersection Controllers -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Scroll Reveal Execution ---
+        const revealConfig = { threshold: 0.1, rootMargin: '0px 0px -20px 0px' };
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, revealConfig);
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Contact Messages | Revled Admin{% endblock %}
+{% block admin_heading %}Contact Messages{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Inbox</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Website contact submissions</h2>
+        </div>
+        <form method="get" class="flex gap-3">
+            <select name="status" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm">
+                <option value="">All statuses</option>
+                {% for item in ['new', 'contacted', 'resolved'] %}
+                <option value="{{ item }}" {% if current_status == item %}selected{% endif %}>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="rounded-full bg-[#0A192F] px-4 py-2 text-sm font-semibold text-white">Filter</button>
+        </form>
+    </div>
+
+    <div class="mt-6 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Sender</th>
+                    <th class="pb-3 pr-4">Subject</th>
+                    <th class="pb-3 pr-4">Status</th>
+                    <th class="pb-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for message in messages %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ message['full_name'] }}</p>
+                        <p class="text-xs text-slate-500">{{ message['email'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ message['subject'] }}</td>
+                    <td class="py-4 pr-4"><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase">{{ message['status'] }}</span></td>
+                    <td class="py-4"><a href="{{ url_for('admin_contact_message_detail', message_id=message['id']) }}" class="font-semibold text-[#0A192F]">Open</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="py-8 text-slate-500">No contact messages yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="scroll-smooth">
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[95vh] flex items-center pt-24 pb-20 px-6 bg-gradient-to-br from-[#FDFCF0] via-[#FFF8F0] to-[#FDFCF0] overflow-hidden">
+        <!-- Enhanced background blobs -->
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-orange-200/15 rounded-full blur-[150px] -translate-y-1/3 translate-x-1/3"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-200/10 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/4"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-300/5 rounded-full blur-[100px]"></div>
+        
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="reveal-on-scroll space-y-8">
+                <div class="flex items-center gap-4">
+                    <span class="h-[2px] w-12 bg-orange-500"></span>
+                    <span class="text-orange-600 text-xs font-bold uppercase tracking-[0.3em]">Learning for every stage</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-bold text-[#0A192F] leading-[1.1] tracking-tight">
+                    A practical path from early learning to future-ready opportunity.
+                </h1>
+                
+                <p class="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl font-light">
+                    We support young people with structured learning, mentorship, and practical pathways that build confidence, skills, and direction over time.
+                </p>
+                
+                <div class="flex gap-4 flex-wrap pt-4">
+                    <a href="{{ url_for('program_detail', program_slug='roots') }}" class="group relative px-10 py-4 bg-[#0A192F] text-white rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_rgba(10,25,47,0.3)] hover:-translate-y-1">
+                        <span class="relative z-10 font-bold tracking-wide">Explore Programs</span>
+                        <div class="absolute inset-0 bg-orange-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    </a>
+                    <a href="{{ url_for('get_involved') }}" class="px-10 py-4 border-2 border-[#0A192F] text-[#0A192F] rounded-full font-bold hover:bg-[#0A192F] hover:text-white transition-all duration-300 hover:-translate-y-1">
+                        Partner With Us
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Image Frame -->
+            <div class="relative reveal-on-scroll delay-200">
+                <!-- Main Frame (Bigger Image) -->
+                <div class="relative z-10 h-[30rem] rounded-[2.5rem] overflow-hidden shadow-2xl bg-slate-200 sm:h-[34rem] lg:h-[42rem] ring-1 ring-orange-100/50">
+                    <img src="{{ url_for('static', filename='images/bigger_images_big.jpeg') }}" alt="Revled learners engaged in group discussion" class="w-full h-full object-cover" decoding="async">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/70 via-[#0A192F]/20 to-transparent"></div>
+                    
+                    <!-- Floating overlay card -->
+                    <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                        <div class="bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-white/30">
+                            <p class="text-[#0A192F] font-bold text-sm">Learning path</p>
+                            <p class="text-slate-400 text-[10px] uppercase tracking-wider">built for growth</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Small Overlapping Image Container - Top Left -->
+                <div class="absolute -top-6 -left-6 w-28 h-28 rounded-2xl overflow-hidden border-4 border-white shadow-xl z-20 hidden md:block">
+                    <img src="{{ url_for('static', filename='images/smaller_images.jpeg') }}" alt="Young student writing" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Decorative corner element - Bottom Right -->
+                <div class="absolute -bottom-6 -right-6 w-24 h-24 rounded-2xl bg-orange-500/10 border-2 border-orange-200/30 backdrop-blur-sm z-20 hidden md:block"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission, Vision & Core Belief - Redesigned Visual Hierarchy -->
+    <section class="py-24 px-6 bg-white border-t border-orange-100/30 relative overflow-hidden">
+        <div class="absolute top-1/4 right-0 w-96 h-96 bg-orange-100/20 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-1/4 left-0 w-96 h-96 bg-blue-100/15 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-7xl mx-auto">
+            <!-- 1. The Heart of the Organisation: Mission & Vision Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Mission Statement Card -->
+                <div class="reveal-on-scroll p-10 md:p-12 rounded-[2.5rem] bg-[#0A192F] text-white shadow-2xl relative overflow-hidden group border border-white/10">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-bl-full transition-all duration-500 group-hover:scale-110"></div>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600/20 border border-orange-500/30 rounded-full mb-6">
+                                <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                                <span class="text-orange-400 text-xs font-bold uppercase tracking-[0.2em]">Our Mission</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold tracking-tight mb-6 text-white leading-tight">
+                                Equipping young minds to thrive and sustain communities.
+                            </h3>
+                            <p class="text-slate-300 font-light leading-relaxed text-base md:text-lg">
+                                To equip children and young people, particularly those from underserved communities, with the emotional intelligence, practical skills, mentorship, career readiness, and leadership capabilities they need to thrive while creating resilient, inclusive, and sustainable communities.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vision Statement Card -->
+                <div class="reveal-on-scroll delay-100 p-10 md:p-12 rounded-[2.5rem] bg-gradient-to-br from-[#FFFDF9] to-[#FFF8F0] text-[#0A192F] shadow-xl relative overflow-hidden group border border-orange-200/40">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-full transition-all duration-500 group-hover:scale-110"></div>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#0A192F]/5 border border-[#0A192F]/10 rounded-full mb-6">
+                                <span class="w-2 h-2 rounded-full bg-[#0A192F]"></span>
+                                <span class="text-[#0A192F] text-xs font-bold uppercase tracking-[0.2em]">Our Vision</span>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold tracking-tight mb-6 text-[#0A192F] leading-tight">
+                                A world where every young person builds a future with purpose.
+                            </h3>
+                            <p class="text-slate-600 font-light leading-relaxed text-base md:text-lg">
+                                A world where every child and young person has the opportunity to realise their full potential, lead purposeful lives, and build thriving, inclusive, and sustainable communities.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Core Belief Section - Set behind Mission/Vision with strong architectural design -->
+            <div class="reveal-on-scroll p-10 md:p-12 rounded-[2.5rem] bg-slate-50 border border-slate-200/60 shadow-inner">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-slate-200 pb-6 lg:pb-0 lg:pr-8">
+                        <span class="text-orange-600 font-bold text-xs uppercase tracking-[0.4em] block mb-2">The Foundation</span>
+                        <h2 class="text-3xl font-extrabold text-[#0A192F] tracking-tight">Our Core Belief</h2>
+                    </div>
+                    <div class="lg:col-span-2 space-y-4">
+                        <p class="text-xl md:text-2xl font-semibold text-[#0A192F] leading-snug">
+                            "Talent is everywhere Opportunity starts here."
+                        </p>
+                        <p class="text-slate-600 font-light text-base md:text-lg leading-relaxed">
+                            We also believe that communities already possess untapped potential—in their people, ideas, and resources. By equipping children and young people with the skills, confidence, and opportunities to solve real-world challenges, we create lasting change that benefits individuals, families, and entire communities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Approach -->
+    <section class="py-32 px-6 bg-[#FDFCF0]/50 relative">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23fb923c" fill-opacity="0.03"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="max-w-3xl mb-20 reveal-on-scroll">
+                <h2 class="text-orange-600 font-bold text-sm uppercase tracking-[0.4em] mb-4">Our Approach</h2>
+                <p class="text-slate-600 font-light leading-relaxed text-lg">
+                    At Revled Foundation, we believe meaningful change happens when young people are equipped not only with knowledge but also with the confidence, practical skills, mentorship, and opportunities to apply what they learn to real-life challenges.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                <div class="reveal-on-scroll p-8 rounded-[2rem] bg-white border border-slate-100 hover:bg-[#0A192F] group transition-all duration-500 shadow-sm hover:shadow-2xl">
+                    <div class="flex flex-col h-full">
+                        <div class="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-2xl mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors">01</div>
+                        <h4 class="text-xl font-bold text-[#0A192F] group-hover:text-white mb-3 transition-colors">Learn</h4>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed font-light transition-colors flex-1">We nurture emotional intelligence, confidence, leadership, and essential life skills that enable children and young people to make informed decisions and build positive relationships.</p>
+                    </div>
+                </div>
+                <div class="reveal-on-scroll delay-70 p-8 rounded-[2rem] bg-[#FDFCF0] border border-orange-100 hover:bg-[#0A192F] group transition-all duration-500 shadow-sm hover:shadow-2xl">
+                    <div class="flex flex-col h-full">
+                        <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-2xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">02</div>
+                        <h4 class="text-xl font-bold text-[#0A192F] group-hover:text-white mb-3 transition-colors">Create</h4>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed font-light transition-colors flex-1">We provide practical, vocational, digital, and entrepreneurial learning experiences that help participants discover their talents and develop skills for employment, enterprise, and lifelong success.</p>
+                    </div>
+                </div>
+                <div class="reveal-on-scroll delay-140 p-8 rounded-[2rem] bg-white border border-slate-100 hover:bg-[#0A192F] group transition-all duration-500 shadow-sm hover:shadow-2xl">
+                    <div class="flex flex-col h-full">
+                        <div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-2xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">03</div>
+                        <h4 class="text-xl font-bold text-[#0A192F] group-hover:text-white mb-3 transition-colors">Innovate</h4>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed font-light transition-colors flex-1">We encourage curiosity, creativity, problem-solving, and the use of technology to develop solutions that address everyday challenges within homes, schools, and communities.</p>
+                    </div>
+                </div>
+                <div class="reveal-on-scroll delay-210 p-8 rounded-[2rem] bg-[#FDFCF0] border border-orange-100 hover:bg-[#0A192F] group transition-all duration-500 shadow-sm hover:shadow-2xl">
+                    <div class="flex flex-col h-full">
+                        <div class="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-2xl mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">04</div>
+                        <h4 class="text-xl font-bold text-[#0A192F] group-hover:text-white mb-3 transition-colors">Transform</h4>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed font-light transition-colors flex-1">We help young people recognise value where others see limitations by encouraging responsible resource use, repurposing donated materials and technology, and creating opportunities that benefit both people and communities.</p>
+                    </div>
+                </div>
+                <div class="reveal-on-scroll delay-280 p-8 rounded-[2rem] bg-white border border-slate-100 hover:bg-[#0A192F] group transition-all duration-500 shadow-sm hover:shadow-2xl">
+                    <div class="flex flex-col h-full">
+                        <div class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 font-bold text-2xl mb-6 group-hover:bg-amber-600 group-hover:text-white transition-colors">05</div>
+                        <h4 class="text-xl font-bold text-[#0A192F] group-hover:text-white mb-3 transition-colors">Thrive</h4>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed font-light transition-colors flex-1">We support participants to transition confidently into education, employment, entrepreneurship, and leadership while contributing to inclusive, resilient, and sustainable communities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Focus Areas -->
+    <section class="py-32 bg-gradient-to-br from-[#0A192F] to-[#1a2f4a] relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-2xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-orange-500 font-bold text-sm uppercase tracking-[0.4em] mb-4">What we focus on</h2>
+                <h3 class="text-4xl font-bold text-white tracking-tight">Supporting young people through the right next steps.</h3>
+                <div class="w-20 h-1 bg-orange-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="reveal-on-scroll text-center px-6 py-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                    <div class="text-3xl font-black text-white mb-4 tracking-tighter">Early learning</div>
+                    <div class="h-1 w-12 bg-orange-500 mx-auto mb-6 rounded-full"></div>
+                    <p class="text-slate-300 text-xs uppercase tracking-[0.2em] font-bold">Confidence, curiosity, and care</p>
+                </div>
+                
+                <div class="reveal-on-scroll delay-100 text-center px-6 py-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                    <div class="text-3xl font-black text-white mb-4 tracking-tighter">Skills</div>
+                    <div class="h-1 w-12 bg-orange-500 mx-auto mb-6 rounded-full"></div>
+                    <p class="text-slate-300 text-xs uppercase tracking-[0.2em] font-bold">Practical, digital, and creative</p>
+                </div>
+
+                <div class="reveal-on-scroll delay-200 text-center px-6 py-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                    <div class="text-3xl font-black text-white mb-4 tracking-tighter">Mentorship</div>
+                    <div class="h-1 w-12 bg-orange-500 mx-auto mb-6 rounded-full"></div>
+                    <p class="text-slate-300 text-xs uppercase tracking-[0.2em] font-bold">Guidance and accountability</p>
+                </div>
+
+                <div class="reveal-on-scroll delay-300 text-center px-6 py-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                    <div class="text-3xl font-black text-white mb-4 tracking-tighter">Opportunity</div>
+                    <div class="h-1 w-12 bg-orange-500 mx-auto mb-6 rounded-full"></div>
+                    <p class="text-slate-300 text-xs uppercase tracking-[0.2em] font-bold">Pathways into work and purpose</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flagship Programs & ReCreate Labs Framework Recreated -->
+    <section class="py-32 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-on-scroll">
+                <div>
+                    <h2 class="text-orange-600 font-bold text-sm uppercase tracking-[0.4em] mb-4">Excellence</h2>
+                    <p class="text-4xl font-bold text-[#0A192F] tracking-tight">Flagship Programs</p>
+                    <p class="text-slate-500 mt-2 text-sm font-light">Designed for every stage of development</p>
+                </div>
+                <a href="{{ url_for('program_detail', program_slug='roots') }}" class="group flex items-center gap-2 text-[#0A192F] font-bold border-b-2 border-orange-500 pb-1 hover:text-orange-600 transition-colors tracking-wide">
+                    View Programs 
+                    <span class="group-hover:translate-x-1 transition-transform">→</span>
+                </a>
+            </div>
+
+            <div class="reveal-on-scroll mb-12 rounded-[2rem] border border-orange-100 bg-gradient-to-r from-[#FDFCF0] to-white p-8 md:p-10 shadow-sm">
+                <p class="text-xs font-bold uppercase tracking-[0.35em] text-orange-600 mb-3">Our Programmes</p>
+                <p class="text-lg md:text-xl leading-8 text-[#0A192F]">
+                    Every Revled programme is designed around one purpose: equipping children and young people with the skills, confidence, experiences, and opportunities to thrive as they solve real challenges in their communities. From leadership and career readiness to entrepreneurship, innovation, and responsible resource use, our programmes prepare participants to build brighter futures for themselves and those around them.
+                </p>
+            </div>
+
+            <!-- ReCreate Labs Element Recreated Structurally -->
+            <div class="reveal-on-scroll mb-20 bg-gradient-to-br from-[#0A192F] to-[#12253F] rounded-[3rem] p-8 md:p-12 shadow-2xl relative overflow-hidden border border-orange-500/20">
+                <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-orange-600/10 rounded-full blur-3xl"></div>
+                <div class="relative z-10 max-w-4xl">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-full mb-6">
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4">ReCreate Labs</h3>
+                    <p class="text-base md:text-lg leading-relaxed text-slate-300 font-light max-w-3xl mb-8">
+                        We encourage participants to see value where others see waste. By repurposing donated technology, fabrics, furniture, and other materials into learning tools, marketable products, and community assets, participants develop practical skills while contributing to cleaner, stronger, and more resourceful communities.
+                    </p>
+                    
+                    <!-- Interactive Architecture Framework Roadmap -->
+                    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 pt-6 border-t border-white/10 text-center">
+                        <div>
+                            <div class="text-orange-500 font-bold text-lg mb-1">01</div>
+                            <p class="text-white font-medium text-xs uppercase tracking-wider">Connect</p>
+                        </div>
+                        <div>
+                            <div class="text-orange-500 font-bold text-lg mb-1">02</div>
+                            <p class="text-white font-medium text-xs uppercase tracking-wider">Reimagine</p>
+                        </div>
+                        <div>
+                            <div class="text-orange-500 font-bold text-lg mb-1">03</div>
+                            <p class="text-white font-medium text-xs uppercase tracking-wider">Equip</p>
+                        </div>
+                        <div>
+                            <div class="text-orange-500 font-bold text-lg mb-1">04</div>
+                            <p class="text-white font-medium text-xs uppercase tracking-wider">Apply</p>
+                        </div>
+                        <div>
+                            <div class="text-orange-500 font-bold text-lg mb-1">05</div>
+                            <p class="text-white font-medium text-xs uppercase tracking-wider">Transform</p>
+                        </div>
+                        <div>
+                            <div class="text-orange-500 font-bold text-lg mb-1">06</div>
+                            <p class="text-white font-medium text-xs uppercase tracking-wider">Elevate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {% set programs = [
+                    {'name': 'Revled Origin', 'img': '13.png', 'slug': 'roots', 'tagline': 'Where learning begins through storytelling and imagination.', 'image_class': 'scale-[1.22] object-[center_38%]', 'color': 'emerald'},
+                    {'name': 'Revled Explorers', 'img': '2.png', 'slug': 'explorers', 'tagline': 'Discovering identity, creativity, and confidence.', 'image_class': 'scale-[1.2] object-[center_28%]', 'color': 'blue'},
+                    {'name': 'Revled Catalyst', 'img': '1.png', 'slug': 'catalyst', 'tagline': 'Turning potential into direction through exposure and skills.', 'image_class': 'scale-[1.22] object-[center_26%]', 'color': 'orange'},
+                    {'name': 'Revled Vanguard', 'img': '11.png', 'slug': 'launchpad', 'tagline': 'From learning to earning for the real world.', 'image_class': 'scale-[1.18] object-[center_34%]', 'color': 'purple'}
+                ] %}
+                {% for prog in programs %}
+                <a href="{{ url_for('program_detail', program_slug=prog.slug) }}" class="reveal-on-scroll delay-{{ loop.index0 * 100 }} group cursor-pointer block">
+                    <div class="relative overflow-hidden rounded-[2rem] aspect-[4/5] shadow-lg bg-slate-300 transition-all duration-500 group-hover:shadow-2xl group-hover:-translate-y-2">
+                        <img src="{{ url_for('static', filename='images/' ~ prog.img) }}" class="absolute inset-0 w-full h-full object-cover {{ prog.image_class }} transition-transform duration-[1.5s] group-hover:scale-[1.28] grayscale-[10%] group-hover:grayscale-0" alt="{{ prog.name }}" loading="lazy" decoding="async">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                        
+                        <!-- Age badge -->
+                        <!-- <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider">
+                            {{ prog.slug|capitalize }}
+                        </div> -->
+                        
+                        <div class="absolute bottom-0 p-8 w-full">
+                            <div class="h-1 w-12 bg-orange-500 rounded-full mb-4 group-hover:w-20 transition-all duration-500"></div>
+                            <h5 class="text-2xl font-bold text-white mb-2">{{ prog.name }}</h5>
+                            <p class="max-w-[16rem] text-sm text-white/80 leading-relaxed">{{ prog.tagline }}</p>
+                            
+                            <span class="mt-4 inline-block text-white/80 text-xs font-bold uppercase tracking-widest flex items-center gap-2 group-hover:text-orange-400 transition-colors">
+                                Learn More <span class="group-hover:translate-x-1 transition-transform">→</span>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="py-24 px-6 bg-[#F8F6EE] relative">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23fb923c" fill-opacity="0.05"%3E%3Cpath d="M50 10V0h-2v10h-8v2h8v8h2v-8h8v-2h-8zM30 50V40h-2v10h-8v2h8v8h2v-8h8v-2h-8z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+                <div>
+                    <h2 class="text-orange-600 font-bold text-sm uppercase tracking-[0.4em] mb-4">Calendar</h2>
+                    <h3 class="text-4xl font-bold text-[#0A192F] tracking-tight">Upcoming Events & Bootcamps</h3>
+                </div>
+                <a href="{{ url_for('events_list') }}" class="group flex items-center gap-2 text-[#0A192F] font-bold border-b-2 border-orange-500 pb-1 hover:text-orange-600 transition-colors tracking-wide">
+                    View All Events
+                    <span class="group-hover:translate-x-1 transition-transform">→</span>
+                </a>
+            </div>
+            <div class="grid gap-6 md:grid-cols-3">
+                {% for event in featured_events %}
+                <a href="{{ url_for('event_detail', slug=event['slug']) }}" class="rounded-[2rem] bg-white p-8 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-orange-100 group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">{{ event['event_type'] }}</p>
+                    </div>
+                    <h4 class="text-2xl font-bold text-[#0A192F] group-hover:text-orange-600 transition-colors">{{ event['title'] }}</h4>
+                    <p class="mt-4 text-sm leading-relaxed text-slate-600">{{ event['summary'] }}</p>
+                    <div class="mt-6 flex items-center gap-4 text-sm text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <span class="text-orange-400">📅</span>
+                            <span>{{ event['start_date'] }}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-orange-400">📍</span>
+                            <span>{{ event['location'] }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100">
+                        <span class="text-orange-600 text-sm font-bold group-hover:text-orange-700 transition-colors">Learn More →</span>
+                    </div>
+                </a>
+                {% else %}
+                <div class="rounded-[2rem] bg-white p-12 shadow-sm md:col-span-3 text-center">
+                    <span class="text-4xl block mb-4">📅</span>
+                    <p class="text-slate-500 font-light">Upcoming events will appear here.</p>
+                    <p class="text-slate-400 text-sm mt-2">Check back soon for our latest programmes and bootcamps.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 px-6 mb-10">
+        <div class="max-w-7xl mx-auto rounded-[3.5rem] bg-gradient-to-br from-[#0A192F] to-[#1a2f4a] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl reveal-on-scroll">
+            <div class="absolute top-0 right-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500 via-transparent to-transparent"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <span class="inline-block text-5xl mb-6 animate-bounce">✨</span>
+                <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">Join us in shaping the next <span class="italic font-serif text-orange-500">generation</span></h2>
+                <p class="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                    Help us transform the trajectory of young Nigerian lives through education and opportunity.
+                </p>
+                <div class="flex gap-6 justify-center flex-wrap">
+                    <a href="{{ url_for('get_involved') }}" class="group relative bg-orange-600 text-white px-12 py-5 rounded-full font-bold overflow-hidden transition-all hover:shadow-[0_20px_40px_rgba(234,88,12,0.4)] hover:scale-105">
+                        <span class="relative z-10">Partner With Us</span>
+                        <div class="absolute inset-0 bg-orange-700 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-12 py-5 rounded-full font-bold hover:bg-white hover:text-[#0A192F] transition-all hover:scale-105">
+                        Support the Mission
+                    </a>
+                </div>
+                <p class="text-slate-500 text-sm mt-8">Together, we can build a brighter future for Nigeria's children.</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@700&display=swap');
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(-1deg); }
+        50% { transform: translateY(-15px) rotate(1deg); }
+    }
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    .animate-float {
+        animation: float 5s ease-in-out infinite;
+    }
+</style>
+{% endblock %}

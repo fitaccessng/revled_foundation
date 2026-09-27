@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Mentor Application Detail | Revled Admin{% endblock %}
+{% block admin_heading %}Mentor Application Detail{% endblock %}
+
+{% block admin_content %}
+<section class="grid gap-8 xl:grid-cols-[0.9fr_1.1fr]">
+    <div class="space-y-6">
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Mentor</p>
+            <h2 class="mt-3 text-3xl font-bold text-[#0A192F]">{{ signup['full_name'] }}</h2>
+            <div class="mt-6 space-y-4 text-sm text-slate-600">
+                <p><span class="font-semibold text-slate-900">Email:</span> {{ signup['email'] }}</p>
+                <p><span class="font-semibold text-slate-900">Phone:</span> {{ signup['phone'] or 'Not provided' }}</p>
+                <p><span class="font-semibold text-slate-900">Role / organisation:</span> {{ signup['current_role_org'] }}</p>
+                <p><span class="font-semibold text-slate-900">Industry:</span> {{ signup['industry'] }}</p>
+                <p><span class="font-semibold text-slate-900">Availability:</span> {{ signup['availability'] or 'Not provided' }}</p>
+                <p><span class="font-semibold text-slate-900">Frequency:</span> {{ signup['frequency'] }}</p>
+                <p><span class="font-semibold text-slate-900">Availability notes:</span> {{ signup['availability_notes'] or '—' }}</p>
+            </div>
+        </div>
+
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-bold text-[#0A192F]">Speaking focus</h3>
+            <div class="mt-4 text-sm leading-relaxed text-slate-600">
+                <p class="whitespace-pre-line">{{ signup['topics'] or 'No topics provided.' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <h3 class="text-2xl font-bold text-[#0A192F]">Review panel</h3>
+        <p class="mt-2 text-sm text-slate-500">Update the mentor application status and keep internal notes for follow-up.</p>
+        <form method="post" class="mt-8 space-y-6">
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Status</label>
+                <select name="status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                    {% for status in ['new', 'reviewed', 'accepted', 'declined'] %}
+                    <option value="{{ status }}" {% if signup['status'] == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Admin notes</label>
+                <textarea name="admin_notes" rows="8" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ signup['admin_notes'] or '' }}</textarea>
+            </div>
+            <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Save updates</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

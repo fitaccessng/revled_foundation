@@ -1,0 +1,417 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard | Revled Admin{% endblock %}
+{% block admin_heading %}Dashboard Overview{% endblock %}
+
+{% block admin_content %}
+<section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Program registrations</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['registration_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Event signups</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['event_registration_total'] }}</p>
+        <p class="mt-2 text-sm text-slate-400">{{ stats['seats_reserved_total'] }} total seats reserved</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Published resources</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['resource_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Blog posts</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['post_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Business enquiries</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['enquiry_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Contact messages</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['contact_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Consultations</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['consultation_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Donation payments</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['donation_total'] }}</p>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">Membership subscriptions</p>
+        <p class="mt-3 text-4xl font-bold text-[#0A192F]">{{ stats['subscription_total'] }}</p>
+    </div>
+</section>
+
+<section class="mt-8 rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Live inbox</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Recent notifications</h2>
+        </div>
+        <a href="{{ url_for('admin_notifications') }}" class="text-sm font-semibold text-orange-600">View all</a>
+    </div>
+    <div class="mt-6 grid gap-4">
+        {% for item in latest_notifications %}
+        <div class="rounded-3xl bg-slate-50 p-5">
+            <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.28em] text-orange-500">{{ item['category'] }}</p>
+                    <p class="mt-2 font-bold text-slate-800">{{ item['title'] }}</p>
+                    <p class="mt-1 text-sm text-slate-600">{{ item['summary'] }}</p>
+                </div>
+                <p class="text-xs text-slate-400">{{ item['created_at'] }}</p>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-sm text-slate-500">No notifications yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="mt-8 rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Revled Hub</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Member and content overview</h2>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ url_for('admin_hub_member_new') }}" class="rounded-full bg-[#0A192F] px-4 py-2 text-sm font-semibold text-white">Create hub member</a>
+            <a href="{{ url_for('admin_hub_content_new', content_type='schedule') }}" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">Add schedule item</a>
+        </div>
+    </div>
+
+    <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div class="rounded-[1.5rem] bg-slate-50 p-5">
+            <p class="text-sm text-slate-500">Hub members</p>
+            <p class="mt-2 text-3xl font-bold text-[#0A192F]">{{ stats['hub_member_total'] }}</p>
+        </div>
+        <div class="rounded-[1.5rem] bg-slate-50 p-5">
+            <p class="text-sm text-slate-500">Hub schedule</p>
+            <p class="mt-2 text-3xl font-bold text-[#0A192F]">{{ stats['hub_schedule_total'] }}</p>
+        </div>
+        <div class="rounded-[1.5rem] bg-slate-50 p-5">
+            <p class="text-sm text-slate-500">Hub resources</p>
+            <p class="mt-2 text-3xl font-bold text-[#0A192F]">{{ stats['hub_resource_total'] }}</p>
+        </div>
+        <div class="rounded-[1.5rem] bg-slate-50 p-5">
+            <p class="text-sm text-slate-500">Hub community</p>
+            <p class="mt-2 text-3xl font-bold text-[#0A192F]">{{ stats['hub_community_total'] }}</p>
+        </div>
+        <div class="rounded-[1.5rem] bg-slate-50 p-5">
+            <p class="text-sm text-slate-500">Hub opportunities</p>
+            <p class="mt-2 text-3xl font-bold text-[#0A192F]">{{ stats['hub_opportunity_total'] }}</p>
+        </div>
+        <div class="rounded-[1.5rem] bg-slate-50 p-5">
+            <p class="text-sm text-slate-500">Hub challenges</p>
+            <p class="mt-2 text-3xl font-bold text-[#0A192F]">{{ stats['hub_challenge_total'] }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="mt-8 grid gap-8 xl:grid-cols-[1.1fr_0.9fr]">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Latest signups</p>
+                <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Program registrations</h2>
+            </div>
+            <a href="{{ url_for('admin_registrations') }}" class="text-sm font-semibold text-orange-600">View all</a>
+        </div>
+        <div class="mt-6 overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead class="text-slate-400">
+                    <tr>
+                        <th class="pb-3 pr-4">Applicant</th>
+                        <th class="pb-3 pr-4">Program</th>
+                        <th class="pb-3 pr-4">Status</th>
+                        <th class="pb-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for registration in latest_registrations %}
+                    <tr>
+                        <td class="py-4 pr-4">
+                            <p class="font-semibold text-slate-800">{{ registration['full_name'] }}</p>
+                            <p class="text-xs text-slate-500">{{ registration['email'] }}</p>
+                        </td>
+                        <td class="py-4 pr-4 text-slate-600">{{ registration['program_name'] }}</td>
+                        <td class="py-4 pr-4"><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase">{{ registration['follow_up_status'] }}</span></td>
+                        <td class="py-4"><a href="{{ url_for('admin_registration_detail', registration_id=registration['id']) }}" class="font-semibold text-[#0A192F]">Open</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4" class="py-6 text-slate-500">No registrations yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="space-y-8">
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Latest reservations</p>
+                    <h2 class="mt-2 text-xl font-bold text-[#0A192F]">Event seat bookings</h2>
+                </div>
+                <a href="{{ url_for('admin_events') }}" class="text-sm font-semibold text-orange-600">Manage events</a>
+            </div>
+            <div class="mt-5 space-y-4">
+                {% for item in latest_event_registrations %}
+                <div class="rounded-2xl bg-slate-50 p-4">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <p class="font-semibold text-slate-800">{{ item['full_name'] }}</p>
+                            <p class="text-xs text-slate-500">{{ item['event_title'] }}</p>
+                        </div>
+                        <span class="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">{{ item['seat_count'] }} seat(s)</span>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-sm text-slate-500">No event reservations yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Quick actions</p>
+            <div class="mt-5 grid gap-3">
+                <a href="{{ url_for('admin_event_new') }}" class="rounded-2xl bg-[#0A192F] px-4 py-3 text-sm font-semibold text-white">Create a new event</a>
+                <a href="{{ url_for('admin_blog_new') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Publish a new blog post</a>
+                <a href="{{ url_for('admin_resource_new') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Upload a resource</a>
+                <a href="{{ url_for('admin_hub_members') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Manage hub members</a>
+                <a href="{{ url_for('admin_hub_content_list', content_type='resources') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Manage hub resources</a>
+                <a href="{{ url_for('admin_hub_content_list', content_type='opportunities') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Manage Hub Opportunities</a>
+                <a href="{{ url_for('admin_hub_content_list', content_type='community') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Manage Hub Community</a>
+                <a href="{{ url_for('admin_hub_content_new', content_type='community') }}" class="rounded-2xl bg-orange-500 px-4 py-3 text-sm font-semibold text-white">Create a community space</a>
+                <a href="{{ url_for('admin_community_moderators') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Manage community moderators</a>
+                <a href="{{ url_for('admin_community_reports') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Review community reports</a>
+                <a href="{{ url_for('admin_catalyst_applications') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Review Catalyst applications</a>
+                <a href="{{ url_for('admin_vanguard_mentor_signups') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Review mentor signups</a>
+                <a href="{{ url_for('admin_vanguard_milestones') }}" class="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Edit milestone rules</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-8 rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Catalyst</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Volunteer and mentor applications</h2>
+        </div>
+        <a href="{{ url_for('admin_catalyst_applications') }}" class="text-sm font-semibold text-orange-600">View all</a>
+    </div>
+    <div class="mt-6 grid gap-4">
+        {% for application in latest_catalyst_applications %}
+        <div class="rounded-2xl bg-slate-50 p-4">
+            <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="font-semibold text-slate-800">{{ application['full_name'] }}</p>
+                    <p class="text-xs text-slate-500">{{ application['skill_area'] }} · {{ application['involvement_type'] }}</p>
+                </div>
+                <span class="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold uppercase text-orange-700">{{ application['status'] }}</span>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-sm text-slate-500">No Catalyst applications have been submitted yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="mt-8 rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Vanguard</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Mentor applications</h2>
+        </div>
+        <a href="{{ url_for('admin_vanguard_mentor_signups') }}" class="text-sm font-semibold text-orange-600">View all</a>
+    </div>
+    <div class="mt-6 grid gap-4">
+        {% for signup in latest_vanguard_mentor_signups %}
+        <div class="rounded-2xl bg-slate-50 p-4">
+            <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="font-semibold text-slate-800">{{ signup['full_name'] }}</p>
+                    <p class="text-xs text-slate-500">{{ signup['industry'] }} · {{ signup['current_role_org'] }}</p>
+                </div>
+                <span class="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold uppercase text-orange-700">{{ signup['status'] }}</span>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-sm text-slate-500">No mentor applications have been submitted yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="mt-8 grid gap-8 xl:grid-cols-2">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Payments</p>
+                <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Donation history</h2>
+            </div>
+            <span class="text-sm font-semibold text-orange-600">Failed: {{ stats['failed_payment_total'] }}</span>
+        </div>
+        <div class="mt-6 overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead class="text-slate-400">
+                    <tr>
+                        <th class="pb-3 pr-4">Donor</th>
+                        <th class="pb-3 pr-4">Amount</th>
+                        <th class="pb-3 pr-4">Status</th>
+                        <th class="pb-3">Date</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for payment in latest_donations %}
+                    <tr>
+                        <td class="py-4 pr-4">
+                            <p class="font-semibold text-slate-800">{{ payment['donor_name'] }}</p>
+                            <p class="text-xs text-slate-500">{{ payment['donor_email'] }}</p>
+                        </td>
+                        <td class="py-4 pr-4 text-slate-600">₦{{ payment['amount_naira'] }}</td>
+                        <td class="py-4 pr-4"><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase">{{ payment['status'] }}</span></td>
+                        <td class="py-4 text-slate-600">{{ payment['created_at'] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4" class="py-6 text-slate-500">No donation payments yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Payments</p>
+                <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Membership subscriptions</h2>
+            </div>
+            <a href="{{ url_for('vanguard_hub') }}" class="text-sm font-semibold text-orange-600">View plans</a>
+        </div>
+        <div class="mt-6 overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead class="text-slate-400">
+                    <tr>
+                        <th class="pb-3 pr-4">Member</th>
+                        <th class="pb-3 pr-4">Plan</th>
+                        <th class="pb-3 pr-4">Trial end</th>
+                        <th class="pb-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for subscription in latest_subscriptions %}
+                    <tr>
+                        <td class="py-4 pr-4">
+                            <p class="font-semibold text-slate-800">{{ subscription['full_name'] }}</p>
+                            <p class="text-xs text-slate-500">{{ subscription['email'] }}</p>
+                        </td>
+                        <td class="py-4 pr-4 text-slate-600">{{ subscription['plan_name'] }}</td>
+                        <td class="py-4 pr-4 text-slate-600">{{ subscription['trial_end_at'] }}</td>
+                        <td class="py-4"><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase">{{ subscription['status'] }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4" class="py-6 text-slate-500">No subscriptions yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="mt-8 grid gap-8 xl:grid-cols-[1fr_1fr]">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Upcoming</p>
+                <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Events and cohort dates</h2>
+            </div>
+            <a href="{{ url_for('admin_events') }}" class="text-sm font-semibold text-orange-600">View events</a>
+        </div>
+        <div class="mt-5 space-y-4">
+            {% for event in upcoming_events %}
+            <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="font-semibold text-slate-800">{{ event['title'] }}</p>
+                <p class="mt-1 text-xs text-slate-500">{{ event['start_date'] }} · {{ event['location'] }}</p>
+            </div>
+            {% else %}
+            <p class="text-sm text-slate-500">No events yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Business pipeline</p>
+                <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Latest enquiries</h2>
+            </div>
+            <a href="{{ url_for('admin_enquiries') }}" class="text-sm font-semibold text-orange-600">View all</a>
+        </div>
+        <div class="mt-6 overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead class="text-slate-400">
+                    <tr>
+                        <th class="pb-3 pr-4">Contact</th>
+                        <th class="pb-3 pr-4">Type</th>
+                        <th class="pb-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for enquiry in latest_enquiries %}
+                    <tr>
+                        <td class="py-4 pr-4">
+                            <p class="font-semibold text-slate-800">{{ enquiry['contact_name'] }}</p>
+                            <p class="text-xs text-slate-500">{{ enquiry['email'] }}</p>
+                        </td>
+                        <td class="py-4 pr-4 text-slate-600">{{ enquiry['enquiry_type'] }}</td>
+                        <td class="py-4 text-slate-600">{{ enquiry['status'] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="py-8 text-slate-500">No enquiries yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="mt-8 rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Contact</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Latest contact messages</h2>
+        </div>
+        <a href="{{ url_for('admin_contact_messages') }}" class="text-sm font-semibold text-orange-600">View all</a>
+    </div>
+    <div class="mt-6 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Sender</th>
+                    <th class="pb-3 pr-4">Subject</th>
+                    <th class="pb-3 pr-4">Status</th>
+                    <th class="pb-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for message in latest_contact_messages %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ message['full_name'] }}</p>
+                        <p class="text-xs text-slate-500">{{ message['email'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ message['subject'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ message['status'] }}</td>
+                    <td class="py-4"><a href="{{ url_for('admin_contact_message_detail', message_id=message['id']) }}" class="font-semibold text-[#0A192F]">Open</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="py-8 text-slate-500">No contact messages yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

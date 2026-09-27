@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Revled Hub{% endblock %}</title>
+
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-body: #000000;
+      --bg-sidebar: #050505;
+      --bg-card: #0a0a0a;
+      --bg-card-hover: #141414;
+      --bg-topbar: rgba(0, 0, 0, 0.85);
+
+      --border: #262626;
+      --border-accent: rgba(245, 158, 11, 0.3);
+
+      --text-main: #f59e0b;       /* Main text set to gold */
+      --text-muted: #94a3b8;      /* Muted text readable gray */
+      --text-gold: #fbbf24;       /* Bright gold accent */
+
+      --accent: #10b981;          /* Small accent elements */
+      --accent-hover: #059669;
+      --accent-gold: #f59e0b;
+
+      --sidebar-width: 250px;
+      --topbar-height: 64px;
+      --radius: 12px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; border: none; background: transparent; cursor: pointer; color: inherit; }
+
+    /* Layout Structure */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Mobile Backdrop */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+    }
+    .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: var(--sidebar-width);
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 50;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.5rem 1.25rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .brand-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--accent-gold), #b45309);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #000000;
+    }
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-meta .title {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .brand-meta .badge {
+      font-size: 0.65rem;
+      color: var(--text-gold);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Nav items */
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.7rem 0.85rem;
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .nav-item i {
+      font-size: 1.1rem;
+      width: 1.25rem;
+      text-align: center;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background: #171205;
+      color: var(--text-gold);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    /* User Profile Bar */
+    .user-card {
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .user-avatar {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: #171205;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--text-gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .user-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .user-details strong {
+      display: block;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-main);
+    }
+
+    .user-details span {
+      display: block;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .btn-upgrade {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: var(--accent-gold);
+      color: #000000;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .btn-upgrade:hover { background: #b45309; }
+
+    /* Main Area */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      height: var(--topbar-height);
+      padding: 0 1.5rem;
+      background: var(--bg-topbar);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    .page-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .search-box input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.45rem 0.85rem 0.45rem 2.2rem;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      outline: none;
+      width: 200px;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--text-gold);
+      background: #0a0a0a;
+      width: 240px;
+    }
+
+    .icon-btn {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-sidebar);
+      display: grid;
+      place-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .icon-btn:hover { color: var(--text-main); border-color: var(--text-gold); }
+    .icon-btn .dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text-gold);
+    }
+
+    .content-area {
+      flex: 1;
+      padding: 1.5rem;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Flash Messages */
+    .flash-stack { margin-bottom: 1rem; }
+    .flash-message {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid transparent;
+    }
+    .flash-message.success { background: #171205; border-color: rgba(245, 158, 11, 0.4); color: var(--text-gold); }
+    .flash-message.error { background: #1f0c0c; border-color: rgba(239, 68, 68, 0.4); color: #f87171; }
+
+    /* Dashboard Metrics Cards Bar */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .metric-data .label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+    .metric-data .value { font-size: 1.35rem; font-weight: 800; margin-top: 0.2rem; color: var(--text-main); }
+    .metric-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 10px;
+      background: var(--bg-card-hover);
+      display: grid;
+      place-items: center;
+      color: var(--text-gold);
+      font-size: 1.1rem;
+    }
+
+    /* Modals */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    .modal.active { opacity: 1; visibility: visible; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
+    .modal-dialog {
+      position: relative;
+      width: min(100%, 560px);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.8);
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .modal-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+    .modal-close { font-size: 1.2rem; color: var(--text-muted); }
+
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .plan-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .plan-card.featured { border-color: var(--accent-gold); background: #171205; }
+    .plan-price { font-size: 1.25rem; font-weight: 800; color: var(--text-gold); margin: 0.5rem 0; }
+    .plan-features { list-style: none; font-size: 0.78rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .plan-features li::before { content: "✓ "; color: var(--text-gold); font-weight: bold; }
+    
+    .btn-plan {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 8px;
+      background: var(--accent-gold);
+      color: #000000;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    /* Force override any lingering white backgrounds inside the content area */
+
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); box-shadow: 10px 0 25px rgba(0,0,0,0.8); }
+      .main-wrapper { margin-left: 0; width: 100%; }
+      .menu-toggle { display: block; }
+      .search-box input { width: 140px; }
+      .search-box input:focus { width: 170px; }
+    }
+  </style>
+  {% block extra_styles %}{% endblock %}
+</head>
+<body>
+  <div class="app-layout">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="brand-area">
+        <div class="brand-icon">R</div>
+        <div class="brand-meta">
+          <span class="title">Revled Hub</span>
+          <span class="badge">Vanguard Engine</span>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <a href="{{ url_for('hub_dashboard') }}" class="nav-item {% if active_section == 'dashboard' %}active{% endif %}">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="{{ url_for('hub_schedule') }}" class="nav-item {% if active_section == 'schedule' %}active{% endif %}">
+          <i class="fa-regular fa-calendar-check"></i>
+          <span>Schedule</span>
+        </a>
+        <a href="{{ url_for('hub_resources') }}" class="nav-item {% if active_section == 'resources' %}active{% endif %}">
+          <i class="fa-regular fa-folder-open"></i>
+          <span>Resources</span>
+        </a>
+        <a href="{{ url_for('hub_community') }}" class="nav-item {% if active_section == 'community' %}active{% endif %}">
+          <i class="fa-solid fa-users"></i>
+          <span>Community</span>
+        </a>
+        <a href="{{ url_for('hub_opportunities') }}" class="nav-item {% if active_section == 'opportunities' %}active{% endif %}">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Opportunities</span>
+        </a>
+        <a href="{{ url_for('hub_challenges') }}" class="nav-item {% if active_section == 'challenges' %}active{% endif %}">
+          <i class="fa-solid fa-award"></i>
+          <span>Challenges</span>
+        </a>
+      </nav>
+
+      <!-- Profile Section -->
+      <div class="user-card">
+        <div class="user-info">
+          <div class="user-avatar">{{ member['initials'] if member else 'RH' }}</div>
+          <div class="user-details">
+            <strong>{{ member['full_name'] if member else 'Revled Member' }}</strong>
+            <span>{{ member['membership_label'] if member else 'Access Tier' }}</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+          </div>
+          <button class="icon-btn" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot"></span>
+          </button>
+          {% if member %}
+          <a href="{{ url_for('hub_logout') }}" class="icon-btn" title="Logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </a>
+          {% endif %}
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Flash Messages Stack -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="flash-stack">
+            {% for category, message in messages %}
+            <div class="flash-message {{ 'success' if category == 'success' else 'error' }}">
+              <i class="fa-solid {{ 'fa-circle-check' if category == 'success' else 'fa-circle-exclamation' }}"></i>
+              <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Dynamic Page Content -->
+        {% block hub_content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <!-- JavaScript Interactivity -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggleBtn = document.getElementById('menuToggleBtn');
+      const appSidebar = document.getElementById('appSidebar');
+      const drawerOverlay = document.getElementById('drawerOverlay');
+
+      const toggleDrawer = (open) => {
+        appSidebar.classList.toggle('open', open);
+        drawerOverlay.classList.toggle('active', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      };
+
+      if (menuToggleBtn) menuToggleBtn.addEventListener('click', () => toggleDrawer(true));
+      if (drawerOverlay) drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+    });
+  </script>
+</body>
+</html>

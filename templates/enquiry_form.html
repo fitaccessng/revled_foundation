@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}{{ enquiry_meta['title'] }} | Revled Foundation{% endblock %}
+
+{% block content %}
+<section class="pt-32 pb-16 px-6 bg-[#FDFCF0]">
+    <div class="max-w-4xl mx-auto text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.35em] text-orange-600">{{ program['name'] }}</p>
+        <h1 class="mt-4 text-5xl font-bold text-[#0A192F]">{{ enquiry_meta['title'] }}</h1>
+        <p class="mt-6 text-lg leading-relaxed text-slate-600">{{ enquiry_meta['subtitle'] }}</p>
+    </div>
+</section>
+
+<section class="px-6 pb-20">
+    <div class="max-w-5xl mx-auto rounded-[2.5rem] bg-white p-8 shadow-xl ring-1 ring-slate-100">
+        <form method="post" class="grid gap-5 md:grid-cols-2">
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Contact name</label>
+                <input name="contact_name" value="{{ form_data['contact_name'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Email</label>
+                <input type="email" name="email" value="{{ form_data['email'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Phone</label>
+                <input name="phone" value="{{ form_data['phone'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Organisation / school</label>
+                <input name="organization" value="{{ form_data['organization'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Child / participant name</label>
+                <input name="child_name" value="{{ form_data['child_name'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Child / participant age</label>
+                <input name="child_age" value="{{ form_data['child_age'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Location</label>
+                <input name="location" value="{{ form_data['location'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Preferred term / start window</label>
+                <input name="preferred_term" value="{{ form_data['preferred_term'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Budget / sponsorship range</label>
+                <input name="budget_range" value="{{ form_data['budget_range'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Tell us what you need</label>
+                <textarea name="message" rows="6" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['message'] }}</textarea>
+            </div>
+            <div class="md:col-span-2">
+                <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Send enquiry</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

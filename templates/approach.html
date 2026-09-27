@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Our Approach | Revled Foundation{% endblock %}
+{% block meta_description %}Learn about Revled Foundation's Learn, Create, Innovate, Transform, and Thrive approach to youth development.{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden bg-soft-cream px-6 pb-20 pt-32">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,107,53,0.16),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(0,63,135,0.12),_transparent_32%)]"></div>
+    <div class="relative mx-auto max-w-6xl">
+        <span class="inline-flex rounded-full bg-white px-5 py-2 text-xs font-bold uppercase tracking-[0.32em] text-warm-orange shadow-sm">Our Approach</span>
+        <h1 class="hero-heading text-deep-blue mt-6 mb-6">How Revled works</h1>
+        <p class="max-w-4xl text-xl leading-8 text-gray-700">
+            At Revled Foundation, we believe meaningful change happens when young people are equipped not only with knowledge but also with the confidence, practical skills, mentorship, and opportunities to apply what they learn to real-life challenges. Every programme is intentionally designed to help participants grow as individuals while contributing to stronger, more resilient communities.
+        </p>
+    </div>
+</section>
+
+<section class="section-padding bg-white px-6">
+    <div class="mx-auto max-w-6xl">
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+            {% set pillars = [
+                ('Learn', 'We nurture emotional intelligence, confidence, leadership, and essential life skills that enable children and young people to make informed decisions and build positive relationships.'),
+                ('Create', 'We provide practical, vocational, digital, and entrepreneurial learning experiences that help participants discover their talents and develop skills for employment, enterprise, and lifelong success.'),
+                ('Innovate', 'We encourage curiosity, creativity, problem-solving, and the use of technology to develop solutions that address everyday challenges within homes, schools, and communities.'),
+                ('Transform', 'We help young people recognise value where others see limitations by encouraging responsible resource use, repurposing donated materials and technology, and creating opportunities that benefit both people and communities.'),
+                ('Thrive', 'We support participants to transition confidently into education, employment, entrepreneurship, and leadership while contributing to inclusive, resilient, and sustainable communities.'),
+            ] %}
+            {% for title, body in pillars %}
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">{{ title }}</p>
+                <p class="mt-4 text-sm leading-7 text-gray-700">{{ body }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

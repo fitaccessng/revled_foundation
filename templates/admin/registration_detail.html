@@ -1,0 +1,64 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Registration Detail | Revled Admin{% endblock %}
+{% block admin_heading %}Registration Follow-up{% endblock %}
+
+{% block admin_content %}
+<section class="grid gap-8 xl:grid-cols-[0.9fr_1.1fr]">
+    <div class="space-y-6">
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Applicant</p>
+            <h2 class="mt-3 text-3xl font-bold text-[#0A192F]">{{ registration['full_name'] }}</h2>
+            <div class="mt-6 space-y-4 text-sm text-slate-600">
+                <p><span class="font-semibold text-slate-900">Program:</span> {{ registration['program_name'] }}</p>
+                <p><span class="font-semibold text-slate-900">Email:</span> {{ registration['email'] }}</p>
+                <p><span class="font-semibold text-slate-900">Phone:</span> {{ registration['phone'] }}</p>
+                <p><span class="font-semibold text-slate-900">Age:</span> {{ registration['applicant_age'] }}</p>
+                <p><span class="font-semibold text-slate-900">Location:</span> {{ registration['city'] }}, {{ registration['state_region'] }}</p>
+                <p><span class="font-semibold text-slate-900">School/Work:</span> {{ registration['school_or_work'] or 'Not provided' }}</p>
+                <p><span class="font-semibold text-slate-900">Guardian:</span> {{ registration['guardian_name'] or 'Not provided' }}</p>
+                <p><span class="font-semibold text-slate-900">Guardian phone:</span> {{ registration['guardian_phone'] or 'Not provided' }}</p>
+                <p><span class="font-semibold text-slate-900">Preferred start:</span> {{ registration['preferred_start'] or 'Flexible' }}</p>
+            </div>
+        </div>
+
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-bold text-[#0A192F]">Why they registered</h3>
+            <div class="mt-4 space-y-4 text-sm leading-relaxed text-slate-600">
+                <div>
+                    <p class="font-semibold text-slate-900">Goals</p>
+                    <p class="mt-2 whitespace-pre-line">{{ registration['goals'] }}</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-slate-900">Interest reason</p>
+                    <p class="mt-2 whitespace-pre-line">{{ registration['interest_reason'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <h3 class="text-2xl font-bold text-[#0A192F]">Follow-up workspace</h3>
+        <p class="mt-2 text-sm text-slate-500">Update the registration status and keep internal notes so your team can act on this lead.</p>
+        <form method="post" class="mt-8 space-y-6">
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Follow-up status</label>
+                <select name="follow_up_status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                    {% for status in ['new', 'contacted', 'in-progress', 'completed'] %}
+                    <option value="{{ status }}" {% if registration['follow_up_status'] == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Follow-up notes</label>
+                <textarea name="follow_up_notes" rows="6" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ registration['follow_up_notes'] or '' }}</textarea>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Internal admin notes</label>
+                <textarea name="admin_notes" rows="8" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ registration['admin_notes'] or '' }}</textarea>
+            </div>
+            <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Save updates</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

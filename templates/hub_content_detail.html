@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Revled Hub{% endblock %}</title>
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-body: #000000;
+      --bg-surface: #050505;
+      --bg-card: #0a0a0a;
+      --bg-hover: #141414;
+
+      --border: #262626;
+      --border-light: #1f1f1f;
+
+      --text-main: #f59e0b;       /* Main text set to gold */
+      --text-muted: #94a3b8;      /* Muted text readable gray */
+      --text-subtle: #64748b;     /* Subtle dark gray */
+
+      --brand-primary: #f59e0b;
+      --brand-primary-light: #171205;
+      --brand-accent: #fbbf24;
+      --brand-success: #10b981;
+
+      --sidebar-width: 260px;
+      --topbar-height: 70px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.6);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.8), 0 4px 6px -4px rgba(0, 0, 0, 0.8);
+
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; border: none; background: transparent; cursor: pointer; color: inherit; }
+
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Mobile Overlay */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+    }
+    .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: var(--sidebar-width);
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 50;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.25rem 0.5rem 1.25rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+
+    .brand-logo {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--brand-accent), #b45309);
+      color: #000000;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.25);
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--brand-accent);
+      background: var(--brand-primary-light);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 0.85rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .nav-item i {
+      font-size: 1rem;
+      width: 1.25rem;
+      text-align: center;
+      color: var(--text-subtle);
+      transition: var(--transition);
+    }
+
+    .nav-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-main);
+    }
+
+    .nav-item:hover i { color: var(--text-main); }
+
+    .nav-item.active {
+      background: var(--brand-primary-light);
+      color: var(--brand-accent);
+      font-weight: 600;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .nav-item.active i { color: var(--brand-accent); }
+
+    /* User Box */
+    .sidebar-user {
+      margin-top: auto;
+      padding: 0.85rem;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .user-avatar {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background: var(--brand-primary-light);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--brand-accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .user-meta strong {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 130px;
+    }
+
+    .user-meta span {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .btn-tier-upgrade {
+      margin-top: 0.75rem;
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: var(--radius-sm);
+      background: var(--brand-accent);
+      color: #000000;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: var(--transition);
+    }
+
+    .btn-tier-upgrade:hover { background: #b45309; transform: translateY(-1px); }
+
+    /* Main Area */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: var(--topbar-height);
+      padding: 0 2rem;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .search-input {
+      position: relative;
+    }
+
+    .search-input i {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      color: var(--text-subtle);
+    }
+
+    .search-input input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5rem 1rem 0.5rem 2.4rem;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      outline: none;
+      width: 220px;
+      transition: var(--transition);
+    }
+
+    .search-input input:focus {
+      border-color: var(--brand-accent);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+      width: 260px;
+    }
+
+    .action-icon {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      display: grid;
+      place-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .action-icon:hover {
+      color: var(--text-main);
+      background: var(--bg-hover);
+      border-color: var(--brand-accent);
+    }
+
+    .action-icon .badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand-accent);
+    }
+
+    .content-area {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Flash Messages */
+    .flash-stack { margin-bottom: 1.5rem; }
+    .flash-message {
+      padding: 0.85rem 1.1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .flash-message.success { background: #171205; border: 1px solid rgba(245, 158, 11, 0.4); color: var(--brand-accent); }
+    .flash-message.error { background: #1f0c0c; border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; }
+
+    /* Executive KPI Cards Bar */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand-accent);
+      transform: translateY(-2px);
+    }
+
+    .kpi-info .kpi-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .kpi-info .kpi-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-info .kpi-subtext {
+      font-size: 0.7rem;
+      color: var(--brand-success);
+      margin-top: 0.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .kpi-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--brand-accent);
+      font-size: 1.15rem;
+    }
+
+    /* Modal Component */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    .modal.active { opacity: 1; visibility: visible; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
+    .modal-dialog {
+      position: relative;
+      width: min(100%, 640px);
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+    .modal-title { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+    .modal-close { font-size: 1.25rem; color: var(--text-muted); transition: var(--transition); }
+    .modal-close:hover { color: var(--text-main); }
+
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+    .plan-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .plan-card.featured { border-color: var(--brand-accent); background: #171205; }
+    .plan-name { font-weight: 700; font-size: 1.05rem; }
+    .plan-price { font-size: 1.4rem; font-weight: 800; color: var(--brand-accent); margin: 0.5rem 0; }
+    .plan-features { list-style: none; font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .plan-features li::before { content: "✓ "; color: var(--brand-accent); font-weight: bold; }
+    
+    .btn-plan {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      padding: 0.65rem;
+      border-radius: var(--radius-sm);
+      background: var(--brand-accent);
+      color: #000000;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+    .btn-plan:hover { background: #b45309; }
+/* Force override any lingering white backgrounds inside the content area */
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+      .main-wrapper { margin-left: 0; width: 100%; }
+      .menu-toggle { display: block; }
+      .topbar { padding: 0 1.25rem; }
+      .content-area { padding: 1.25rem; }
+      .search-input input { width: 150px; }
+      .search-input input:focus { width: 180px; }
+    }
+  </style>
+  {% block extra_styles %}{% endblock %}
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Overlay Backdrop -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Sidebar Component -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="brand-header">
+        <div class="brand-logo">R</div>
+        <div>
+          <h1 class="brand-title">Revled Hub</h1>
+          <span class="brand-tag">Vanguard</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="{{ url_for('hub_dashboard') }}" class="nav-item {% if active_section == 'dashboard' %}active{% endif %}">
+          <div class="nav-item-left">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+          </div>
+        </a>
+
+        <a href="{{ url_for('hub_schedule') }}" class="nav-item {% if active_section == 'schedule' %}active{% endif %}">
+          <div class="nav-item-left">
+            <i class="fa-regular fa-calendar-check"></i>
+            <span>Schedule</span>
+          </div>
+        </a>
+
+        <a href="{{ url_for('hub_resources') }}" class="nav-item {% if active_section == 'resources' %}active{% endif %}">
+          <div class="nav-item-left">
+            <i class="fa-regular fa-folder-open"></i>
+            <span>Resources</span>
+          </div>
+        </a>
+
+        <a href="{{ url_for('hub_community') }}" class="nav-item {% if active_section == 'community' %}active{% endif %}">
+          <div class="nav-item-left">
+            <i class="fa-solid fa-user-group"></i>
+            <span>Community</span>
+          </div>
+        </a>
+
+        <a href="{{ url_for('hub_opportunities') }}" class="nav-item {% if active_section == 'opportunities' %}active{% endif %}">
+          <div class="nav-item-left">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Opportunities</span>
+          </div>
+        </a>
+
+        <a href="{{ url_for('hub_challenges') }}" class="nav-item {% if active_section == 'challenges' %}active{% endif %}">
+          <div class="nav-item-left">
+            <i class="fa-solid fa-award"></i>
+            <span>Challenges</span>
+          </div>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer User Profile -->
+      <div class="sidebar-user">
+        <div class="user-profile">
+          <div class="user-avatar">{{ member['initials'] if member else 'RH' }}</div>
+          <div class="user-meta">
+            <strong>{{ member['full_name'] if member else 'Revled Member' }}</strong>
+            <span>{{ member['membership_label'] if member else 'Access Tier' }}</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h2 class="header-title">{% block page_title %}Overview{% endblock %}</h2>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search-input">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search modules...">
+          </div>
+
+          <button class="action-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge-dot"></span>
+          </button>
+
+          {% if member %}
+          <a href="{{ url_for('hub_logout') }}" class="action-icon" title="Logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </a>
+          {% endif %}
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Flash Alert Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="flash-stack">
+            {% for category, message in messages %}
+            <div class="flash-message {{ 'success' if category == 'success' else 'error' }}">
+              <i class="fa-solid {{ 'fa-circle-check' if category == 'success' else 'fa-circle-exclamation' }}"></i>
+              <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Child Page Dynamic Content Inserted Here -->
+        {% block hub_content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <!-- Interaction Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggleBtn = document.getElementById('menuToggleBtn');
+      const appSidebar = document.getElementById('appSidebar');
+      const drawerOverlay = document.getElementById('drawerOverlay');
+
+      const toggleDrawer = (open) => {
+        appSidebar.classList.toggle('open', open);
+        drawerOverlay.classList.toggle('active', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      };
+
+      if (menuToggleBtn) menuToggleBtn.addEventListener('click', () => toggleDrawer(true));
+      if (drawerOverlay) drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+    });
+  </script>
+</body>
+</html>

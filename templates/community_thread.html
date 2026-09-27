@@ -1,0 +1,514 @@
+{% extends "hub_base.html" %}
+
+{% block title %}Discussion | Vanguard Community{% endblock %}
+{% block page_title %}Discussion{% endblock %}
+
+{% block extra_styles %}
+<style>
+  :root {
+    --bg-canvas: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #eaecf0;
+    --border-hover: #d0d5dd;
+    
+    --text-primary: #101828;
+    --text-secondary: #475467;
+    --text-tertiary: #98a2b3;
+    
+    --brand-primary: #4f46e5;
+    --brand-primary-hover: #4338ca;
+    --brand-subtle: #eef2ff;
+    
+    --mod-pill-bg: #fef3c7;
+    --mod-pill-text: #92400e;
+    --mod-pill-border: #fde68a;
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --shadow-card: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+    --shadow-hover: 0 4px 12px -2px rgba(16, 24, 40, 0.08);
+    --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  body, main, .dashboard-thread {
+    background: #ffffff !important;
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  .dashboard-thread {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  /* Top Navigation Bar */
+  .dash-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .dash-nav__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 0.85rem;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+  }
+
+  .dash-nav__back:hover {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    transform: translateX(-2px);
+  }
+
+  .dash-nav__status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+  }
+
+  /* Dashboard Grid Layout */
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* Cards Standard UI */
+  .dash-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  /* Main Post Card */
+  .post-main {
+    padding: 1.5rem;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .avatar-circle {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .user-info__name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .user-info__meta {
+    font-size: 0.775rem;
+    color: var(--text-tertiary);
+  }
+
+  .mod-badge {
+    background: var(--mod-pill-bg);
+    color: var(--mod-pill-text);
+    border: 1px solid var(--mod-pill-border);
+    padding: 0.1rem 0.5rem;
+    border-radius: 99px;
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .post-body {
+    padding: 1.25rem 0;
+    color: var(--text-primary);
+    font-size: 0.975rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* Metric Sidebar Card */
+  .sidebar-widget {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .widget-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: var(--bg-canvas);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+  }
+
+  .stat-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* Feed Divider Header */
+  .replies-divider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1.75rem 0 1rem;
+  }
+
+  .replies-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Replies Feed */
+  .replies-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .reply-item {
+    padding: 1.25rem;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+  }
+
+  .reply-item:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+  }
+
+  .reply-body {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* Editor Card */
+  .reply-editor-card {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .reply-editor-card textarea {
+    width: 100%;
+    min-height: 90px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    color: var(--text-primary);
+    background: var(--bg-canvas);
+    font: inherit;
+    outline: none;
+    font-size: 0.875rem;
+    transition: var(--transition);
+  }
+
+  .reply-editor-card textarea:focus {
+    background: #ffffff;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  .editor-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+  }
+
+  .editor-char-counter {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 99px;
+    padding: 0.6rem 1.25rem;
+    color: #ffffff;
+    background: var(--brand-primary);
+    font-size: 0.825rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .btn-submit:hover {
+    background: var(--brand-primary-hover);
+  }
+
+  .btn-submit:disabled {
+    cursor: wait;
+    opacity: 0.6;
+  }
+
+  .thread-empty-state {
+    padding: 2.5rem 1.5rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-canvas);
+    color: var(--text-tertiary);
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .thread-error {
+    margin-top: 0.5rem;
+    color: #ef4444;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    .dash-grid {
+      grid-template-columns: 1fr;
+    }
+    .sidebar-widget {
+      position: static;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block hub_content %}
+<div class="dashboard-thread" id="threadPage" data-post-id="{{ post['id'] }}">
+  
+  <!-- Navigation Header -->
+  <nav class="dash-nav">
+    <a class="dash-nav__back" href="{{ url_for('hub_community') }}">
+      <i class="fa-solid fa-arrow-left"></i> Community Feed
+    </a>
+    <div class="dash-nav__status">
+      <span class="status-dot"></span> Active Thread
+    </div>
+  </nav>
+
+  <!-- Dashboard Grid -->
+  <div class="dash-grid">
+    
+    <!-- Left Column: Main Thread & Replies Feed -->
+    <div class="dash-main-col">
+      
+      <!-- Primary Post Card -->
+      <article class="dash-card post-main">
+        <header class="post-header">
+          <div class="user-badge">
+            <div class="avatar-circle">{{ post['author']['initials'] }}</div>
+            <div class="user-info">
+              <div class="user-info__name">
+                {{ post['author']['name'] }}
+                {% if post['author']['is_moderator'] %}
+                  <span class="mod-badge">MOD</span>
+                {% endif %}
+              </div>
+              <div class="user-info__meta">{{ post['relative_time'] }}</div>
+            </div>
+          </div>
+        </header>
+        <div class="post-body">{{ post['content'] }}</div>
+      </article>
+
+      <!-- Feed Divider -->
+      <div class="replies-divider">
+        <div class="replies-count">
+          <i class="fa-solid fa-comments"></i>
+          <span>{{ post['reply_count'] }} {{ 'Reply' if post['reply_count'] == 1 else 'Replies' }}</span>
+        </div>
+      </div>
+
+      <!-- Replies List -->
+      <section class="replies-feed" id="replies" aria-live="polite">
+        {% for reply in post['replies'] %}
+        <article class="reply-item">
+          <header class="user-badge">
+            <div class="avatar-circle" style="width:2.25rem; height:2.25rem; font-size: 0.75rem;">{{ reply['author']['initials'] }}</div>
+            <div class="user-info">
+              <div class="user-info__name">
+                {{ reply['author']['name'] }}
+                {% if reply['author']['is_moderator'] %}
+                  <span class="mod-badge">MOD</span>
+                {% endif %}
+              </div>
+              <div class="user-info__meta">{{ reply['relative_time'] }}</div>
+            </div>
+          </header>
+          <div class="reply-body">{{ reply['content'] }}</div>
+        </article>
+        {% else %}
+        <div class="thread-empty-state">
+          No replies recorded yet.
+        </div>
+        {% endfor %}
+      </section>
+
+      <!-- Composer Card -->
+      <form class="reply-editor-card" id="replyForm">
+        <textarea id="replyInput" maxlength="3000" placeholder="Type your response here..." required></textarea>
+        <div class="editor-actions">
+          <span class="editor-char-counter" id="replyCount">0 / 3000</span>
+          <button class="btn-submit" type="submit">
+            <i class="fa-solid fa-paper-plane"></i> Send Reply
+          </button>
+        </div>
+        <div class="thread-error" id="replyError" role="alert"></div>
+      </form>
+
+    </div>
+
+    <!-- Right Column: Sidebar Metrics Widget -->
+    <aside class="dash-sidebar">
+      <div class="dash-card sidebar-widget">
+        <h3 class="widget-title">Thread Info</h3>
+        
+        <div class="stat-row">
+          <span class="stat-label"><i class="fa-solid fa-hashtag"></i> Thread ID</span>
+          <span class="stat-value">#{{ post['id'] }}</span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label"><i class="fa-solid fa-user"></i> Author</span>
+          <span class="stat-value">{{ post['author']['name'] }}</span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label"><i class="fa-solid fa-message"></i> Activity</span>
+          <span class="stat-value">{{ post['reply_count'] }}</span>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+
+<script>
+(() => {
+  const form = document.getElementById('replyForm');
+  const input = document.getElementById('replyInput');
+  const count = document.getElementById('replyCount');
+  const error = document.getElementById('replyError');
+  const postId = document.getElementById('threadPage').dataset.postId;
+  
+  input.addEventListener('input', () => { 
+    count.textContent = `${input.value.length} / 3000`; 
+  });
+  
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = form.querySelector('button');
+    const content = input.value.trim();
+    if (!content) return;
+    
+    button.disabled = true;
+    error.textContent = '';
+    
+    try {
+      const response = await fetch(`/community/posts/${postId}/replies`, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ content }) 
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || 'Could not send your reply.');
+      window.location.reload();
+    } catch (replyError) {
+      error.textContent = replyError.message;
+      button.disabled = false;
+    }
+  });
+})();
+</script>
+{% endblock %}

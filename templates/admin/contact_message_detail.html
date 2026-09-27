@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Contact Message | Revled Admin{% endblock %}
+{% block admin_heading %}Contact Message{% endblock %}
+
+{% block admin_content %}
+<section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Message</p>
+        <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">{{ message['subject'] }}</h2>
+        <div class="mt-6 space-y-4 text-sm text-slate-600">
+            <p><span class="font-semibold text-slate-800">From:</span> {{ message['full_name'] }}</p>
+            <p><span class="font-semibold text-slate-800">Email:</span> {{ message['email'] }}</p>
+            <p><span class="font-semibold text-slate-800">Submitted:</span> {{ message['created_at'] }}</p>
+        </div>
+        <div class="mt-6 rounded-3xl bg-slate-50 p-5 text-slate-700">
+            {{ message['message']|replace('\n', '<br>')|safe }}
+        </div>
+    </div>
+
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Follow Up</p>
+        <form method="post" class="mt-5 space-y-5">
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Status</label>
+                <select name="status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                    {% for item in ['new', 'contacted', 'resolved'] %}
+                    <option value="{{ item }}" {% if message['status'] == item %}selected{% endif %}>{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700">Admin Notes</label>
+                <textarea name="admin_notes" rows="8" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ message['admin_notes'] or '' }}</textarea>
+            </div>
+            <button type="submit" class="rounded-full bg-[#0A192F] px-5 py-3 font-semibold text-white">Save Update</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

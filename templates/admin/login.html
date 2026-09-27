@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Revled Foundation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+    <div class="grid min-h-screen lg:grid-cols-2">
+        <section class="hidden lg:flex flex-col justify-between bg-[#0A192F] p-14">
+            <div>
+                <a href="{{ url_for('home') }}" class="text-sm uppercase tracking-[0.4em] text-orange-400">Revled Foundation</a>
+                <h1 class="mt-8 max-w-lg text-5xl font-bold leading-tight">Admin access for registrations, blog publishing, and follow-up operations.</h1>
+            </div>
+            <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-slate-300">
+                <p class="text-xs uppercase tracking-[0.3em] text-slate-400">What you can do</p>
+                <ul class="mt-4 space-y-3 text-sm leading-relaxed">
+                    <li>Track every program registration by stage and status.</li>
+                    <li>Create, edit, publish, and delete blog posts.</li>
+                    <li>Review comments and maintain follow-up notes for prospects.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="flex items-center justify-center px-6 py-12">
+            <div class="w-full max-w-md rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur">
+                <p class="text-sm uppercase tracking-[0.3em] text-orange-300">Admin Portal</p>
+                <h2 class="mt-3 text-3xl font-bold">Sign in</h2>
+                <p class="mt-3 text-sm text-slate-300">Use your configured administrator credentials.</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="mt-6 space-y-3">
+                            {% for category, message in messages %}
+                                <div class="rounded-2xl border px-4 py-3 text-sm {% if category == 'success' %}border-emerald-400/30 bg-emerald-500/10 text-emerald-200{% else %}border-rose-400/30 bg-rose-500/10 text-rose-200{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="post" class="mt-8 space-y-5">
+                    <div>
+                        <label for="email" class="mb-2 block text-sm font-semibold text-slate-200">Email</label>
+                        <input id="email" name="email" type="email" required class="w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none focus:border-orange-400">
+                    </div>
+                    <div>
+                        <label for="password" class="mb-2 block text-sm font-semibold text-slate-200">Password</label>
+                        <input id="password" name="password" type="password" required class="w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-white outline-none focus:border-orange-400">
+                    </div>
+                    <button type="submit" class="w-full rounded-full bg-orange-500 px-5 py-3 font-semibold text-white transition hover:bg-orange-400">Open Dashboard</button>
+                </form>
+
+                <a href="{{ url_for('home') }}" class="mt-6 inline-flex text-sm text-slate-300 hover:text-white">Return to website</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

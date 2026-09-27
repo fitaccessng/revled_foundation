@@ -1,0 +1,476 @@
+{% extends "hub_base.html" %}
+
+{% block title %}{{ item['title'] }} | Revled Hub{% endblock %}
+
+{% block hub_content %}
+<div class="viewer-shell">
+    
+    <!-- Clean Minimalist Header Bar -->
+    <header class="viewer-header">
+        <div class="header-left">
+            <a href="{{ url_for('hub_resources') }}" class="btn-exit" title="Exit Viewer" aria-label="Exit Viewer">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="header-divider"></div>
+            <div class="header-meta">
+                <div class="title-row">
+                    <span class="status-dot"></span>
+                    <h1 class="header-title">{{ item['title'] }}</h1>
+                </div>
+                <div class="classification-tags">
+                    <span class="class-badge">{{ item['access_tier']|replace('_', ' ') }}</span>
+                    <span class="meta-separator">•</span>
+                    <span class="class-text">{{ item['target_user_types_label'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="session-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>PROTECTED SESSION</span>
+            </div>
+            
+            <div class="user-meta">
+                <span class="user-name">{{ member['full_name'].split(' ')[0] }}</span>
+                <span class="clock-display" id="live-clock">00:00:00</span>
+            </div>
+
+            <a class="btn-download" href="{{ url_for('hub_resource_download', item_id=item['id']) }}" title="Download resource" aria-label="Download resource">
+                <i class="fas fa-download"></i>
+                <span class="btn-text">Download</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Card Viewport Container -->
+    <main class="viewer-container" oncontextmenu="return false;">
+        <!-- Dynamic Background Security Watermark -->
+        <div class="watermark-grid">
+            {% for i in range(16) %}
+            <span>{{ member['email'] }} &bull; {{ member['full_name'] }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- Central UI Asset Frame Card -->
+        <div class="asset-card">
+            {% if file_kind == 'pdf' %}
+            <iframe class="media-frame" src="{{ url_for('hub_resource_stream', item_id=item['id']) }}#toolbar=0&navpanes=0"></iframe>
+            {% elif file_kind == 'video' %}
+            <video class="media-frame" controls controlsList="nodownload" disablePictureInPicture>
+                <source src="{{ url_for('hub_resource_stream', item_id=item['id']) }}">
+            </video>
+            {% elif file_kind == 'image' %}
+            <div class="image-wrapper">
+                <img class="media-image" src="{{ url_for('hub_resource_stream', item_id=item['id']) }}" alt="Secure Resource" draggable="false">
+            </div>
+            {% else %}
+            <div class="fallback-card">
+                <div class="fallback-icon">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+                <h3>Unsupported Format</h3>
+                <p>Please contact your Vanguard administrator to request access to this decrypted format.</p>
+            </div>
+            {% endif %}
+
+            <!-- Floating Brief Popover -->
+            <div class="brief-widget">
+                <button type="button" class="brief-toggle" onclick="document.querySelector('.brief-panel').classList.toggle('active')" aria-label="Toggle Resource Brief">
+                    <i class="fas fa-info"></i>
+                </button>
+                <div class="brief-panel">
+                    <div class="brief-panel-header">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Resource Brief</span>
+                    </div>
+                    <p>{{ item['summary'] }}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<style>
+    :root {
+        --bg-main: #ffffff;
+        --surface: #f8fafc;
+        --border: #e2e8f0;
+        --border-subtle: #f1f5f9;
+        
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --text-subtle: #94a3b8;
+        
+        --accent-indigo: #4f46e5;
+        --accent-indigo-light: #eef2ff;
+        --accent-green: #10b981;
+        --accent-green-bg: #ecfdf5;
+        
+        --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+        --shadow-popover: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+        --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Page Canvas */
+    body, main, .viewer-shell {
+        background-color: var(--bg-main) !important;
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .viewer-shell {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /* Header Component */
+    .viewer-header {
+        background: var(--bg-main);
+        border-bottom: 1px solid var(--border);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 20;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .btn-exit {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .btn-exit:hover {
+        background: var(--accent-indigo-light);
+        color: var(--accent-indigo);
+        border-color: var(--accent-indigo-light);
+    }
+
+    .header-divider {
+        width: 1px;
+        height: 24px;
+        background: var(--border);
+    }
+
+    .header-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .title-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent-green);
+        flex-shrink: 0;
+    }
+
+    .header-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-main);
+    }
+
+    .classification-tags {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.725rem;
+        color: var(--text-muted);
+    }
+
+    .class-badge {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--accent-indigo);
+    }
+
+    .meta-separator { color: var(--text-subtle); }
+
+    /* Header Right Actions */
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    .session-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--accent-green-bg);
+        border: 1px solid #a7f3d0;
+        color: #047857;
+        padding: 0.35rem 0.65rem;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
+
+    .user-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 1.2;
+    }
+
+    .user-name {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .clock-display {
+        font-size: 0.725rem;
+        color: var(--text-muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .btn-download {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.85rem;
+        background: var(--text-main);
+        color: #ffffff !important;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .btn-download:hover {
+        background: var(--accent-indigo);
+    }
+
+    @media (max-width: 640px) {
+        .btn-download .btn-text { display: none; }
+        .session-badge { display: none; }
+    }
+
+    /* Main Viewport Workspace */
+    .viewer-container {
+        flex: 1;
+        position: relative;
+        padding: 1.25rem;
+        background: var(--surface);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Background Watermark Security Grid */
+    .watermark-grid {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 60px 100px;
+        justify-content: center;
+        align-content: center;
+        pointer-events: none;
+        opacity: 0.035;
+        transform: rotate(-15deg) scale(1.2);
+        user-select: none;
+        z-index: 1;
+    }
+
+    .watermark-grid span {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-main);
+        white-space: nowrap;
+        text-transform: uppercase;
+    }
+
+    /* Asset View Card */
+    .asset-card {
+        width: 100%;
+        max-width: 1200px;
+        height: 100%;
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-card);
+        position: relative;
+        z-index: 5;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .media-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #ffffff;
+    }
+
+    .image-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        overflow: auto;
+    }
+
+    .media-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+
+    /* Fallback State */
+    .fallback-card {
+        text-align: center;
+        padding: 2rem;
+        max-width: 400px;
+    }
+
+    .fallback-icon {
+        width: 54px;
+        height: 54px;
+        background: var(--accent-indigo-light);
+        color: var(--accent-indigo);
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 1rem auto;
+        font-size: 1.5rem;
+    }
+
+    .fallback-card h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        color: var(--text-main);
+    }
+
+    .fallback-card p {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* Floating Brief Popover */
+    .brief-widget {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 10;
+    }
+
+    .brief-toggle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--text-main);
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: var(--transition);
+    }
+
+    .brief-toggle:hover {
+        background: var(--accent-indigo);
+        transform: scale(1.05);
+    }
+
+    .brief-panel {
+        position: absolute;
+        bottom: 48px;
+        left: 0;
+        width: 300px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: var(--shadow-popover);
+        display: none;
+        animation: fadeIn 0.15s ease-out;
+    }
+
+    .brief-panel.active { display: block; }
+
+    .brief-panel-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--accent-indigo);
+        margin-bottom: 0.5rem;
+    }
+
+    .brief-panel p {
+        font-size: 0.825rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<script>
+    // Live Clock Display
+    function updateClock() {
+        const now = new Date();
+        const clockEl = document.getElementById('live-clock');
+        if (clockEl) {
+            clockEl.innerText = now.toTimeString().split(' ')[0];
+        }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Context Menu Protection & Focus Blur Security
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    window.addEventListener('blur', () => {
+        const frame = document.querySelector('.asset-card');
+        if (frame) frame.style.opacity = '0.1';
+    });
+    window.addEventListener('focus', () => {
+        const frame = document.querySelector('.asset-card');
+        if (frame) frame.style.opacity = '1';
+    });
+</script>
+{% endblock %}

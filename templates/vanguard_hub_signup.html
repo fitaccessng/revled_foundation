@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Hub - Start Your Journey</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, legend { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white">
+    <div class="grid min-h-screen lg:grid-cols-2">
+        <!-- Left Hero Section (Black & Gold / Light Green theme) -->
+        <section class="hidden lg:flex flex-col justify-between bg-zinc-950 border-r border-amber-500/10 p-14 sticky top-0 h-screen overflow-y-auto">
+            <div>
+                <div class="inline-flex items-center gap-2">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                    <a href="/" class="text-sm uppercase tracking-[0.4em] text-amber-400 font-semibold">Vanguard Hub</a>
+                </div>
+                <h1 class="mt-8 max-w-lg text-5xl font-bold leading-tight text-white">Start your journey and build your future with expert <span class="text-amber-400">guidance</span>.</h1>
+            </div>
+            <div class="rounded-[2rem] border border-amber-500/20 bg-amber-500/[0.03] p-8 text-slate-300 backdrop-blur">
+                <p class="text-xs uppercase tracking-[0.3em] text-emerald-400">Choose your track</p>
+                <p class="mt-3 text-sm leading-relaxed text-slate-300">
+                    Two clear tracks: <strong class="text-amber-400">Professional</strong> or <strong class="text-amber-400">Entrepreneurial</strong>. Both give you complete access to mentorship, live sessions, and the Vanguard community.
+                </p>
+                <ul class="mt-4 space-y-2 text-xs text-slate-400">
+                    <li class="flex items-center gap-2"><span class="text-amber-400">✦</span> Tailored roadmap acceleration</li>
+                    <li class="flex items-center gap-2"><span class="text-amber-400">✦</span> Direct mentor interactions</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Right Form Section -->
+        <section class="flex items-center justify-center px-4 sm:px-6 py-12 bg-black">
+            <div class="w-full max-w-lg rounded-[2rem] border border-amber-500/20 bg-zinc-950/80 p-8 sm:p-10 shadow-2xl shadow-amber-500/5 backdrop-blur">
+                <!-- Header / Brand -->
+                <header class="mb-8 w-full">
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">Vanguard Hub</span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                  </div>
+                  <h1 class="text-3xl font-bold text-white tracking-tight mb-1">Start Your Journey</h1>
+                  <p class="text-sm text-slate-400">Your access starts immediately, ready for you to dive in.</p>
+                </header>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    <div class="w-full flex flex-col gap-2 mb-5">
+                      {% for category, message in messages %}
+                        <div class="w-full p-3.5 rounded-2xl text-sm border {% if category == 'success' %}bg-emerald-500/10 text-emerald-300 border-emerald-500/30{% else %}bg-rose-500/10 text-rose-300 border-rose-500/30{% endif %}">
+                          {{ message }}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                {% endwith %}
+
+                <!-- Error Messages -->
+                {% if form is defined and form and form.errors %}
+                  <div class="w-full p-4 rounded-2xl text-sm mb-5 bg-rose-500/10 text-rose-300 border border-rose-500/30">
+                    <ul class="list-disc list-inside space-y-1">
+                      {% for field, errors in form.errors.items() %}
+                        {% for error in errors %}
+                          <li><strong class="capitalize">{{ field }}:</strong> {{ error }}</li>
+                        {% endfor %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+
+                <!-- Form -->
+                <form class="w-full flex flex-col gap-5" method="POST" action="{{ url_for('vanguard_hub_signup') }}" novalidate>
+
+                  {% if csrf_token is defined %}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  {% endif %}
+
+                  {% if next is defined and next %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                  {% endif %}
+
+                  <!-- Full Name Field -->
+                  <div class="flex flex-col gap-1.5">
+                    <label for="full_name" class="block text-sm font-semibold text-slate-200">Full Name</label>
+                    <div class="relative flex items-center">
+                      <span class="absolute left-4 text-amber-400/70 pointer-events-none flex items-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      </span>
+                      <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        class="w-full pl-11 pr-4 py-3 rounded-2xl border border-white/10 bg-black/80 text-white placeholder-slate-600 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400/20"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        value="{{ form_data.full_name if form_data is defined else '' }}"
+                        required
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Email Address Field -->
+                  <div class="flex flex-col gap-1.5">
+                    <label for="email" class="block text-sm font-semibold text-slate-200">Email Address</label>
+                    <div class="relative flex items-center">
+                      <span class="absolute left-4 text-amber-400/70 pointer-events-none flex items-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                      </span>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="w-full pl-11 pr-4 py-3 rounded-2xl border border-white/10 bg-black/80 text-white placeholder-slate-600 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400/20"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        value="{{ form_data.email if form_data is defined else '' }}"
+                        required
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Track Selector Fieldset -->
+                  <fieldset class="flex flex-col gap-3">
+                    <legend class="block text-sm font-semibold text-slate-200 mb-1">Choose Your Track</legend>
+                    
+                    <label class="flex gap-3.5 items-start p-4 border border-white/10 rounded-2xl cursor-pointer hover:border-amber-400/50 hover:bg-amber-500/[0.02] transition bg-black/40">
+                      <input type="radio" name="user_type" value="PROFESSIONAL" class="mt-1 w-4 h-4 text-amber-400 accent-amber-400" {% if (form_data.user_type if form_data is defined else 'PROFESSIONAL') == 'PROFESSIONAL' %}checked{% endif %} required>
+                      <span class="flex flex-col">
+                        <strong class="block text-sm font-semibold text-white">Professional Track</strong>
+                        <span class="block text-xs text-slate-400 mt-0.5 leading-relaxed">Career-focused sessions, CV and LinkedIn building, mentorship, and networking with working professionals.</span>
+                      </span>
+                    </label>
+
+                    <label class="flex gap-3.5 items-start p-4 border border-white/10 rounded-2xl cursor-pointer hover:border-amber-400/50 hover:bg-amber-500/[0.02] transition bg-black/40">
+                      <input type="radio" name="user_type" value="ENTREPRENEUR" class="mt-1 w-4 h-4 text-amber-400 accent-amber-400" {% if (form_data.user_type if form_data is defined else 'PROFESSIONAL') == 'ENTREPRENEUR' %}checked{% endif %} required>
+                      <span class="flex flex-col">
+                        <strong class="block text-sm font-semibold text-white">Entrepreneurial Track</strong>
+                        <span class="block text-xs text-slate-400 mt-0.5 leading-relaxed">Business-building sessions, pitch practice, mentorship from founders, and roadmap acceleration.</span>
+                      </span>
+                    </label>
+                  </fieldset>
+
+                  <!-- Password Field -->
+                  <div class="flex flex-col gap-1.5">
+                    <label for="password" class="block text-sm font-semibold text-slate-200">Password</label>
+                    <div class="relative flex items-center">
+                      <span class="absolute left-4 text-amber-400/70 pointer-events-none flex items-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      </span>
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="w-full pl-11 pr-12 py-3 rounded-2xl border border-white/10 bg-black/80 text-white placeholder-slate-600 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400/20"
+                        placeholder="Create a secure password"
+                        autocomplete="new-password"
+                        required
+                      >
+                      <button type="button" class="absolute right-4 p-1 text-slate-400 hover:text-amber-400 focus:outline-none flex items-center cursor-pointer transition-colors" onclick="togglePasswordVisibility('password', this)" aria-label="Toggle password visibility">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Confirm Password Field -->
+                  <div class="flex flex-col gap-1.5">
+                    <label for="confirm_password" class="block text-sm font-semibold text-slate-200">Confirm Password</label>
+                    <div class="relative flex items-center">
+                      <span class="absolute left-4 text-amber-400/70 pointer-events-none flex items-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      </span>
+                      <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        class="w-full pl-11 pr-12 py-3 rounded-2xl border border-white/10 bg-black/80 text-white placeholder-slate-600 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400/20"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required
+                      >
+                      <button type="button" class="absolute right-4 p-1 text-slate-400 hover:text-amber-400 focus:outline-none flex items-center cursor-pointer transition-colors" onclick="togglePasswordVisibility('confirm_password', this)" aria-label="Toggle password visibility">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-3 mt-1">
+                    <input type="checkbox" id="terms" name="terms" class="w-4 h-4 text-amber-400 accent-amber-400 rounded border-white/20 cursor-pointer" required>
+                    <label for="terms" class="text-xs sm:text-sm text-slate-400 cursor-pointer select-none">
+                      I agree to the <a href="#" class="text-amber-400 underline font-medium hover:text-amber-300">Terms and Conditions</a>
+                    </label>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <button type="submit" class="w-full rounded-full bg-amber-400 text-black font-bold px-5 py-3.5 transition hover:bg-amber-300 shadow-lg shadow-amber-500/20 cursor-pointer">
+                    Create Account
+                  </button>
+
+                </form>
+
+                <!-- Footer Links -->
+                <footer class="mt-8 text-center text-sm text-slate-400 flex flex-col gap-3">
+                  <p>Already have an account? <a href="{{ url_for('hub_login') if 'hub_login' in endpoints else '/hub/login' }}" class="text-amber-400 font-semibold hover:underline">Sign In</a></p>
+                  <div>
+                    <a href="/" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-emerald-400 transition">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                      Return to Core Site
+                    </a>
+                  </div>
+                </footer>
+            </div>
+        </section>
+    </div>
+
+    <script>
+      function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.innerHTML = `<svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+        } else {
+          input.type = 'password';
+          btn.innerHTML = `<svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+        }
+      }
+    </script>
+</body>
+</html>

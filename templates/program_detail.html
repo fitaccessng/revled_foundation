@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}{{ program['name'] }} | Revled Foundation{% endblock %}
+{% block meta_description %}{{ program['name'] }} programme page for Revled Foundation, serving {{ program['ages'] }} with a structured learning and leadership journey.{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --revled-blue: #0A2A66;
+        --revled-dark: #0A192F;
+        --revled-orange: #FF9A3C;
+        --revled-soft-bg: #F9FAFB;
+        --revled-text-main: #1E293B; 
+    }
+
+    body { background: white; font-family: 'Manrope', sans-serif; color: var(--revled-text-main); }
+    .display-serif { font-family: 'Fraunces', serif; }
+
+    html { scroll-behavior: smooth; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set stage_meta = {
+    'roots': {'label': 'Origin', 'focus': 'Early Education', 'icon': '01', 'img': '../static/images/8.png', 'img_alt': '../static/images/7.png'},
+    'explorers': {'label': 'Explorers', 'focus': 'Life Skills', 'icon': '02', 'img': '../static/images/2.png', 'img_alt': '../static/images/3.png'},
+    'catalyst': {'label': 'Catalyst', 'focus': 'Mentorship', 'icon': '03', 'img': '../static/images/1.png', 'img_alt': '../static/images/6ca.png'},
+    'launchpad': {'label': 'Vanguard', 'focus': 'Careers', 'icon': '04', 'img': '../static/images/6.png', 'img_alt': '../static/images/11.png'},
+} %}
+
+{% set active_stage = stage_meta[program['slug']] %}
+{% set programme_contact = contact_directory.programmes[program['slug']] %}
+
+<div class="bg-white antialiased overflow-x-hidden">
+
+    <!-- Hero Header Section -->
+    <main class="max-w-7xl mx-auto mt-12 sm:mt-12 px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+
+            <!-- Left Side Curriculum Core (Comes first on mobile) -->
+            <div class="lg:col-span-7 space-y-8 sm:space-y-10 order-1 lg:order-1">
+                <div class="space-y-4">
+                    <h1 class="display-serif text-3xl sm:text-5xl lg:text-6xl text-slate-900 font-black tracking-tight leading-tight">
+                        {{ program['hero_headline'] }}
+                    </h1>
+                    <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal max-w-2xl">
+                        {{ program['hero_subheadline'] }}
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    {% if program['slug'] == 'launchpad' %}
+                    <a href="/vanguard-hub/signup" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-orange-600 transition-colors text-center shadow-md w-full sm:w-auto">Create Account</a>
+                    <a href="{{ url_for('hub_login') }}" class="bg-[--revled-blue] text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-orange-600 transition-colors text-center shadow-md w-full sm:w-auto">Login</a>
+                    {% else %}
+                    <a href="{{ program['primary_cta_url'] }}" class="bg-[--revled-blue] text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-orange-600 transition-colors text-center shadow-md w-full sm:w-auto">
+                        {{ program['primary_cta_label'] }}
+                    </a>
+                    <a href="{{ program['secondary_cta_url'] }}" class="bg-white text-[--revled-blue] border-2 border-slate-200 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:border-[--revled-blue] transition-colors text-center w-full sm:w-auto">
+                        {{ program['secondary_cta_label'] }}
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- Conditional Deliverables Block -->
+                {% if program['slug'] == 'launchpad' %}
+                <div class="rounded-2xl border border-orange-100 bg-[#FDFCF0] p-5 sm:p-8 shadow-sm space-y-4">
+                    <p class="text-xs font-bold uppercase tracking-widest text-orange-600">{{ program['outcomes_heading'] }}</p>
+                    <ul class="grid grid-cols-1 gap-2.5">
+                        {% for point in program['contribution_points'] %}
+                        <li class="flex items-start gap-3 rounded-xl bg-white px-4 py-3 text-sm font-medium text-slate-800 shadow-sm border border-orange-100/30">
+                            <span class="text-orange-500 font-bold shrink-0">✓</span>
+                            <span class="break-words">{{ point }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <div class="grid grid-cols-1 gap-3">
+                    {% for item in program['outcomes'] %}
+                    <div class="flex flex-col sm:flex-row gap-4 p-5 rounded-xl bg-slate-50 border border-slate-100/50 hover:bg-white hover:border-slate-200 transition-all group">
+                        <div class="shrink-0 w-8 h-8 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center text-orange-500 group-hover:scale-105 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="space-y-0.5">
+                            <h3 class="text-base font-bold text-slate-900">{{ item['title'] }}</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">{{ item['desc'] }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if program['slug'] == 'launchpad' %}
+                <div class="rounded-2xl border border-orange-200 bg-orange-50 p-5 sm:p-6 shadow-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-orange-700">Mentor the next Vanguard cohort</p>
+                    <h3 class="mt-2 text-lg font-bold text-[--revled-blue]">Share your industry experience</h3>
+                    <p class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">
+                        We invite professionals, creatives, and operators to guide Vanguard members through honest conversations about careers, skills, and the realities of working in the real world.
+                    </p>
+                   <a href="/vanguard-hub/mentor-signup"
+   class="mt-4 inline-flex justify-center rounded-lg bg-orange-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-orange-600 transition-colors w-full sm:w-auto">
+    Volunteer or Mentor
+</a>
+                </div>
+                {% endif %}
+
+                {% if program['slug'] == 'catalyst' %}
+                <section class="rounded-2xl border border-orange-200 bg-orange-50 p-5 sm:p-6 shadow-sm">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-orange-700">Volunteer or mentor with Catalyst</p>
+                    <h3 class="mt-2 text-lg font-bold text-[--revled-blue]">Help learners move from Learn to Do to Earn</h3>
+                    <p class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">
+                        Support a Mentorship Pod over time, lead a focused skill session, or tell us you are open to either.
+                    </p>
+
+                    <a href="{{ url_for('catalyst_volunteer_mentor_page') }}" class="mt-4 inline-flex justify-center rounded-lg bg-orange-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-orange-600 transition-colors w-full sm:w-auto">
+                        Volunteer or Mentor
+                    </a>
+                </section>
+                {% endif %}
+
+                <!-- Team Contact Panel -->
+                <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm space-y-3">
+                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Get in Touch with our team</p>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                        <a href="mailto:{{ programme_contact['email'] }}" class="inline-flex items-center justify-center rounded-lg bg-slate-50 border border-slate-100 px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-slate-100 transition-colors break-all text-center">
+                            {{ programme_contact['email'] }}
+                        </a>
+                        <a href="mailto:{{ programme_contact['email'] }}?subject={{ program['name'] }} enquiry" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[--revled-blue] hover:border-[--revled-blue] transition-colors text-center">
+                            Programme enquiries
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Media Aside (Comes second on mobile, taller height, zero image cut-off) -->
+            <aside class="lg:col-span-5 w-full order-2 lg:order-2">
+                <div class="lg:sticky lg:top-8 space-y-4">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Hero Image Container -->
+                        <div class="rounded-2xl overflow-hidden h-[400px] sm:h-[500px] lg:h-[600px] shadow-lg bg-slate-50 border border-slate-100 w-full">
+                            <img src="{{ active_stage['img'] }}" alt="{{ program['name'] }}" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Mini Preview Image Block -->
+                        <div class="mt-4 lg:mt-0 lg:absolute lg:-bottom-5 lg:right-4 w-full sm:w-32 overflow-hidden rounded-2xl border-4 border-transparent lg:border-white shadow-md lg:shadow-lg bg-slate-50">
+                            <img src="{{ active_stage['img_alt'] }}" alt="{{ program['name'] }} Preview" class="aspect-[16/9] sm:aspect-[3/4] w-full h-full object-contain">
+                        </div>
+                    </div>
+
+                    <!-- Logistics Note Box -->
+                    <div class="bg-slate-900 p-4 rounded-xl border border-white/10 shadow-md max-w-md mx-auto lg:max-w-none">
+                        <p class="text-orange-400 text-[9px] font-bold uppercase tracking-widest mb-0.5">Primary Logistics Note</p>
+                        <p class="text-white font-medium text-xs sm:text-sm leading-snug">{{ program['location_note'] }}</p>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Operational Meta Banner -->
+    <section class="bg-slate-50 py-8 border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
+                <div class="space-y-1 sm:px-2">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Core Focus Area</p>
+                    <p class="text-base font-bold text-[--revled-blue]">{{ active_stage['focus'] }}</p>
+                </div>
+                <div class="space-y-1 pt-4 sm:pt-0 sm:px-6">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Delivery Architecture</p>
+                    <p class="text-base font-bold text-[--revled-blue]">{{ program['location_note'] }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+
+            <!-- Left Side Curriculum Core (First on mobile) -->
+            <div class="lg:col-span-7 space-y-4 order-1">
+                <h2 class="display-serif text-2xl sm:text-4xl text-slate-900 font-black tracking-tight leading-tight">
+                    {{ program['intro_heading'] }}
+                </h2>
+                <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                    {{ program['intro_body'] }}
+                </p>
+            </div>
+
+            <!-- Right Side Secondary Media Aside (Second on mobile) -->
+            <aside class="lg:col-span-5 w-full order-2">
+                <div class="relative mx-auto max-w-md lg:max-w-none">
+                    <div class="rounded-2xl overflow-hidden h-[350px] sm:h-[450px] lg:h-[550px] shadow-lg bg-slate-50 border border-slate-100 w-full">
+                        <img src="{{ active_stage['img_alt'] }}" alt="{{ program['name'] }} Preview" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    {% if program['slug'] != 'roots' %}
+    <!-- Systemic Operational Framework Grid -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div class="max-w-5xl mx-auto rounded-3xl border border-orange-100 bg-white p-5 sm:p-10 shadow-sm space-y-8">
+
+            <div class="text-center space-y-3">
+                <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-widest text-black">
+                    Re-Create Framework
+                </h2>
+            </div>
+
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {% set framework_steps = [
+                    ('RE', 'Reduce'),
+                    ('C', 'Connect'),
+                    ('R', 'Reimagine'),
+                    ('E', 'Equip'),
+                    ('A', 'Apply'),
+                    ('T', 'Transform'),
+                    ('E', 'Elevate')
+                ] %}
+
+                {% for letter, action in framework_steps %}
+                <div class="reveal-on-scroll rounded-2xl border border-slate-100 bg-[#FDFCF0] p-5 shadow-sm flex flex-col justify-center">
+                    <div class="flex flex-row items-center justify-between gap-3">
+                        <div class="flex-1 text-center rounded-xl bg-white px-3 py-2.5 text-sm font-black text-[#0A192F] shadow-sm border border-slate-100">
+                            {{ letter }}
+                        </div>
+
+                        <span class="text-xl font-black text-orange-500 shrink-0 select-none">→</span>
+
+                        <div class="flex-1 text-center rounded-xl bg-[#0A192F] px-3 py-2.5 text-xs font-bold text-white shadow-sm">
+                            {{ action }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Through ReCreate Section Block -->
+    <section class="py-6 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-5xl mx-auto rounded-3xl bg-[--revled-dark] p-6 sm:p-12 text-white shadow-xl relative overflow-hidden">
+            <div class="relative z-10 space-y-3">
+                <h4 class="text-xl font-bold tracking-tight">Through ReCreate</h4>
+                <p class="text-sm sm:text-base leading-relaxed text-slate-300 font-light">{{ program['through_recreate'] }}</p>
+            </div>
+            <div class="absolute -bottom-12 -right-12 w-40 h-40 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Bottom Action Conversion Stripe Block -->
+    <section class="py-12 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-5xl mx-auto bg-[--revled-blue] rounded-3xl p-6 sm:p-12 lg:p-16 text-center relative overflow-hidden shadow-xl shadow-blue-950/20">
+            <div class="relative z-10 space-y-6 max-w-2xl mx-auto">
+                <h2 class="display-serif text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+                    Ready to grow?
+                </h2>
+                <p class="text-slate-200 text-xs sm:text-sm sm:text-base font-light leading-relaxed">
+                    {{ program['business_note'] }}
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-2.5 pt-2">
+                    {% for item in program['business_ctas_resolved'] %}
+                    <a href="{{ item['url'] }}" class="bg-white text-[--revled-blue] px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[--revled-orange] hover:text-[#0A192F] transition-all shadow-sm text-center w-full sm:w-auto">
+                        {{ item['label'] }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Background Accent Rings -->
+            <div class="absolute -top-24 -right-24 w-72 h-72 bg-white/5 rounded-full pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-orange-500/10 rounded-full blur-xl pointer-events-none"></div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+{{ super() }}
+{% endblock %}

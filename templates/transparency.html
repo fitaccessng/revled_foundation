@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Transparency | Revled Foundation{% endblock %}
+{% block meta_description %}Transparency information for Revled Foundation, including CAC registration, operating name, location, and donation use summary.{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden bg-soft-cream px-6 pb-20 pt-32">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,107,53,0.16),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(0,63,135,0.12),_transparent_32%)]"></div>
+    <div class="relative mx-auto max-w-6xl">
+        <span class="inline-flex rounded-full bg-white px-5 py-2 text-xs font-bold uppercase tracking-[0.32em] text-warm-orange shadow-sm">Transparency</span>
+        <h1 class="hero-heading text-deep-blue mt-6 mb-6">Transparency and legitimacy</h1>
+        <p class="max-w-3xl text-xl leading-8 text-gray-700">
+            Revled Empowerment Initiative is the registered nonprofit entity, operating as Revled Foundation, in Nigeria.
+        </p>
+
+        <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Legal registration name</p>
+                <p class="mt-3 text-2xl font-bold text-deep-blue">{{ nonprofit_legal_name }}</p>
+            </div>
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Operating name</p>
+                <p class="mt-3 text-2xl font-bold text-deep-blue">{{ operating_name }}</p>
+            </div>
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">CAC Number</p>
+                <p class="mt-3 text-2xl font-black text-deep-blue">{{ cac_registration_number }}</p>
+            </div>
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Location</p>
+                <p class="mt-3 text-2xl font-bold text-deep-blue">Lagos, Nigeria</p>
+            </div>
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Contact email</p>
+                <p class="mt-3 text-2xl font-bold text-deep-blue"><a href="mailto:info@revledfoundation.org">info@revledfoundation.org</a></p>
+            </div>
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Donation use summary</p>
+                <p class="mt-3 text-base leading-7 text-gray-700">Donation use information will be published here as updates are available.</p>
+            </div>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Annual report</p>
+                <h2 class="mt-3 text-3xl font-bold text-deep-blue">Downloads and reports</h2>
+                <p class="mt-3 text-gray-700">Annual reports will be posted here once available.</p>
+                <span class="mt-6 inline-flex rounded-full border border-dashed border-slate-300 px-5 py-3 text-sm font-semibold text-slate-500">Annual report updates will appear here when available.</span>
+            </div>
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Funding focus</p>
+                <ul class="mt-4 space-y-3 text-gray-700">
+                    <li>Facilitator training and programme materials</li>
+                    <li>Mentorship and career-readiness sessions</li>
+                    <li>Vocational skills and ReCreate Lab activities</li>
+                    <li>Scholarships and access for underserved communities</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

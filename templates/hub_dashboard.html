@@ -1,0 +1,769 @@
+{% extends "hub_base.html" %}
+
+{% block title %}Dashboard | Revled Hub{% endblock %}
+
+{% block hub_content %}
+<div class="dash-container">
+
+    <!-- Header Banner -->
+    <header class="dash-header">
+        <div class="dash-welcome">
+            <span class="vanguard-pill">
+                <i class="fa-solid fa-shield-halved"></i>
+                {{ member['user_type_label'] }} Track
+            </span>
+            <h1 class="welcome-title">Welcome, {{ member['full_name'].split(' ')[0] }}</h1>
+        </div>
+
+        <div class="header-metrics">
+            <div class="header-metric-card">
+                <span class="m-label">Library Assets</span>
+                <span class="m-value">{{ hub_stats['resources'] }}</span>
+            </div>
+            <div class="header-metric-card">
+                <span class="m-label">Opportunities</span>
+                <span class="m-value">{{ hub_stats['opportunities'] }}</span>
+            </div>
+            <div class="header-metric-card">
+                <span class="m-label">Completion</span>
+                <div class="metric-progress-inline">
+                    <span class="m-value">{{ member['progress_percentage'] }}%</span>
+                    <div class="progress-bar-sm">
+                        <div class="progress-fill" style="width: {{ member['progress_percentage'] }}%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Welcome Kit Banner -->
+    {% if session.get('welcome_kit_available') %}
+    <div class="alert-banner alert-banner--info" aria-label="Welcome kit">
+        <div class="alert-content">
+            <div class="alert-icon"><i class="fa-solid fa-download"></i></div>
+            <div>
+                <h4>Vanguard Welcome Kit Available</h4>
+                <p>Download your PDF onboarding kit to kickstart your first week.</p>
+            </div>
+        </div>
+        <a href="{{ url_for('hub_welcome_kit_download') }}" class="btn-banner-action">Download PDF</a>
+    </div>
+    {% endif %}
+
+    <!-- Learning Journey Overview Card -->
+    {% set progress = member['progress_percentage'] %}
+    {% set badge_label = member['journey_badge_label'] %}
+    {% set badge_copy = member['journey_badge_copy'] %}
+    {% set next_label = member['journey_next_label'] %}
+    <section class="ui-card journey-widget">
+        <div class="journey-header">
+            <div>
+                <span class="widget-kicker">Milestone Overview</span>
+                <h3 class="widget-title">Learning Track & Growth</h3>
+            </div>
+            <div class="badge-display">
+                <span class="badge-display__name">{{ badge_label }}</span>
+                <span class="badge-display__val">{{ progress }}%</span>
+            </div>
+        </div>
+
+        <div class="journey-body">
+            <div class="journey-progress-box">
+                <div class="progress-bar-lg">
+                    <div class="progress-fill" style="width: {{ progress }}%;"></div>
+                </div>
+                <div class="progress-meta">
+                    <span>Progress Status</span>
+                    <strong>{{ member['journey_completed_count'] }} / {{ member['journey_total_count'] }} Tasks Finished</strong>
+                </div>
+            </div>
+
+            <div class="journey-next-box">
+                <div class="next-tag"><i class="fa-solid fa-bullseye"></i> Next Goal</div>
+                <p class="next-copy">{{ badge_copy }}</p>
+                {% if member['journey_completed_titles'] %}
+                <p class="completed-summary">Completed: {{ member['journey_completed_titles']|join(', ') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Workspace Bento Grid -->
+    <div class="dashboard-grid">
+
+        <!-- Upcoming Sessions Column (2-Span) -->
+        <div class="grid-span-2">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <h3 class="card-title">Live Sessions</h3>
+                        <span class="card-subtitle">Upcoming interactive events</span>
+                    </div>
+                    <a href="{{ url_for('hub_schedule') }}" class="btn-icon-link" title="Full Schedule">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="session-list">
+                    {% for item in schedule_items %}
+                    <article class="session-item">
+                        <div class="session-date">
+                            <span class="date-lbl">{{ item['starts_at'][:3] if item['starts_at'] else 'TBD' }}</span>
+                        </div>
+                        <div class="session-info">
+                            <h4>{{ item['title'] }}</h4>
+                            <div class="session-tags">
+                                <span class="tag-pill"><i class="fa-regular fa-clock"></i> {{ item['starts_at'] }}</span>
+                                <span class="tag-pill tag-pill--accent">{{ item['target_user_types_label'] }}</span>
+                            </div>
+                        </div>
+                        <a href="{{ item['resource_link'] or item['cta_url'] or '#' }}" class="btn-action-sm">
+                            {{ item['cta_label'] or 'Join' }}
+                        </a>
+                    </article>
+                    {% else %}
+                    <div class="empty-widget">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                        <p>No upcoming sessions scheduled.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side Stack -->
+        <div class="grid-stack">
+            <!-- Quick Actions -->
+            <div class="ui-card">
+                <h3 class="card-title">Quick Actions</h3>
+                <nav class="quick-nav" aria-label="Quick Navigation">
+                    <a href="{{ url_for('hub_resources') }}" class="quick-nav-item">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <span>Library Assets</span>
+                        <i class="fa-solid fa-angle-right arrow"></i>
+                    </a>
+                    <a href="{{ url_for('hub_opportunities') }}" class="quick-nav-item">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span>Opportunities</span>
+                        <i class="fa-solid fa-angle-right arrow"></i>
+                    </a>
+                    <a href="{{ url_for('hub_community') }}" class="quick-nav-item">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Community</span>
+                        <i class="fa-solid fa-angle-right arrow"></i>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- New Arrivals -->
+            <div class="ui-card">
+                <h3 class="card-title">Recent Additions</h3>
+                <ul class="recent-list">
+                    {% for item in recent_creations[:3] %}
+                    <li class="recent-item">
+                        <span class="dot-indicator"></span>
+                        <span class="recent-title">{{ item['title'] }}</span>
+                    </li>
+                    {% else %}
+                    <li class="empty-widget text-xs">No recent updates.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Curated Resources Column (2-Span) -->
+        <div class="grid-span-2">
+            <div class="ui-card">
+                <div class="ui-card-header">
+                    <div>
+                        <h3 class="card-title">Curated Resources</h3>
+                        <span class="card-subtitle">Recommended learning materials</span>
+                    </div>
+                    <a href="{{ url_for('hub_resources') }}" class="btn-icon-link" title="All Resources">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="resource-tiles">
+                    {% for item in resource_items[:4] %}
+                    <a href="{{ item['resource_link'] or item['cta_url'] or '#' }}" class="resource-card">
+                        <div class="res-icon"><i class="fa-regular fa-file-pdf"></i></div>
+                        <div class="res-details">
+                            <h4>{{ item['title'] }}</h4>
+                            <span class="res-meta">{{ item['meta_one'] or 'Vanguard Asset' }}</span>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="empty-widget">
+                        <p>No resources assigned yet.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Challenges -->
+        <div>
+            <div class="ui-card card--accent">
+                <h3 class="card-title">Active Challenge</h3>
+                {% for item in challenge_items[:1] %}
+                <a href="{{ item['resource_link'] or item['cta_url'] or '#' }}" class="challenge-widget">
+                    <span class="status-tag">{{ item['status_text'] }}</span>
+                    <h4>{{ item['title'] }}</h4>
+                    <p>{{ item['summary']|truncate(75) }}</p>
+                </a>
+                {% else %}
+                <div class="empty-widget">
+                    <p>No active challenges.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    /* Executive Clean Light Variables */
+    :root {
+        --dash-bg: #ffffff;
+        --card-bg: #ffffff;
+        --surface-subtle: #f8fafc;
+        --border: #e2e8f0;
+        --border-subtle: #f1f5f9;
+
+        --text-dark: #0f172a;
+        --text-sub: #64748b;
+        --text-muted: #94a3b8;
+
+        --primary: #4f46e5;
+        --primary-light: #eef2ff;
+        --accent-gold: #d97706;
+        --accent-green: #10b981;
+        --accent-red: #ef4444;
+
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body, main, .dash-container {
+        background: var(--dash-bg) !important;
+        color: var(--text-dark);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .dash-container {
+        padding: 1.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    /* Dashboard Header */
+    .dash-header {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    @media (min-width: 900px) {
+        .dash-header {
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+    }
+
+    .vanguard-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.25rem 0.65rem;
+        background: var(--primary-light);
+        color: var(--primary);
+        font-size: 0.725rem;
+        font-weight: 700;
+        border-radius: var(--radius-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.5rem;
+    }
+
+    .welcome-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        color: var(--text-dark);
+        margin: 0;
+    }
+
+    .header-metrics {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .header-metric-card {
+        background: var(--surface-subtle);
+        border: 1px solid var(--border);
+        padding: 0.75rem 1.1rem;
+        border-radius: var(--radius-md);
+        min-width: 130px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .header-metric-card .m-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--text-sub);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .header-metric-card .m-value {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-top: 0.2rem;
+    }
+
+    .metric-progress-inline {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: 0.2rem;
+    }
+
+    .progress-bar-sm {
+        height: 6px;
+        width: 60px;
+        background: var(--border);
+        border-radius: 99px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--primary);
+        border-radius: 99px;
+    }
+
+    /* Alerts / Banners */
+    .alert-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border-radius: var(--radius-md);
+        background: #fffdfa;
+        border: 1px solid #fef3c7;
+        margin-bottom: 1.5rem;
+    }
+
+    .alert-banner--expired { background: #fef2f2; border-color: #fecaca; }
+    .alert-banner--info { background: var(--primary-light); border-color: #c7d2fe; }
+
+    .alert-content {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+    }
+
+    .alert-icon {
+        font-size: 1.2rem;
+        color: var(--accent-gold);
+    }
+    .alert-banner--expired .alert-icon { color: var(--accent-red); }
+    .alert-banner--info .alert-icon { color: var(--primary); }
+
+    .alert-content h4 { font-size: 0.95rem; font-weight: 700; margin: 0; color: var(--text-dark); }
+    .alert-content p { font-size: 0.82rem; color: var(--text-sub); margin: 0.15rem 0 0 0; }
+
+    .btn-banner-action {
+        padding: 0.5rem 0.9rem;
+        border-radius: var(--radius-sm);
+        background: var(--text-dark);
+        color: #ffffff !important;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        white-space: nowrap;
+    }
+
+    .btn-banner-action:hover { background: var(--primary); }
+
+    /* Modern Clean UI Card */
+    .ui-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1.35rem;
+        box-shadow: var(--shadow-sm);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ui-card--accent {
+        background: var(--surface-subtle);
+    }
+
+    .ui-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.25rem;
+    }
+
+    .card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-dark);
+        letter-spacing: -0.01em;
+    }
+
+    .card-subtitle {
+        font-size: 0.78rem;
+        color: var(--text-sub);
+        display: block;
+        margin-top: 0.15rem;
+    }
+
+    .btn-icon-link {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        color: var(--text-sub);
+        transition: var(--transition);
+    }
+
+    .btn-icon-link:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+        border-color: var(--primary-light);
+    }
+
+    /* Learning Journey Widget */
+    .journey-widget {
+        margin-bottom: 1.5rem;
+        background: var(--surface-subtle);
+    }
+
+    .journey-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .widget-kicker {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--primary);
+        letter-spacing: 0.05em;
+    }
+
+    .widget-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        margin: 0.2rem 0 0 0;
+        color: var(--text-dark);
+    }
+
+    .badge-display {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        padding: 0.5rem 0.85rem;
+        border-radius: var(--radius-md);
+        text-align: right;
+    }
+
+    .badge-display__name {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .badge-display__val {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--primary);
+    }
+
+    .journey-body {
+        display: grid;
+        gap: 1rem;
+    }
+
+    @media (min-width: 800px) {
+        .journey-body { grid-template-columns: 1fr 1fr; }
+    }
+
+    .journey-progress-box, .journey-next-box {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+    }
+
+    .progress-bar-lg {
+        height: 8px;
+        background: var(--border-subtle);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+    }
+
+    .progress-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: var(--text-sub);
+    }
+
+    .progress-meta strong { color: var(--text-dark); }
+
+    .next-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--primary);
+        margin-bottom: 0.35rem;
+    }
+
+    .next-copy {
+        font-size: 0.85rem;
+        color: var(--text-sub);
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .completed-summary {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin: 0.5rem 0 0 0;
+    }
+
+    /* Dashboard Bento Grid Layout */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    @media (min-width: 1024px) {
+        .dashboard-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .grid-span-2 { grid-column: span 2; }
+    }
+
+    .grid-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    /* Sessions List */
+    .session-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    
+    .session-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+    .session-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .session-date {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-md);
+        background: var(--surface-subtle);
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+    }
+
+    .date-lbl {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        text-transform: uppercase;
+    }
+
+    .session-info { flex: 1; min-width: 0; }
+    .session-info h4 {
+        font-size: 0.88rem;
+        font-weight: 700;
+        margin: 0 0 0.25rem 0;
+        color: var(--text-dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .session-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .tag-pill {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.45rem;
+        background: var(--surface-subtle);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text-sub);
+    }
+    .tag-pill--accent { background: var(--primary-light); color: var(--primary); border-color: transparent; font-weight: 600; }
+
+    .btn-action-sm {
+        padding: 0.4rem 0.85rem;
+        border-radius: var(--radius-sm);
+        background: var(--text-dark);
+        color: #ffffff !important;
+        font-size: 0.78rem;
+        font-weight: 600;
+        transition: var(--transition);
+        white-space: nowrap;
+    }
+    .btn-action-sm:hover { background: var(--primary); }
+
+    /* Quick Navigation Links */
+    .quick-nav { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+    .quick-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.7rem 0.85rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        background: var(--surface-subtle);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        transition: var(--transition);
+    }
+    .quick-nav-item i { color: var(--text-sub); }
+    .quick-nav-item .arrow { margin-left: auto; font-size: 0.75rem; opacity: 0.6; }
+    .quick-nav-item:hover {
+        background: #ffffff;
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateX(2px);
+    }
+    .quick-nav-item:hover i { color: var(--primary); }
+
+    /* Recent Items List */
+    .recent-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+    .recent-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; }
+    .dot-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .recent-title { color: var(--text-dark); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Resource Tiles */
+    .resource-tiles {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    @media (min-width: 600px) {
+        .resource-tiles { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .resource-card {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.85rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        background: var(--surface-subtle);
+        transition: var(--transition);
+    }
+    .resource-card:hover {
+        background: #ffffff;
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .res-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: var(--radius-sm);
+        background: #fef2f2;
+        color: var(--accent-red);
+        display: grid;
+        place-items: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+
+    .res-details h4 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .res-meta { font-size: 0.72rem; color: var(--text-sub); }
+
+    /* Challenge Widget */
+    .challenge-widget {
+        display: block;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        padding: 1rem;
+        border-radius: var(--radius-md);
+        margin-top: 0.75rem;
+        transition: var(--transition);
+    }
+    .challenge-widget:hover { transform: translateY(-2px); border-color: var(--primary); }
+
+    .status-tag {
+        display: inline-block;
+        padding: 0.15rem 0.45rem;
+        background: #fef3c7;
+        color: var(--accent-gold);
+        font-size: 0.68rem;
+        font-weight: 800;
+        border-radius: 4px;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .challenge-widget h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.35rem 0; color: var(--text-dark); }
+    .challenge-widget p { font-size: 0.82rem; color: var(--text-sub); margin: 0; line-height: 1.4; }
+
+    /* Empty Widget Placeholder */
+    .empty-widget {
+        text-align: center;
+        padding: 1.5rem 1rem;
+        color: var(--text-sub);
+        font-size: 0.82rem;
+        border: 1px dashed var(--border);
+        border-radius: var(--radius-md);
+        width: 100%;
+    }
+</style>
+
+{% endblock %}

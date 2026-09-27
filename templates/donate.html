@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Donate | Revled Foundation{% endblock %}
+{% block meta_description %}Give to Revled Foundation through bank transfer or secure online payment. Support youth programmes, mentorship, ReCreate Lab, and scholarships.{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden bg-soft-cream px-6 pb-20 pt-32">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,107,53,0.16),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(0,63,135,0.12),_transparent_32%)]"></div>
+    <div class="relative mx-auto max-w-6xl text-center animate-fade-in-up">
+        <span class="inline-flex rounded-full bg-white px-5 py-2 text-xs font-bold uppercase tracking-[0.32em] text-warm-orange shadow-sm">Support Revled</span>
+        <h1 class="hero-heading text-deep-blue mt-6 mb-6">Give to Revled Foundation</h1>
+        <p class="mx-auto max-w-3xl text-xl text-gray-700">
+            Every gift helps us equip young people aged 0–25 with the skills, mentorship, and career readiness they need to thrive through our Origin, Explorers, Catalyst, and Vanguard programmes.
+        </p>
+    </div>
+</section>
+
+<section class="section-padding bg-white px-6">
+    <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="space-y-8">
+            <div class="card hover-lift">
+                <h2 class="text-3xl font-bold text-deep-blue">Your support directly funds</h2>
+                <ul class="mt-6 grid gap-3 text-gray-700 sm:grid-cols-2">
+                    <li class="rounded-2xl bg-soft-cream px-4 py-4">Facilitator training and programme materials</li>
+                    <li class="rounded-2xl bg-soft-cream px-4 py-4">Mentorship and career-readiness sessions for youth across Lagos</li>
+                    <li class="rounded-2xl bg-soft-cream px-4 py-4">Vocational skills training, including our ReCreate Lab circular economy programme</li>
+                    <li class="rounded-2xl bg-soft-cream px-4 py-4">Scholarships and access for underserved communities</li>
+                </ul>
+            </div>
+
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Bank Transfer</p>
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div class="rounded-2xl border border-slate-100 bg-soft-cream p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Account Name</p>
+                        <p class="mt-2 text-lg font-semibold text-deep-blue">Revled Foundation</p>
+                    </div>
+                    <div class="rounded-2xl border border-slate-100 bg-soft-cream p-4">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Bank</p>
+                        <p class="mt-2 text-lg font-semibold text-deep-blue">Fidelity</p>
+                    </div>
+                    <div class="rounded-2xl border border-slate-100 bg-soft-cream p-4 sm:col-span-2">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Account Number</p>
+                        <p class="mt-2 text-2xl font-black text-deep-blue">5601733004</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Corporate & Institutional Giving</p>
+                <p class="mt-4 text-gray-700">
+                    For partnership or corporate giving inquiries, contact us at <a class="font-semibold text-deep-blue underline decoration-warm-orange decoration-2 underline-offset-4" href="mailto:partnerships@revledfoundation.org">partnerships@revledfoundation.org</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="card hover-lift">
+            <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Online Giving</p>
+
+            {% if not payment_public_key %}
+            <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+                Online checkout is not configured in this environment yet, so the live payment flow cannot open.
+            </div>
+            {% endif %}
+
+            <div class="mt-8 rounded-3xl bg-soft-cream p-6">
+                <p class="text-sm font-semibold uppercase tracking-[0.25em] text-warm-orange">Make an impact</p>
+                <p class="mt-3 text-gray-700">
+                    Your gift helps fund mentorship, learning materials, ReCreate Lab activities, and access for young people across our programmes.
+                </p>
+                <button id="donate-payment-btn" type="button" class="btn-primary mt-6 w-full py-4 text-lg">
+                    Donate
+                </button>
+                <p id="donation-status" class="mt-3 min-h-6 text-sm text-slate-600" aria-live="polite"></p>
+            </div>
+
+            <div class="mt-8 rounded-2xl bg-soft-cream p-5">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Trust and Accountability</p>
+                <p class="mt-3 text-sm leading-7 text-gray-700">
+                    Revled Empowerment Initiative is the registered nonprofit entity, operating as Revled Foundation, with CAC Registration Number {{ cac_registration_number }}, based in Lagos, Nigeria.
+                </p>
+                <p class="mt-4 text-sm leading-7 text-gray-700">
+                    Have questions about giving? Reach us at <a href="mailto:partnerships@revledfoundation.org" class="font-semibold text-deep-blue underline decoration-warm-orange decoration-2 underline-offset-4">partnerships@revledfoundation.org</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const donateButton = document.getElementById('donate-payment-btn');
+const statusText = document.getElementById('donation-status');
+const paymentProviderKey = "{{ payment_public_key }}";
+
+function buildDonationModal() {
+    const existing = document.getElementById('donation-modal');
+    if (existing) {
+        return existing;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'donation-modal';
+    modal.className = 'fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 px-4';
+    modal.innerHTML = `
+        <div class="w-full max-w-lg rounded-[2rem] bg-white p-6 shadow-2xl">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">Donation details</p>
+                    <h3 class="mt-2 text-2xl font-bold text-deep-blue">Proceed to payment</h3>
+                </div>
+                <button type="button" id="donation-modal-close" class="rounded-full border border-slate-200 px-3 py-1 text-sm font-semibold text-slate-600">Close</button>
+            </div>
+            <form id="donation-form" class="mt-6 space-y-4">
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-deep-blue" for="donor_name">Donor name</label>
+                    <input id="donor_name" name="donor_name" type="text" required class="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:border-warm-orange focus:outline-none" placeholder="Your full name">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-deep-blue" for="donor_email">Donor email</label>
+                    <input id="donor_email" name="donor_email" type="email" required class="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:border-warm-orange focus:outline-none" placeholder="name@example.com">
+                </div>
+                <div>
+                    <p class="mb-2 block text-sm font-semibold text-deep-blue">Choose an amount</p>
+                    <input id="amount" name="amount" type="hidden" value="5000">
+                    <div class="grid grid-cols-3 gap-3" role="radiogroup" aria-label="Donation amount">
+                        <button type="button" class="amount-chip amount-chip-active" data-amount="5000" role="radio" aria-checked="true">₦5,000</button>
+                        <button type="button" class="amount-chip" data-amount="10000" role="radio" aria-checked="false">₦10,000</button>
+                        <button type="button" class="amount-chip" data-amount="25000" role="radio" aria-checked="false">₦25,000</button>
+                    </div>
+                    <div id="custom-amount-wrap" class="custom-amount-wrap mt-4">
+                        <label class="mb-2 block text-sm font-semibold text-deep-blue" for="custom_amount">Or enter your own amount</label>
+                        <div class="custom-amount-field">
+                            <span class="custom-amount-currency" aria-hidden="true">₦</span>
+                            <input id="custom_amount" type="number" inputmode="numeric" min="1" step="1" class="w-full bg-transparent py-3.5 pl-11 pr-4 text-lg font-bold text-deep-blue outline-none" placeholder="Enter any amount" aria-describedby="custom-amount-help amount-error">
+                        </div>
+                        <p id="custom-amount-help" class="mt-2 text-xs leading-5 text-slate-500">Any whole amount from ₦1 upwards.</p>
+                        <p id="amount-error" class="mt-2 hidden text-sm font-semibold text-red-600" role="alert"></p>
+                    </div>
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-deep-blue" for="message">Optional message</label>
+                    <textarea id="message" name="message" rows="3" class="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:border-warm-orange focus:outline-none" placeholder="Tell us if this gift is in honour of someone or for a specific project."></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 text-lg">Proceed to payment</button>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById('donation-modal-close').addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    });
+
+    return modal;
+}
+
+function openDonationModal() {
+    const modal = buildDonationModal();
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    const form = document.getElementById('donation-form');
+    const amountInput = document.getElementById('amount');
+    const customAmountInput = document.getElementById('custom_amount');
+    const customAmountWrap = document.getElementById('custom-amount-wrap');
+    const amountError = document.getElementById('amount-error');
+    const amountButtons = Array.from(modal.querySelectorAll('.amount-chip'));
+
+    if (!modal.dataset.amountBound) {
+        const clearAmountError = () => {
+            amountError.textContent = '';
+            amountError.classList.add('hidden');
+        };
+
+        amountButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                amountInput.value = button.dataset.amount;
+                customAmountInput.value = '';
+                customAmountWrap.classList.remove('custom-amount-wrap-active');
+                clearAmountError();
+                amountButtons.forEach((chip) => {
+                    chip.classList.remove('amount-chip-active');
+                    chip.setAttribute('aria-checked', 'false');
+                });
+                button.classList.add('amount-chip-active');
+                button.setAttribute('aria-checked', 'true');
+                statusText.textContent = `Selected donation amount: ₦${Number(button.dataset.amount).toLocaleString('en-NG')}`;
+            });
+        });
+
+        customAmountInput.addEventListener('input', () => {
+            const customAmount = Number(customAmountInput.value);
+            clearAmountError();
+            customAmountWrap.classList.toggle('custom-amount-wrap-active', customAmountInput.value !== '');
+            amountButtons.forEach((chip) => {
+                chip.classList.remove('amount-chip-active');
+                chip.setAttribute('aria-checked', 'false');
+            });
+
+            if (Number.isInteger(customAmount) && customAmount > 0) {
+                amountInput.value = String(customAmount);
+                statusText.textContent = `Selected donation amount: ₦${customAmount.toLocaleString('en-NG')}`;
+            } else {
+                amountInput.value = '';
+                statusText.textContent = '';
+            }
+        });
+        modal.dataset.amountBound = '1';
+    }
+
+    if (!form.dataset.submitBound) {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const selectedAmount = Number(amountInput.value);
+            if (!Number.isInteger(selectedAmount) || selectedAmount <= 0) {
+                amountError.textContent = 'Please choose a preset or enter a whole amount greater than zero.';
+                amountError.classList.remove('hidden');
+                customAmountInput.focus();
+                return;
+            }
+            if (!paymentProviderKey) {
+                statusText.textContent = 'Online checkout is not configured in this environment yet.';
+                return;
+            }
+
+            const payload = {
+                donor_name: form.donor_name.value,
+                donor_email: form.donor_email.value,
+                amount: form.amount.value,
+                message: form.message.value,
+            };
+            donateButton.disabled = true;
+            donateButton.textContent = 'Preparing checkout...';
+            statusText.textContent = 'Starting secure checkout...';
+
+            try {
+                const response = await fetch('{{ url_for("api_initialize_donation") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const data = await response.json();
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.message || 'Could not start payment.');
+                }
+                if (!data.authorization_url) {
+                    throw new Error('The payment provider did not return a checkout link.');
+                }
+                window.location.href = data.authorization_url;
+            } catch (error) {
+                statusText.textContent = error.message;
+                donateButton.disabled = false;
+                donateButton.textContent = 'Donate';
+            }
+        });
+        form.dataset.submitBound = '1';
+    }
+}
+
+if (donateButton) {
+    donateButton.addEventListener('click', openDonationModal);
+}
+</script>
+<style>
+.amount-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 0.9rem;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #0f172a;
+    font-weight: 700;
+    transition: all 160ms ease;
+}
+
+.amount-chip:hover {
+    transform: translateY(-1px);
+    border-color: #ff6b35;
+    box-shadow: 0 8px 18px rgba(255, 107, 53, 0.12);
+}
+
+.amount-chip-active {
+    border-color: #ff6b35;
+    background: rgba(255, 107, 53, 0.1);
+    color: #003f87;
+    box-shadow: inset 0 0 0 1px rgba(255, 107, 53, 0.18);
+}
+
+.custom-amount-wrap {
+    border-radius: 1.25rem;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    padding: 1rem;
+    transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.custom-amount-wrap:focus-within,
+.custom-amount-wrap-active {
+    border-color: #ff6b35;
+    background: rgba(255, 107, 53, 0.05);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.custom-amount-field {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+}
+
+.custom-amount-currency {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #003f87;
+    font-size: 1.125rem;
+    font-weight: 800;
+}
+</style>
+{% endblock %}

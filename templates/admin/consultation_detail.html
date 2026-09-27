@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Consultation Detail | Revled Admin{% endblock %}
+{% block admin_heading %}Consultation Booking{% endblock %}
+
+{% block admin_content %}
+<section class="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <h2 class="text-3xl font-bold text-[#0A192F]">{{ booking['full_name'] }}</h2>
+        <div class="mt-6 space-y-4 text-sm text-slate-600">
+            <p><span class="font-semibold text-slate-900">Email:</span> {{ booking['email'] }}</p>
+            <p><span class="font-semibold text-slate-900">Phone:</span> {{ booking['phone'] }}</p>
+            <p><span class="font-semibold text-slate-900">Organisation:</span> {{ booking['organization'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Consultation type:</span> {{ booking['consultation_type'] }}</p>
+            <p><span class="font-semibold text-slate-900">Preferred date:</span> {{ booking['preferred_date'] or 'Flexible' }}</p>
+            <p><span class="font-semibold text-slate-900">Request:</span></p>
+            <p class="whitespace-pre-line">{{ booking['message'] }}</p>
+        </div>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <form method="post" class="space-y-6">
+            <div><label class="mb-2 block text-sm font-semibold text-slate-600">Status</label><select name="status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{% for status in ['new','contacted','scheduled','completed'] %}<option value="{{ status }}" {% if booking['status'] == status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></div>
+            <div><label class="mb-2 block text-sm font-semibold text-slate-600">Admin notes</label><textarea name="admin_notes" rows="10" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ booking['admin_notes'] or '' }}</textarea></div>
+            <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Save updates</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

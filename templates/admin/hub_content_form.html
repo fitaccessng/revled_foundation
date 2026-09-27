@@ -1,0 +1,128 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if item %}Edit{% else %}New{% endif %} Hub {{ config['label'] }} | Revled Admin{% endblock %}
+{% block admin_heading %}{% if item %}Edit{% else %}New{% endif %} Hub {{ config['label'] }}{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="mb-6 rounded-[1.5rem] bg-slate-50 p-5">
+        <p class="text-sm uppercase tracking-[0.3em] text-slate-400">{{ config['label'] }}</p>
+        <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Manage {{ config['singular'] }}</h2>
+        <p class="mt-2 text-sm text-slate-500">These records drive the member-facing hub pages and dashboard stats automatically.</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        <div class="grid gap-4 md:grid-cols-2">
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Title</label>
+                <input name="title" value="{{ form_data['title'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Slug</label>
+                <input name="slug" value="{{ form_data['slug'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">{{ config['meta_one_label'] }}</label>
+                <input name="meta_one" value="{{ form_data['meta_one'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">{{ config['meta_two_label'] }}</label>
+                <input name="meta_two" value="{{ form_data['meta_two'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Starts at</label>
+                <input name="starts_at" value="{{ form_data['starts_at'] }}" placeholder="2026-05-01 17:00:00" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Ends at / deadline</label>
+                <input name="ends_at" value="{{ form_data['ends_at'] }}" placeholder="2026-05-03 18:00:00" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Location / venue</label>
+                <input name="location" value="{{ form_data['location'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Status text</label>
+                <input name="status_text" value="{{ form_data['status_text'] }}" placeholder="Live next, In progress, Closing soon" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Badge text</label>
+                <input name="badge_text" value="{{ form_data['badge_text'] }}" placeholder="Featured, Paid, Weekly challenge" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Access tier</label>
+                <select name="access_tier" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                    <option value="ALL" {% if form_data['access_tier'] == 'ALL' %}selected{% endif %}>All members</option>
+                    <option value="ESSENTIAL" {% if form_data['access_tier'] == 'ESSENTIAL' %}selected{% endif %}>Essential only</option>
+                    <option value="FULL_ACCESS" {% if form_data['access_tier'] == 'FULL_ACCESS' %}selected{% endif %}>Full Access only</option>
+                </select>
+            </div>
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Visible user types</label>
+                <div class="grid gap-3 rounded-[1.5rem] border border-slate-200 p-4 md:grid-cols-3">
+                    <label class="flex items-center gap-2 text-sm font-medium text-slate-700">
+                        <input type="checkbox" name="user_types" value="ALL" {% if 'ALL' in form_data['selected_user_types'] %}checked{% endif %}>
+                        All user types
+                    </label>
+                    {% for code, label in hub_user_types.items() %}
+                    <label class="flex items-center gap-2 text-sm font-medium text-slate-700">
+                        <input type="checkbox" name="user_types" value="{{ code }}" {% if 'ALL' in form_data['selected_user_types'] or code in form_data['selected_user_types'] %}checked{% endif %}>
+                        {{ label }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Sort order</label>
+                <input name="sort_order" type="number" value="{{ form_data['sort_order'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">CTA label</label>
+                <input name="cta_label" value="{{ form_data['cta_label'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-600">CTA URL</label>
+                <input name="cta_url" value="{{ form_data['cta_url'] }}" placeholder="https://example.com or leave blank" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            </div>
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Published?</label>
+                <select name="is_published" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                    <option value="1" {% if (form_data['is_published']|string) == '1' %}selected{% endif %}>Published</option>
+                    <option value="0" {% if (form_data['is_published']|string) == '0' %}selected{% endif %}>Draft</option>
+                </select>
+            </div>
+            {% if content_type == 'resources' %}
+            <div class="md:col-span-2">
+                <label class="mb-2 block text-sm font-semibold text-slate-600">Hub file upload</label>
+                <input type="file" name="uploaded_file" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                <p class="mt-2 text-xs text-slate-500">Supported: PDF, image, video, DOC, DOCX, PPT, PPTX, ZIP. Uploaded hub files open inside a protected viewer with watermark overlays and no direct download button.</p>
+                {% if form_data['uploaded_file_name'] %}
+                <p class="mt-2 text-sm text-slate-600">Current file: {{ form_data['uploaded_file_name'] }}</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <label class="mb-2 block text-sm font-semibold text-slate-600">Summary</label>
+            <textarea name="summary" rows="3" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['summary'] }}</textarea>
+        </div>
+
+        <div>
+            <label class="mb-2 block text-sm font-semibold text-slate-600">Description</label>
+            <textarea name="description" rows="7" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['description'] }}</textarea>
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+            <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Save {{ config['singular'] }}</button>
+            <a href="{{ url_for('admin_hub_content_list', content_type=content_type) }}" class="rounded-full border border-slate-200 px-6 py-3 font-semibold text-slate-700">Back to {{ config['label'] }}</a>
+        </div>
+    </form>
+
+    {% if item %}
+    <form method="post" action="{{ url_for('admin_hub_content_delete', content_type=content_type, item_id=item['id']) }}" class="mt-6">
+        <button type="submit" class="rounded-full bg-rose-600 px-5 py-3 font-semibold text-white">Delete {{ config['singular'] }}</button>
+    </form>
+    {% endif %}
+</section>
+{% endblock %}

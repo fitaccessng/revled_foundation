@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}Programmes | Revled Foundation{% endblock %}
+{% block meta_description %}Explore Revled Foundation's Origin, Explorers, Catalyst, and Vanguard programmes for children and young people.{% endblock %}
+
+{% block content %}
+<div class="scroll-smooth">
+
+    <section class="relative pt-40 pb-24 px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_right,_rgba(249,115,22,0.18),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.14),_transparent_34%),linear-gradient(180deg,#FDFCF0_0%,#FFFFFF_100%)]"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10 reveal-on-scroll">
+            <h1 class="text-5xl md:text-7xl font-bold text-black mb-8 tracking-tight">Our Programmes</h1>
+            <p class="text-xl md:text-2xl text-black font-light leading-relaxed">
+                Our programmes are designed to support every stage of a child’s development — from <span class="text-orange-600 font-semibold italic">early learning</span> to <span class="text-black font-semibold">career readiness</span>.
+            </p>
+        </div>
+    </section>
+
+    <section class="px-6 pb-8">
+        <div class="max-w-6xl mx-auto rounded-[2rem] border border-orange-100 bg-white p-8 shadow-sm reveal-on-scroll">
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-orange-600 mb-3">Our Programmes</p>
+            <p class="text-lg leading-8 text-black">
+                Every Revled programme is designed around one purpose: equipping children and young people with the skills, confidence, experiences, and opportunities to thrive as they solve real challenges in their communities. From leadership and career readiness to entrepreneurship, innovation, and responsible resource use, our programmes prepare participants to build brighter futures for themselves and those around them.
+            </p>
+            <p class="mt-4 text-sm leading-7 text-slate-600">
+                Every Revled programme is designed using our Learn–Create–Innovate–Transform–Thrive approach, ensuring participants gain the skills, confidence, and opportunities to build meaningful futures while making a positive impact in their communities.
+            </p>
+            <p class="mt-4 inline-flex flex-wrap gap-2 text-[11px] font-bold uppercase tracking-[0.3em] text-slate-500">
+                <span class="rounded-full border border-orange-100 bg-white px-4 py-2 shadow-sm">Connect</span>
+                <span class="rounded-full border border-orange-100 bg-white px-4 py-2 shadow-sm">Reimagine</span>
+                <span class="rounded-full border border-orange-100 bg-white px-4 py-2 shadow-sm">Equip</span>
+                <span class="rounded-full border border-orange-100 bg-white px-4 py-2 shadow-sm">Apply</span>
+                <span class="rounded-full border border-orange-100 bg-white px-4 py-2 shadow-sm">Transform</span>
+                <span class="rounded-full border border-orange-100 bg-white px-4 py-2 shadow-sm">Elevate</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 rounded-[2rem] border border-orange-100 bg-[#FDFCF0] p-8 reveal-on-scroll">
+                <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                    <div class="max-w-2xl">
+                        <p class="text-xs font-bold uppercase tracking-[0.35em] text-orange-600 mb-3">The Revled Journey</p>
+                        <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">Choose the appropriate age group.</h2>
+                        <p class="text-black leading-relaxed">Our model supports every stage of growth, from early learning through career readiness. Select an age range below to jump straight to the right programme.</p>
+                    </div>
+                    <div class="w-full max-w-md">
+                        <label for="program-age-select" class="mb-3 block text-sm font-semibold text-black">Programme by age</label>
+                        <select id="program-age-select" class="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-black shadow-sm outline-none transition focus:border-orange-400">
+                            <option value="">Select an age group</option>
+                            <option value="roots">Revled Origin (Ages 0–8)</option>
+                            <option value="explorers">Revled Explorers (Ages 9–14)</option>
+                            <option value="catalyst">Revled Catalyst (Ages 14–17)</option>
+                            <option value="launchpad">Revled Vanguard (Ages 18–25)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                    {% for slug, item in contact_directory.programmes.items() %}
+                    <a href="{{ url_for('program_detail', program_slug=slug) }}" class="rounded-2xl border border-white bg-white px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:border-orange-200">
+                        <span class="block text-xs font-bold uppercase tracking-[0.25em] text-orange-600">{{ item.label }}</span>
+                        <span class="mt-2 block text-sm text-black">{{ item.email }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div id="roots" class="mb-32 reveal-on-scroll">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 lg:order-1">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="px-4 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-bold tracking-widest uppercase">Ages 0–8</span>
+                            <span class="text-black/20">|</span>
+                            <span class="text-emerald-600 italic font-serif">Where Learning Begins</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-6">Revled Origin</h2>
+                        <p class="text-lg text-black mb-8 font-light">Warm, playful, and imaginative. We focus on building the bedrock of intelligence and character during the most formative years.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                            <div class="flex gap-4">
+                                <div class="text-emerald-500 text-xl">🎨</div>
+                                <div>
+                                    <h4 class="font-bold text-black">Creative Content</h4>
+                                    <p class="text-sm text-black">Educational colouring books and audio stories.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="text-emerald-500 text-xl">🤖</div>
+                                <div>
+                                    <h4 class="font-bold text-black">Animated Learning</h4>
+                                    <p class="text-sm text-black">Engaging English, Maths, and Science visuals.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="text-emerald-500 text-xl">❤️</div>
+                                <div>
+                                    <h4 class="font-bold text-black">Character</h4>
+                                    <p class="text-sm text-black">Moral and emotional development guidance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ url_for('program_detail', program_slug='roots') }}" class="inline-block px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-emerald-600 transition-colors">See Full Page</a>
+                            <a href="https://www.youtube.com/channel/UCq5_9_lchriuRnKLCFviLUg" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-4 border border-black text-black rounded-full font-bold hover:border-emerald-500 hover:text-emerald-600 transition-all">Watch Free Videos</a>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2 relative group">
+                        <div class="absolute -inset-4 bg-emerald-100 rounded-[3rem] -rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
+                        <img src="{{ url_for('static', filename='images/13.png') }}" class="relative z-10 rounded-[2.5rem] w-full h-[500px] object-cover object-top shadow-2xl" alt="Young children in an early learning environment">
+                    </div>
+                </div>
+            </div>
+
+            <div id="explorers" class="mb-32 reveal-on-scroll">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="relative group order-1">
+                        <div class="absolute -inset-4 bg-blue-100 rounded-[3rem] rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
+                        <img src="{{ url_for('static', filename='images/2.png') }}" class="relative z-10 rounded-[2.5rem] w-full h-[500px] object-cover object-top shadow-2xl" alt="Children exploring digital learning together">
+                    </div>
+                    <div class="order-2">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold tracking-widest uppercase">Ages 9–14</span>
+                            <span class="text-black/20">|</span>
+                            <span class="text-blue-600 italic font-serif">Discover Who You Are</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-6">Revled Explorers</h2>
+                        <p class="text-lg text-black mb-8 font-light">Curious and expressive. This stage is about identity-building and finding one's unique voice in a wholesome environment.</p>
+                        
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-center gap-3 text-black">
+                                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs">✓</span>
+                                <span>Wholesome, family-oriented content</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-black">
+                                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs">✓</span>
+                                <span>Life skills & confidence building</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-black">
+                                <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs">✓</span>
+                                <span>Art, storytelling, and problem-solving</span>
+                            </li>
+                        </ul>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ url_for('program_detail', program_slug='explorers') }}" class="inline-block px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-full font-bold hover:bg-blue-600 hover:text-white transition-all">See Full Page</a>
+                            <a href="{{ url_for('program_register', program_slug='explorers') }}" class="inline-block px-8 py-4 bg-black text-black rounded-full font-bold hover:bg-blue-600 transition-all text-center">Enrol Your Child</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="catalyst" class="mb-32 reveal-on-scroll">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 lg:order-1">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="px-4 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-bold tracking-widest uppercase">Ages 14–17</span>
+                            <span class="text-black/20">|</span>
+                            <span class="text-orange-600 italic font-serif">Turning Potential into Direction</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-6">Revled Catalyst</h2>
+                        <p class="text-lg text-black mb-8 font-light">Energetic and empowering. We bridge the gap between teenage curiosity and professional ambition.</p>
+                        
+                        <div class="bg-orange-50 p-8 rounded-3xl border border-orange-100 mb-10">
+                            <h4 class="font-bold text-black mb-4">Core Focus:</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-black">
+                                <div class="flex items-center gap-2">⚡ Age-appropriate Internships</div>
+                                <div class="flex items-center gap-2">⚡ Mentorship Exposure</div>
+                                <div class="flex items-center gap-2">⚡ Practical Skill Workshops</div>
+                                <div class="flex items-center gap-2">⚡ Career Path Alignment</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ url_for('program_detail', program_slug='catalyst') }}" class="inline-block px-8 py-4 border border-orange-200 text-orange-700 rounded-full font-bold hover:bg-orange-50 transition-all">See Full Page</a>
+                            <a href="{{ url_for('program_register', program_slug='catalyst') }}" class="inline-block px-8 py-4 bg-orange-600 text-white rounded-full font-bold hover:shadow-lg transition-all text-center">Apply for Cohort</a>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2 relative group">
+                        <div class="absolute -inset-4 bg-orange-100 rounded-[3rem] -rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
+                        <img src="{{ url_for('static', filename='images/1.png') }}" class="relative z-10 rounded-[2.5rem] w-full h-[500px] object-cover object-top shadow-2xl" alt="Teen learners in a classroom setting">
+                    </div>
+                </div>
+            </div>
+
+            <div id="launchpad" class="reveal-on-scroll">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="relative group order-1">
+                        <div class="absolute -inset-4 bg-purple-100 rounded-[3rem] rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
+                        <img src="{{ url_for('static', filename='images/11.png') }}" class="relative z-10 rounded-[2.5rem] w-full h-[500px] object-cover object-top shadow-2xl" alt="Young adults preparing for the future together">
+                    </div>
+                    <div class="order-2">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="px-4 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-bold tracking-widest uppercase">Ages 18–25</span>
+                            <span class="text-black/20">|</span>
+                            <span class="text-purple-600 italic font-serif">From Learning to Earning</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-6">Revled Vanguard</h2>
+                        <p class="text-lg text-black mb-8 font-light">Professional, ambitious, and future-focused. Preparing Nigeria's youth for economic independence and global excellence.</p>
+                        
+                        <div class="mb-10 rounded-[2rem] border border-purple-100 bg-white p-6 shadow-sm">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-purple-600">Every programme contributes to</p>
+                            <ul class="mt-4 grid gap-3 text-sm text-black sm:grid-cols-2">
+                                <li class="flex items-start gap-3 rounded-2xl bg-purple-50 px-4 py-3 font-semibold">
+                                    <span class="text-purple-600">✓</span>
+                                    <span>Future-ready skills</span>
+                                </li>
+                                <li class="flex items-start gap-3 rounded-2xl bg-purple-50 px-4 py-3 font-semibold">
+                                    <span class="text-purple-600">✓</span>
+                                    <span>Leadership development</span>
+                                </li>
+                                <li class="flex items-start gap-3 rounded-2xl bg-purple-50 px-4 py-3 font-semibold">
+                                    <span class="text-purple-600">✓</span>
+                                    <span>Enterprise &amp; employability</span>
+                                </li>
+                                <li class="flex items-start gap-3 rounded-2xl bg-purple-50 px-4 py-3 font-semibold">
+                                    <span class="text-purple-600">✓</span>
+                                    <span>Community impact</span>
+                                </li>
+                                <li class="flex items-start gap-3 rounded-2xl bg-purple-50 px-4 py-3 font-semibold sm:col-span-2">
+                                    <span class="text-purple-600">✓</span>
+                                    <span>Sustainable thinking</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ url_for('program_detail', program_slug='launchpad') }}" class="inline-block px-8 py-4 border border-purple-200 text-purple-700 rounded-full font-bold hover:bg-purple-50 transition-all">See Full Page</a>
+                            <a href="{{ url_for('vanguard_hub_signup') }}" class="inline-block px-8 py-4 bg-purple-600 text-white rounded-full font-bold hover:shadow-xl transition-all">Join Free</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="px-6 pb-4">
+        <div class="max-w-6xl mx-auto rounded-[2.5rem] border border-orange-100 bg-[#FDFCF0] p-8 md:p-10 shadow-sm reveal-on-scroll">
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-orange-600 mb-3">Introduce ReCreate</p>
+            <p class="text-lg leading-8 text-black">
+                We encourage participants to see value where others see waste. By repurposing donated technology, fabrics, furniture, and other materials into learning tools, marketable products, and community assets, participants develop practical skills while contributing to cleaner, stronger, and more resourceful communities.
+            </p>
+            <p class="mt-4 text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+                Connect → Reimagine → Equip → Apply → Transform → Elevate
+            </p>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-black">
+        <div class="max-w-4xl mx-auto text-center reveal-on-scroll">
+            <h2 class="text-4xl font-bold text-white mb-6 tracking-tight">Which Programme Is Right for You?</h2>
+            <p class="text-lg text-black mb-10 font-light leading-relaxed">
+                Whether you're a parent starting the journey or a young adult looking for a career catalyst, we are here to support your growth.
+            </p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="{{ url_for('donate') }}" class="bg-orange-600 text-white px-10 py-4 rounded-full font-bold hover:bg-orange-700 transition-all">Donate</a>
+                <a href="{{ url_for('donate') }}" class="bg-white/10 text-white border border-white/20 px-10 py-4 rounded-full font-bold hover:bg-white hover:text-black transition-all">Support Our Programmes</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<style>
+    .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ageSelect = document.getElementById('program-age-select');
+        if (ageSelect) {
+            ageSelect.addEventListener('change', (event) => {
+                const selected = event.target.value;
+                if (selected) {
+                    const target = document.getElementById(selected);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    });
+</script>
+
+{% endblock %}

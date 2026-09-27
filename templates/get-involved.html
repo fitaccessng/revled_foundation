@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="pt-32 pb-20 px-6 bg-soft-cream">
+    <div class="max-w-6xl mx-auto text-center animate-fade-in-up">
+        <span class="inline-flex rounded-full bg-white px-5 py-2 text-xs font-bold uppercase tracking-[0.32em] text-warm-orange shadow-sm">Support Revled</span>
+        <h1 class="hero-heading text-deep-blue mt-6 mb-6">How You Can Support Revled</h1>
+        <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+            Join us in equipping children and young people with the tools, support, and opportunities they need to thrive.
+        </p>
+    </div>
+</section>
+
+<section class="section-padding px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card hover-lift fade-in-section animation-delay-1">
+                <div class="text-5xl mb-4">🏢</div>
+                <h3 class="text-2xl font-bold text-warm-orange mb-4">Corporate Partnership</h3>
+                <p class="text-gray-700 mb-6">
+                    Partner with Revled to sponsor cohorts, expand access, and create meaningful pathways through funding, staff volunteering, and industry exposure.
+                </p>
+                <ul class="space-y-2 text-gray-700 text-sm mb-8">
+                    <li>✓ Sponsor a cohort</li>
+                    <li>✓ Skill-based workshops</li>
+                    <li>✓ Internship partnerships</li>
+                    <li>✓ Impact reporting and visibility</li>
+                </ul>
+                <a href="{{ url_for('programme_enquiry', program_slug='catalyst', enquiry_type='sponsor-cohort') }}" class="btn-primary">Partner With Us</a>
+            </div>
+
+            <div class="card hover-lift fade-in-section animation-delay-2">
+                <div class="text-5xl mb-4">❤️</div>
+                <h3 class="text-2xl font-bold text-warm-orange mb-4">Individual Giving</h3>
+                <p class="text-gray-700 mb-6">
+                    Your support helps us fund programme delivery, provide family resources, and subsidise access for learners who need it most.
+                </p>
+                <ul class="space-y-2 text-gray-700 text-sm mb-8">
+                    <li>✓ One-time donation</li>
+                    <li>✓ Monthly giving</li>
+                    <li>✓ Scholarship sponsorship</li>
+                    <li>✓ Gift matching</li>
+                </ul>
+                <a href="{{ url_for('donate') }}" class="btn-primary">Donate Now</a>
+            </div>
+
+            <div class="card hover-lift fade-in-section animation-delay-3">
+                <div class="text-5xl mb-4">🤝</div>
+                <h3 class="text-2xl font-bold text-warm-orange mb-4">Mentor & Volunteer</h3>
+                <p class="text-gray-700 mb-6">
+                    Support our learners by sharing your time and expertise through mentoring, facilitation, community activation, or advisory support.
+                </p>
+                <ul class="space-y-2 text-gray-700 text-sm mb-8">
+                    <li>✓ One-on-one mentoring</li>
+                    <li>✓ Workshop facilitation</li>
+                    <li>✓ Community activation</li>
+                    <li>✓ Advisory support</li>
+                </ul>
+                <a href="{{ url_for('contact') }}" class="btn-primary">Become a Volunteer</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center rounded-[2.5rem] border border-orange-100 bg-[#FDFCF0] p-8 md:p-12 shadow-sm">
+            <div class="fade-in-section">
+                <p class="text-xs font-bold uppercase tracking-[0.35em] text-orange-600 mb-3">Give Resources New Purpose</p>
+                <h2 class="text-4xl font-bold text-deep-blue mb-6">Donate items your company no longer needs.</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Companies can donate useful resources to Revled instead of throwing them away. We turn them into learning tools, practical materials, and community assets that keep value in circulation.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    Instead of throwing them away, send items that can support children, young people, and community projects across our programmes.
+                </p>
+            </div>
+            <div class="fade-in-section">
+                <div class="rounded-[2rem] bg-white p-6 md:p-8 shadow-sm">
+                    <h3 class="text-xl font-bold text-warm-orange mb-4">We welcome donations of</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700">
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Laptops</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Phones</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Tablets</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Furniture</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Office equipment</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Fabrics</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Event materials</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3">Books</div>
+                        <div class="rounded-2xl bg-soft-cream px-4 py-3 sm:col-span-2">Tools</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding px-6 bg-soft-cream">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="fade-in-section">
+            <h2 class="text-4xl font-bold text-deep-blue mb-6">Partner With Schools</h2>
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                We collaborate with schools to bring practical skills, personal growth, and real-world learning into students’ educational experience.
+            </p>
+
+            <h4 class="font-bold text-deep-blue mb-4">Partnership Options:</h4>
+            <ul class="space-y-3 text-gray-700 mb-8">
+                <li class="flex gap-3"><span class="text-warm-orange">✓</span><span>On-site programme delivery</span></li>
+                <li class="flex gap-3"><span class="text-warm-orange">✓</span><span>Teacher development workshops</span></li>
+                <li class="flex gap-3"><span class="text-warm-orange">✓</span><span>Student skills programmes</span></li>
+                <li class="flex gap-3"><span class="text-warm-orange">✓</span><span>Parent involvement sessions</span></li>
+            </ul>
+
+            <a href="{{ url_for('programme_enquiry', program_slug='explorers', enquiry_type='school-partnership') }}" class="btn-primary">Bring Revled to Your School</a>
+        </div>
+
+        <div class="bg-gradient-blue rounded-3xl min-h-[340px] flex items-center justify-center fade-in-section">
+            <div class="text-center text-black px-10">
+                <div class="text-7xl mb-5">🎓</div>
+                <p class="text-2xl font-bold">School Partnerships</p>
+                <p class="mt-3 text-black">Structured learning, personal growth, and practical exposure for students and families.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-in-section">
+            <h2 class="text-4xl font-bold text-deep-blue mb-4">Sponsorship Opportunities</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto">Choose a giving level that helps more children and young people access Revled programmes.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card hover-lift fade-in-section animation-delay-1 border-2 border-gray-100">
+                <h3 class="text-2xl font-bold text-warm-orange mb-4">Supporter</h3>
+                <div class="text-4xl font-bold text-deep-blue mb-2">₦10,000</div>
+                <p class="text-gray-700 mb-6 text-sm">One-time or monthly</p>
+                <p class="text-gray-700 mb-6 text-sm">Support the essentials that help our programmes run effectively.</p>
+                <ul class="space-y-3 text-gray-700 text-sm mb-8">
+                    <li>✓ Programme materials</li>
+                    <li>✓ Learning resources</li>
+                    <li>✓ Impact updates</li>
+                    <li>✓ Donation acknowledgement</li>
+                </ul>
+                <a href="{{ url_for('donate') }}" class="btn-primary w-full text-center">Sponsor Now</a>
+            </div>
+
+            <div class="card hover-lift fade-in-section animation-delay-2 border-2 border-warm-orange relative">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-warm-orange px-4 py-1 text-sm font-bold text-white">
+                    Most Popular
+                </div>
+                <h3 class="text-2xl font-bold text-warm-orange mb-4 pt-4">Champion</h3>
+                <div class="text-4xl font-bold text-deep-blue mb-2">₦50,000</div>
+                <p class="text-gray-700 mb-6 text-sm">One-time or monthly</p>
+                <p class="text-gray-700 mb-6 text-sm">Help expand access by supporting programme delivery and subsidised student places.</p>
+                <ul class="space-y-3 text-gray-700 text-sm mb-8">
+                    <li>✓ Everything in Supporter, plus</li>
+                    <li>✓ Subsidised student places</li>
+                    <li>✓ Quarterly impact updates</li>
+                    <li>✓ Supporter recognition</li>
+                </ul>
+                <a href="{{ url_for('donate') }}" class="btn-primary w-full text-center">Sponsor Now</a>
+            </div>
+
+            <div class="card hover-lift fade-in-section animation-delay-3 border-2 border-gray-100">
+                <h3 class="text-2xl font-bold text-warm-orange mb-4">Visionary</h3>
+                <div class="text-4xl font-bold text-deep-blue mb-2">₦100,000+</div>
+                <p class="text-gray-700 mb-6 text-sm">One-time or monthly</p>
+                <p class="text-gray-700 mb-6 text-sm">Make a deeper investment in Revled’s work and help us reach more learners, families, and communities.</p>
+                <ul class="space-y-3 text-gray-700 text-sm mb-8">
+                    <li>✓ Everything in Champion, plus</li>
+                    <li>✓ Mentorship engagement opportunities</li>
+                    <li>✓ Detailed impact reporting</li>
+                    <li>✓ Partnership visibility</li>
+                </ul>
+                <a href="{{ url_for('donate') }}" class="btn-primary w-full text-center">Sponsor Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding px-6 bg-gradient-blue">
+    <div class="max-w-4xl mx-auto text-center text-white fade-in-section">
+        <h2 class="text-4xl font-bold mb-6">Ready to support the next generation?</h2>
+        <p class="text-xl mb-8">Partner, donate, volunteer, or bring Revled into your school community.</p>
+        <a href="{{ url_for('donate') }}" class="btn-primary">Get In Touch</a>
+    </div>
+</section>
+{% endblock %}

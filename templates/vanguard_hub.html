@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Vanguard Hub Membership | Revled Foundation{% endblock %}
+{% block meta_description %}Join the Revled Vanguard Hub for free and access sessions, mentorship, resources, opportunities, and the Vanguard community.{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden bg-soft-cream px-6 pb-20 pt-32">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,107,53,0.16),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(0,63,135,0.12),_transparent_32%)]"></div>
+    <div class="relative mx-auto max-w-6xl text-center">
+        <span class="inline-flex rounded-full bg-white px-5 py-2 text-xs font-bold uppercase tracking-[0.32em] text-warm-orange shadow-sm">Vanguard Hub</span>
+        <h1 class="hero-heading text-deep-blue mt-6 mb-6">Helping young people aged 19–25 launch successful careers</h1>
+        <p class="mx-auto max-w-3xl text-xl leading-8 text-gray-700">
+            Join Vanguard for free and access the community, sessions, mentorship, resources, and opportunities.
+        </p>
+    </div>
+</section>
+
+<section class="section-padding bg-white px-6">
+    <div class="mx-auto max-w-7xl">
+        <div class="mb-10 rounded-[2rem] border border-orange-100 bg-[#FDFCF0] p-8 shadow-sm">
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-orange-600">Free Vanguard access</p>
+                <p class="mt-4 text-lg leading-8 text-gray-700">
+                Vanguard access is currently free. No card setup or payment is required.
+            </p>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-2">
+            <div class="card hover-lift">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">ENTREPRENEUR</p>
+                <h2 class="mt-3 text-3xl font-black text-deep-blue">Entrepreneurial Track</h2>
+                <p class="mt-2 text-sm font-semibold text-slate-500">For founders and builders developing ideas</p>
+                <ul class="mt-6 space-y-2 text-gray-700">
+                    <li>Access to the community platform</li>
+                    <li>Monthly career & entrepreneurship newsletter</li>
+                    <li>Opportunity alerts and resources library</li>
+                    <li>Selected webinar access</li>
+                    <li>Support for idea validation and small business basics</li>
+                </ul>
+            </div>
+            <div class="card hover-lift border-2 border-warm-orange">
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-warm-orange">PROFESSIONAL</p>
+                <h2 class="mt-3 text-3xl font-black text-deep-blue">Professional Track</h2>
+                <p class="mt-2 text-sm font-semibold text-slate-500">For professionals seeking career acceleration and placements</p>
+                <ul class="mt-6 space-y-2 text-gray-700">
+                    <li>Everything in Entrepreneur, plus</li>
+                    <li>Career workshops and employer insight sessions</li>
+                    <li>Priority internship matching and introductions</li>
+                    <li>CV & LinkedIn review, interview prep</li>
+                    <li>Small-group mentoring and coaching clinics</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+            <div class="card hover-lift">
+                <h2 class="text-3xl font-bold text-deep-blue">How free access works</h2>
+                <p class="mt-4 leading-8 text-gray-700">Create your account, choose your track, and start using the Vanguard Hub immediately.</p>
+                <p class="mt-4 leading-8 text-gray-700">Both tracks include sessions, mentorship, and the Vanguard community, shaped around the track you select.</p>
+                <p class="mt-4 leading-8 text-gray-700">Any future membership changes will be communicated clearly before they affect your access.</p>
+            </div>
+            <div class="card hover-lift">
+                <h2 class="text-3xl font-bold text-deep-blue">Join the Hub</h2>
+                <p class="mt-4 leading-8 text-gray-700">Use the signup flow to start your free Vanguard access immediately.</p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <a href="/vanguard-hub/signup" class="btn-primary">Join for free</a>
+                    <a href="mailto:info@revledfoundation.org" class="btn-secondary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

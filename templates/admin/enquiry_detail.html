@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Enquiry Detail | Revled Admin{% endblock %}
+{% block admin_heading %}Enquiry Detail{% endblock %}
+
+{% block admin_content %}
+<section class="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <h2 class="text-3xl font-bold text-[#0A192F]">{{ enquiry['contact_name'] }}</h2>
+        <div class="mt-6 space-y-4 text-sm text-slate-600">
+            <p><span class="font-semibold text-slate-900">Type:</span> {{ enquiry['enquiry_type'] }}</p>
+            <p><span class="font-semibold text-slate-900">Programme:</span> {{ enquiry['program_name'] or 'General' }}</p>
+            <p><span class="font-semibold text-slate-900">Email:</span> {{ enquiry['email'] }}</p>
+            <p><span class="font-semibold text-slate-900">Phone:</span> {{ enquiry['phone'] }}</p>
+            <p><span class="font-semibold text-slate-900">Organisation:</span> {{ enquiry['organization'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Child name:</span> {{ enquiry['child_name'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Child age:</span> {{ enquiry['child_age'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Location:</span> {{ enquiry['location'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Preferred term:</span> {{ enquiry['preferred_term'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Budget:</span> {{ enquiry['budget_range'] or '—' }}</p>
+            <p><span class="font-semibold text-slate-900">Message:</span></p>
+            <p class="whitespace-pre-line">{{ enquiry['message'] }}</p>
+        </div>
+    </div>
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm">
+        <form method="post" class="space-y-6">
+            <div><label class="mb-2 block text-sm font-semibold text-slate-600">Status</label><select name="status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{% for status in ['new','contacted','proposal-sent','closed'] %}<option value="{{ status }}" {% if enquiry['status'] == status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></div>
+            <div><label class="mb-2 block text-sm font-semibold text-slate-600">Admin notes</label><textarea name="admin_notes" rows="10" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ enquiry['admin_notes'] or '' }}</textarea></div>
+            <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Save updates</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

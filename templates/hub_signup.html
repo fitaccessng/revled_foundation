@@ -1,0 +1,395 @@
+{% extends "hub_auth_base.html" %}
+
+{% block title %}Create Account | Revled Hub{% endblock %}
+
+{% block auth_story %}
+<!-- Empty story block since we are completely moving away from the split layout -->
+{% endblock %}
+
+{% block auth_panel %}
+<style>
+  /* -------------------------------------------------------------
+     COMPLETE REDESIGN: Centered Modern Glass Card Layout
+     ------------------------------------------------------------- */
+  :root {
+    --primary-emerald: "white";
+    --primary-emerald-hover: #1f4d3d;
+    --gold-accent: #b98b4d;
+    --gold-light: #fdf8f0;
+    --bg-page: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --radius-xl: 20px;
+    --radius-md: 10px;
+    --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Reset layout context to center everything nicely */
+  body {
+    background: 'white' !important;
+    color: var(--text-main) !important;
+    font-family: 'Manrope', sans-serif !important;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-wrapper {
+    background: transparent !important;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+  }
+
+  /* Override the old story panel and make panel take center stage */
+  .auth-story {
+    display: none !important;
+  }
+
+  .auth-panel {
+    background: var(--card-bg) !important;
+    color: var(--text-main) !important;
+    padding: 2.75rem 2.5rem !important;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 460px;
+    box-sizing: border-box;
+    position: relative;
+    margin: auto;
+  }
+
+  /* Brand Header inside Card */
+  .auth-brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+  }
+
+  .brand-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .panel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold-accent) !important;
+    background: var(--gold-light) !important;
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(185, 139, 77, 0.2);
+  }
+
+  .panel-title {
+    font-family: 'Cormorant Garamond', serif !important;
+    color: var(--text-main) !important;
+    font-size: 2.2rem !important;
+    font-weight: 600 !important;
+    line-height: 1.15 !important;
+    margin-bottom: 0.35rem;
+  }
+
+  .panel-text {
+    color: var(--text-muted) !important;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Form Elements */
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .auth-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .auth-form label {
+    color: #334155 !important;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .auth-form input,  
+  .auth-form select {
+    background-color: #f8fafc !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.75rem 0.95rem !important;
+    font-size: 0.9rem !important;
+    outline: none !important;
+    font-family: 'Manrope', sans-serif !important;
+    transition: var(--transition);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .auth-form input:hover,  
+  .auth-form select:hover {
+    border-color: #cbd5e1 !important;
+  }
+
+  .auth-form input:focus,  
+  .auth-form select:focus {
+    background-color: #ffffff !important;
+    border-color: var(--primary-emerald) !important;
+    box-shadow: 0 0 0 4px rgba(40, 98, 77, 0.1) !important;
+  }
+
+  .auth-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.95rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
+  }
+
+  /* Password Toggle Button */
+  .password-toggle {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+
+  .password-toggle:hover {
+    color: var(--text-main);
+  }
+
+  /* Submit Button */
+  .submit-button {
+    background: var(--primary-emerald) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.8rem 1.25rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 0.4rem;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(40, 98, 77, 0.15);
+  }
+
+  .submit-button:hover {
+    background: var(--primary-emerald-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(40, 98, 77, 0.25);
+  }
+
+  .submit-button:active {
+    transform: translateY(0);
+  }
+
+  /* Flash Alerts */
+  .flash-stack {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .flash {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .flash.success {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+  }
+
+  .flash.error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+
+  /* Footer Links */
+  .meta-links {
+    margin-top: 1.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.15rem;
+  }
+
+  .meta-links a {
+    color: var(--text-muted) !important;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .meta-links a:hover {
+    color: var(--primary-emerald) !important;
+  }
+
+  /* Responsive screen adjustments */
+  @media (max-width: 480px) {
+    .auth-panel {
+      padding: 2rem 1.25rem !important;
+      box-shadow: none;
+      background: transparent !important;
+    }
+    body {
+      background: var(--card-bg) !important;
+    }
+  }
+</style>
+
+<div class="auth-panel">
+  <div class="auth-brand-header">
+    <a href="{{ url_for('home') }}" class="brand-logo-text">
+      <i class="fa-solid fa-cube" style="color: var(--primary-emerald);"></i> Revled Hub
+    </a>
+    <span class="panel-badge">
+      <i class="fa-solid fa-shield-halved"></i> Vanguard
+    </span>
+  </div>
+
+  <h2 class="panel-title">Create Account</h2>
+  <p class="panel-text">Select the user type that fits your direction to begin.</p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-stack">
+      {% for category, message in messages %}
+      <div class="flash {{ 'success' if category == 'success' else 'error' }}">
+        <i class="fa-solid {{ 'fa-circle-check' if category == 'success' else 'fa-circle-exclamation' }}"></i>
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post" class="auth-form">
+    <div class="field">
+      <label for="full_name">Full Name</label>
+      <div class="input-container">
+        <input id="full_name" name="full_name" value="{{ form_data['full_name'] }}" placeholder="Jane Doe" required>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label for="email">Email Address</label>
+      <div class="input-container">
+        <input id="email" name="email" type="email" value="{{ form_data['email'] }}" placeholder="jane@example.com" required>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label for="user_type">User Type</label>
+      <div class="input-container">
+        <select id="user_type" name="user_type" required>
+          {% for code, label in user_types.items() %}
+          <option value="{{ code }}" {% if form_data['user_type'] == code %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="input-container">
+        <input id="password" name="password" type="password" placeholder="••••••••" required>
+        <button type="button" class="password-toggle" id="togglePassword" aria-label="Toggle password visibility">
+          <i class="fa-solid fa-eye" id="toggleIcon"></i>
+        </button>
+      </div>
+    </div>
+    
+    <button class="submit-button" type="submit">Create My Account</button>
+  </form>
+
+  <div class="meta-links">
+    <a href="{{ url_for('hub_login') }}">Sign in instead</a>
+    <a href="{{ url_for('home') }}">← Return home</a>
+  </div>
+</div>
+
+<script>
+  // Password visibility toggle script
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    if (toggleBtn && passwordInput && toggleIcon) {
+      toggleBtn.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        if (type === 'text') {
+          toggleIcon.classList.remove('fa-eye');
+          toggleIcon.classList.add('fa-eye-slash');
+        } else {
+          toggleIcon.classList.remove('fa-eye-slash');
+          toggleIcon.classList.add('fa-eye');
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

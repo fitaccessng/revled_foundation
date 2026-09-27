@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Resources | Revled Admin{% endblock %}
+{% block admin_heading %}Resource Library{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Content</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">All resources</h2>
+        </div>
+        <a href="{{ url_for('admin_resource_new') }}" class="inline-flex rounded-full bg-orange-500 px-5 py-3 font-semibold text-white">Add resource</a>
+    </div>
+    <div class="mt-8 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Title</th>
+                    <th class="pb-3 pr-4">Type</th>
+                    <th class="pb-3 pr-4">Audience</th>
+                    <th class="pb-3 pr-4">Price</th>
+                    <th class="pb-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for resource in resources %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ resource['title'] }}</p>
+                        <p class="text-xs text-slate-500">/{{ resource['slug'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ resource['resource_type'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ resource['audience'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{% if resource['price_naira'] %}₦{{ "{:,}".format(resource['price_naira']) }}{% else %}Free{% endif %}</td>
+                    <td class="py-4"><a href="{{ url_for('admin_resource_edit', resource_id=resource['id']) }}" class="font-semibold text-[#0A192F]">Edit</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="py-8 text-slate-500">No resources yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,689 @@
+{% extends "hub_base.html" %}
+
+{% block title %}Vanguard Community | Revled Hub{% endblock %}
+{% block page_title %}Vanguard Community{% endblock %}
+
+{% block extra_styles %}
+<style>
+  :root {
+    --bg-canvas: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #eaecf0;
+    --border-hover: #d0d5dd;
+    
+    --text-primary: #101828;
+    --text-secondary: #475467;
+    --text-tertiary: #98a2b3;
+    
+    --brand-primary: #4f46e5;
+    --brand-primary-hover: #4338ca;
+    --brand-subtle: #eef2ff;
+    
+    --mod-pill-bg: #fef3c7;
+    --mod-pill-text: #92400e;
+    --mod-pill-border: #fde68a;
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --shadow-card: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+    --shadow-hover: 0 4px 12px -2px rgba(16, 24, 40, 0.08);
+    --shadow-popover: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  body, main, .dashboard-community {
+    background: #ffffff !important;
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  .dashboard-community {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* Executive Header Bar */
+  .dash-header {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .dash-header__info h1 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .dash-header__info p {
+    font-size: 0.825rem;
+    color: var(--text-secondary);
+    margin: 0.2rem 0 0 0;
+  }
+
+  .dash-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .icon-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .icon-btn:hover {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    background: var(--brand-subtle);
+  }
+
+  /* Search Drawer */
+  .community-search {
+    display: none;
+    padding: 0.85rem 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .community-search.is-open {
+    display: block;
+  }
+
+  .community-search input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.85rem;
+    color: var(--text-primary);
+    background: var(--bg-canvas);
+    font: inherit;
+    font-size: 0.85rem;
+    outline: none;
+    transition: var(--transition);
+  }
+
+  .community-search input:focus {
+    background: #ffffff;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  /* Dashboard 2-Column Grid Layout */
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* Quick Composer Entry Trigger */
+  .composer-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+  }
+
+  .composer-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .composer-trigger {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-canvas);
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: var(--transition);
+  }
+
+  .composer-trigger:hover {
+    border-color: var(--brand-primary);
+    color: var(--text-secondary);
+    background: #ffffff;
+  }
+
+  /* Form Composer Active Box */
+  .composer {
+    display: none;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-canvas);
+  }
+
+  .composer.is-open {
+    display: block;
+  }
+
+  .composer textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    background: #ffffff;
+    font: inherit;
+    outline: none;
+    font-size: 0.875rem;
+    transition: var(--transition);
+  }
+
+  .composer textarea:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  .composer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+  }
+
+  .character-count {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .send-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 99px;
+    padding: 0.55rem 1.15rem;
+    color: #ffffff;
+    background: var(--brand-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .send-button:hover {
+    background: var(--brand-primary-hover);
+  }
+
+  .send-button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+  }
+
+  /* Discussion Cards List */
+  .feed {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 280px;
+  }
+
+  .post {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+  }
+
+  .post:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .post-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 2.5rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background: var(--brand-primary);
+    font-size: 0.775rem;
+    font-weight: 700;
+  }
+
+  .author-name {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .timestamp {
+    margin-left: 0.5rem;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .moderator-badge {
+    margin-left: 0.5rem;
+    color: var(--mod-pill-text);
+    border: 1px solid var(--mod-pill-border);
+    background: var(--mod-pill-bg);
+    border-radius: 99px;
+    padding: 0.1rem 0.45rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+  }
+
+  /* Popover Context Menu */
+  .post-menu {
+    position: relative;
+    margin-left: auto;
+  }
+
+  .post-menu > button {
+    padding: 0.35rem 0.5rem;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+  }
+
+  .post-menu > button:hover {
+    color: var(--text-primary);
+    background: var(--bg-canvas);
+  }
+
+  .post-menu-list {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 20;
+    display: none;
+    min-width: 140px;
+    padding: 0.35rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    box-shadow: var(--shadow-popover);
+  }
+
+  .post-menu-list.is-open {
+    display: block;
+  }
+
+  .post-menu-list button {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-primary);
+    border: none;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    transition: var(--transition);
+  }
+
+  .post-menu-list button:hover {
+    background: var(--brand-subtle);
+    color: var(--brand-primary);
+  }
+
+  .post-content {
+    margin: 0.85rem 0 1rem 3.25rem;
+    color: var(--text-primary);
+    font-size: 0.925rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .post-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-left: 3.25rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--bg-canvas);
+  }
+
+  .post-actions a {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: var(--transition);
+  }
+
+  .post-actions a:hover {
+    color: var(--brand-primary);
+  }
+
+  /* Sidebar Dashboard Widgets */
+  .dash-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .sidebar-widget {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .widget-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+
+  .user-status-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--bg-canvas);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+  }
+
+  .user-status-card .name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .user-status-card .role {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  /* Empty/Loading/Error States */
+  .empty-state, .loading-state, .error-state {
+    padding: 3rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  .error-state button {
+    margin-top: 0.75rem;
+    color: var(--brand-primary);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    .dash-grid {
+      grid-template-columns: 1fr;
+    }
+    .dash-sidebar {
+      position: static;
+    }
+    .post-content, .post-actions {
+      margin-left: 0;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block hub_content %}
+<div class="dashboard-community" id="communityApp" data-current-user="{{ member['id'] }}">
+  
+  <!-- Modern Executive Header -->
+  <header class="dash-header">
+    <div class="dash-header__info">
+      <h1>Vanguard Network</h1>
+      <p>Collaborative insights, community discussions, and updates.</p>
+    </div>
+    <div class="dash-header__actions">
+      <button type="button" class="icon-btn" id="searchToggle" aria-label="Search community" title="Search community">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Search Panel Drawer -->
+  <div class="community-search" id="searchPanel">
+    <input id="searchInput" type="search" placeholder="Search discussions or members..." aria-label="Search posts or members">
+  </div>
+
+  <!-- Dashboard 2-Column Grid -->
+  <div class="dash-grid">
+    
+    <!-- Left Column: Primary Feed -->
+    <main class="dash-main-col">
+      
+      <!-- Composer Card Box -->
+      <div class="composer-card">
+        <div class="composer" id="composer">
+          <textarea id="postInput" rows="3" maxlength="5000" placeholder="What would you like to share with the community?"></textarea>
+          <div class="composer-footer">
+            <span class="character-count" id="postCount">0 / 5000</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button type="button" class="icon-btn" id="cancelPost" aria-label="Cancel post"><i class="fa-solid fa-xmark"></i></button>
+              <button type="button" class="send-button" id="publishPost"><i class="fa-solid fa-paper-plane"></i> Publish</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="composer-bar">
+          <div class="avatar">{{ member['initials'] }}</div>
+          <button type="button" class="composer-trigger" id="openComposer">Start a new discussion or post an update...</button>
+        </div>
+      </div>
+
+      <!-- Feed Stream -->
+      <div class="feed" id="feed" aria-live="polite">
+        <div class="loading-state">Loading community feed...</div>
+      </div>
+
+      <button type="button" id="loadMore" class="send-button" style="display:none; width:100%; justify-content:center; margin-top:1rem; border-radius:var(--radius-md);">Load more posts</button>
+    </main>
+
+    <!-- Right Column: Sidebar Dashboard Widgets -->
+    <aside class="dash-sidebar">
+      
+      <!-- User Profile Widget -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">Active Member</h3>
+        <div class="user-status-card">
+          <div class="avatar">{{ member['initials'] }}</div>
+          <div>
+            <div class="name">Member ID: #{{ member['id'] }}</div>
+            <div class="role">Verified Vanguard Participant</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Moderation & Quick Guidelines Widget -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">Guidelines</h3>
+        <p style="font-size:0.8rem; color:var(--text-secondary); margin:0; line-height:1.5;">
+          Keep discussions professional, constructive, and aligned with community standards.
+        </p>
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>
+
+<script>
+(() => {
+  const feed = document.getElementById('feed'); 
+  const composer = document.getElementById('composer'); 
+  const postInput = document.getElementById('postInput'); 
+  const publishPost = document.getElementById('publishPost'); 
+  let loading = false; 
+  let query = ''; 
+  let page = 1; 
+  const currentModerator = {{ is_community_moderator|tojson }};
+  
+  const escapeText = (value) => String(value || ''); 
+  const setCount = (input, output, max) => { output.textContent = `${input.value.length} / ${max}`; }; 
+  const api = async (url, options = {}) => { 
+    const response = await fetch(url, { headers: { 'Content-Type': 'application/json', ...(options.headers || {}) }, ...options }); 
+    const payload = await response.json().catch(() => ({})); 
+    if (!response.ok) throw new Error(payload.error || 'Something went wrong.'); 
+    return payload; 
+  };
+  
+  const authorHtml = (author) => `<div class="avatar">${escapeText(author.initials)}</div><div><span class="author-name">${escapeText(author.name)}</span>${author.is_moderator ? '<span class="moderator-badge">MOD</span>' : ''}</div>`;
+  
+  const menuHtml = (item, type) => `<div class="post-menu"><button type="button" aria-label="More actions" data-menu><i class="fa-solid fa-ellipsis"></i></button><div class="post-menu-list">${item.author.id === Number(document.getElementById('communityApp').dataset.currentUser) ? `<button type="button" data-edit="${type}:${item.id}">Edit</button><button type="button" data-delete="${type}:${item.id}">Delete</button>` : ''}<button type="button" data-report="${type}:${item.id}">Report</button>${currentModerator ? `<button type="button" data-moderate="${type}:${item.id}:hide">Hide</button>${type === 'post' ? `<button type="button" data-moderate="post:${item.id}:${item.is_pinned ? 'unpin' : 'pin'}">${item.is_pinned ? 'Unpin' : 'Pin'}</button>` : ''}<button type="button" data-moderate="${type}:${item.id}:delete">Delete as mod</button>` : ''}</div></div>`;
+  
+  const postHtml = (post) => `<article class="post"><div class="post-top">${authorHtml(post.author)}<span class="timestamp">${escapeText(post.relative_time)}</span>${menuHtml(post, 'post')}</div><div class="post-content">${escapeText(post.content)}</div><div class="post-actions"><a href="/hub/community/thread/${post.id}"><i class="fa-regular fa-comment"></i> Reply</a><a href="/hub/community/thread/${post.id}">${post.reply_count} ${post.reply_count === 1 ? 'Reply' : 'Replies'}</a></div></article>`;
+  
+  const loadFeed = async (reset = true) => { 
+    if (loading) return; 
+    loading = true; 
+    if (reset) page = 1; 
+    try { 
+      const data = await api(`/community/posts?page=${page}&limit=20${query ? `&q=${encodeURIComponent(query)}` : ''}`); 
+      const markup = data.posts.map(postHtml).join(''); 
+      if (reset) feed.innerHTML = markup || '<div class="empty-state">No discussions yet.<br>Be the first to share an update!</div>'; 
+      else feed.insertAdjacentHTML('beforeend', markup); 
+      document.getElementById('loadMore').style.display = data.has_more ? 'inline-flex' : 'none'; 
+    } catch (error) { 
+      feed.innerHTML = '<div class="error-state">Couldn\'t load the community feed.<br><button type="button" id="retryFeed">Try again</button></div>'; 
+    } finally { 
+      loading = false; 
+    } 
+  };
+  
+  const submit = async () => { 
+    const content = postInput.value.trim(); 
+    if (!content) return; 
+    publishPost.disabled = true; 
+    try { 
+      await api('/community/posts', { method: 'POST', body: JSON.stringify({ content }) }); 
+      postInput.value = ''; 
+      setCount(postInput, document.getElementById('postCount'), 5000); 
+      composer.classList.remove('is-open'); 
+      loadFeed(); 
+    } catch (error) { 
+      window.alert(error.message); 
+    } finally { 
+      publishPost.disabled = false; 
+    } 
+  };
+  
+  document.getElementById('openComposer').onclick = () => { composer.classList.add('is-open'); postInput.focus(); }; 
+  document.getElementById('cancelPost').onclick = () => { composer.classList.remove('is-open'); postInput.value = ''; setCount(postInput, document.getElementById('postCount'), 5000); }; 
+  postInput.oninput = () => setCount(postInput, document.getElementById('postCount'), 5000); 
+  publishPost.onclick = submit;
+  
+  document.getElementById('searchToggle').onclick = () => { const panel = document.getElementById('searchPanel'); panel.classList.toggle('is-open'); if (panel.classList.contains('is-open')) document.getElementById('searchInput').focus(); }; 
+  document.getElementById('searchInput').oninput = (event) => { query = event.target.value.trim(); clearTimeout(window.communitySearchTimer); window.communitySearchTimer = setTimeout(loadFeed, 250); }; 
+  document.getElementById('loadMore').onclick = () => { page += 1; loadFeed(false); };
+  
+  document.addEventListener('click', async (event) => { 
+    const menu = event.target.closest('[data-menu]'); 
+    if (menu) { menu.nextElementSibling.classList.toggle('is-open'); return; } 
+    const retry = event.target.closest('#retryFeed'); 
+    if (retry) { loadFeed(); return; } 
+    const edit = event.target.closest('[data-edit]'); 
+    if (edit) { 
+      const [type, id] = edit.dataset.edit.split(':'); 
+      const text = window.prompt('Edit your content:'); 
+      if (!text || !text.trim()) return; 
+      try { 
+        await api(`/community/${type === 'post' ? 'posts' : 'replies'}/${id}`, { method: 'PATCH', body: JSON.stringify({ content: text }) }); 
+        loadFeed(); 
+      } catch (error) { window.alert(error.message); } return; 
+    } 
+    const remove = event.target.closest('[data-delete]'); 
+    if (remove && window.confirm('Delete this content?')) { 
+      const [type, id] = remove.dataset.delete.split(':'); 
+      try { 
+        await api(`/community/${type === 'post' ? 'posts' : 'replies'}/${id}`, { method: 'DELETE' }); 
+        loadFeed(); 
+      } catch (error) { window.alert(error.message); } return; 
+    } 
+    const report = event.target.closest('[data-report]'); 
+    if (report) { 
+      const [type, id] = report.dataset.report.split(':'); 
+      const reason = window.prompt('Reason: Spam, Harassment, Scam, Inappropriate content, or Other'); 
+      if (!reason) return; 
+      try { 
+        await api('/community/reports', { method: 'POST', body: JSON.stringify(type === 'post' ? { post_id: id, reason } : { reply_id: id, reason }) }); 
+        window.alert('Report submitted.'); 
+      } catch (error) { window.alert(error.message); } return; 
+    } 
+    const moderate = event.target.closest('[data-moderate]'); 
+    if (moderate) { 
+      const [type, id, action] = moderate.dataset.moderate.split(':'); 
+      if (action === 'delete' && !window.confirm('Delete this content as a moderator?')) return; 
+      try { 
+        await api(`/community/${type === 'post' ? 'posts' : 'replies'}/${id}/moderate`, { method: 'POST', body: JSON.stringify({ action }) }); 
+        loadFeed(); 
+      } catch (error) { window.alert(error.message); } 
+    } 
+  }); 
+
+  loadFeed(); 
+  setInterval(() => { if (!document.hidden) loadFeed(); }, 30000);
+})();
+</script>
+{% endblock %}

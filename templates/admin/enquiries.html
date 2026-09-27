@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Enquiries | Revled Admin{% endblock %}
+{% block admin_heading %}Business Enquiries{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Contact</th>
+                    <th class="pb-3 pr-4">Type</th>
+                    <th class="pb-3 pr-4">Programme</th>
+                    <th class="pb-3 pr-4">Status</th>
+                    <th class="pb-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for enquiry in enquiries %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ enquiry['contact_name'] }}</p>
+                        <p class="text-xs text-slate-500">{{ enquiry['email'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ enquiry['enquiry_type'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ enquiry['program_name'] or 'General' }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ enquiry['status'] }}</td>
+                    <td class="py-4"><a href="{{ url_for('admin_enquiry_detail', enquiry_id=enquiry['id']) }}" class="font-semibold text-[#0A192F]">View</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="py-8 text-slate-500">No enquiries yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

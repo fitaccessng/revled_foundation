@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Event Registrations | Revled Admin{% endblock %}
+{% block admin_heading %}{{ event['title'] }} Registrations{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm text-slate-500">{{ registrations|length }} signup(s)</p>
+            <h2 class="text-xl font-bold text-[#0A192F]">{{ reserved_total }} total seat(s) reserved</h2>
+        </div>
+        <p class="text-sm text-slate-500">{% if event['seat_limit'] %}Capacity {{ reserved_total }}/{{ event['seat_limit'] }}{% else %}Open capacity{% endif %}</p>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Name</th>
+                    <th class="pb-3 pr-4">Email</th>
+                    <th class="pb-3 pr-4">Phone</th>
+                    <th class="pb-3 pr-4">Organisation</th>
+                    <th class="pb-3 pr-4">Seats</th>
+                    <th class="pb-3">Submitted</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for registration in registrations %}
+                <tr>
+                    <td class="py-4 pr-4 font-semibold text-slate-800">{{ registration['full_name'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ registration['email'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ registration['phone'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ registration['organization'] or '—' }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ registration['seat_count'] }}</td>
+                    <td class="py-4 text-slate-500">{{ registration['created_at'] }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="py-8 text-slate-500">No registrations yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

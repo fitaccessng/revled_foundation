@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}{{ program['name'] }} Registration | Revled Foundation{% endblock %}
+
+{% block content %}
+<section class="pt-32 pb-14 px-6 bg-[#FDFCF0]">
+    <div class="max-w-4xl mx-auto text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.3em] text-orange-600">{{ program['ages'] }}</p>
+        <h1 class="mt-4 text-5xl font-bold text-[#0A192F]">{{ program['name'] }} Registration</h1>
+        <p class="mt-6 text-lg leading-relaxed text-slate-600">{{ program['tone'] }} {{ program['cta'] }}</p>
+    </div>
+</section>
+
+<section class="px-6 pb-20">
+    <div class="max-w-5xl mx-auto grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
+        <div class="rounded-[2.5rem] bg-[#0A192F] p-8 text-white">
+            <p class="text-xs uppercase tracking-[0.3em] text-orange-400">Before you submit</p>
+            <h2 class="mt-4 text-3xl font-bold">Help us follow up well.</h2>
+            <ul class="mt-6 space-y-4 text-sm leading-relaxed text-slate-300">
+                <li>Share the best phone number and email for quick follow-up.</li>
+                <li>For younger applicants, include guardian details so our team can reach the right contact.</li>
+                <li>Tell us the goals and support needed so we can route the application properly.</li>
+            </ul>
+        </div>
+
+        <div class="rounded-[2.5rem] bg-white p-8 shadow-xl">
+            <form method="post" class="grid gap-5 md:grid-cols-2">
+                <div class="md:col-span-2">
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Full name *</label>
+                    <input name="full_name" value="{{ form_data['full_name'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Email *</label>
+                    <input type="email" name="email" value="{{ form_data['email'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Phone *</label>
+                    <input name="phone" value="{{ form_data['phone'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Applicant age *</label>
+                    <input name="applicant_age" value="{{ form_data['applicant_age'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Preferred start</label>
+                    <input name="preferred_start" value="{{ form_data['preferred_start'] }}" placeholder="e.g. May 2026" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">City *</label>
+                    <input name="city" value="{{ form_data['city'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">State/Region *</label>
+                    <input name="state_region" value="{{ form_data['state_region'] }}" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Guardian name</label>
+                    <input name="guardian_name" value="{{ form_data['guardian_name'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Guardian phone</label>
+                    <input name="guardian_phone" value="{{ form_data['guardian_phone'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">School / workplace</label>
+                    <input name="school_or_work" value="{{ form_data['school_or_work'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Goals for this program *</label>
+                    <textarea name="goals" rows="5" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['goals'] }}</textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="mb-2 block text-sm font-semibold text-slate-700">Why are you interested in {{ program['name'] }}? *</label>
+                    <textarea name="interest_reason" rows="5" required class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['interest_reason'] }}</textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="rounded-full bg-[#0A192F] px-6 py-3 font-semibold text-white">Submit registration</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

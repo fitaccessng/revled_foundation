@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Hub {{ config['label'] }} | Revled Admin{% endblock %}
+{% block admin_heading %}Hub {{ config['label'] }}{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Hub content</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">{{ config['label'] }}</h2>
+            <p class="mt-2 text-sm text-slate-500">{{ config['description'] }}</p>
+        </div>
+        <a href="{{ url_for('admin_hub_content_new', content_type=content_type) }}" class="inline-flex rounded-full bg-orange-500 px-5 py-3 font-semibold text-white">Add {{ config['singular'] }}</a>
+    </div>
+
+    <div class="mt-8 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Title</th>
+                    <th class="pb-3 pr-4">{{ config['meta_one_label'] }}</th>
+                    <th class="pb-3 pr-4">Access</th>
+                    <th class="pb-3 pr-4">User types</th>
+                    <th class="pb-3 pr-4">Published</th>
+                    <th class="pb-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for item in items %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ item['title'] }}</p>
+                        <p class="text-xs text-slate-500">/{{ item['slug'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ item['meta_one'] or '-' }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ item['access_tier'].replace('_', ' ')|title }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ item['target_user_types_label'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ 'Yes' if item['is_published'] else 'No' }}</td>
+                    <td class="py-4">
+                        <a href="{{ url_for('admin_hub_content_edit', content_type=content_type, item_id=item['id']) }}" class="font-semibold text-[#0A192F]">Edit</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="py-8 text-slate-500">No {{ config['label']|lower }} items yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

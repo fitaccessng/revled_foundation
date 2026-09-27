@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Revled Hub{% endblock %}</title>
+  
+  <!-- Google Fonts: Archivo Black for headers, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --color-dark: #000000;
+      --color-light: #FFFFFF;
+      --color-accent: #BBFF00; /* Neon Lime */
+      --color-border: #000000;
+      --color-text-muted: #555555;
+      
+      --font-heading: 'Archivo Black', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      
+      --border-thickness: 3px;
+      --radius-none: 0px;
+      
+      --shadow-offset: 6px 6px 0px #000000;
+      --ease-brutal: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    /* Brutalist Background pattern */
+    html, body {
+      min-height: 100vh;
+      width: 100%;
+      background-color: #F0F0F0 !important;
+      background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: var(--color-dark);
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    /* Main Container Shell: Removed border radius and shadow */
+    .auth-shell {
+      width: 100%;
+      max-width: 1000px;
+      min-height: 600px;
+      position: relative;
+      display: flex;
+      align-items: stretch;
+    }
+
+    /* Left Story Panel: Overlapping the form */
+    .auth-story {
+      background-color: var(--color-dark) !important;
+      color: var(--color-light) !important;
+      width: 40%;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: var(--border-thickness) solid var(--color-border);
+      z-index: 10; /* Sit on top of form panel */
+      margin-right: -50px; /* Negative margin creates overlap */
+      box-shadow: var(--shadow-offset);
+      transition: transform 0.3s ease;
+    }
+
+    .auth-story:hover {
+      transform: translate(-5px, -5px);
+      box-shadow: 10px 10px 0px #BBFF00;
+    }
+
+    /* Right Auth Panel: The Form Container */
+    .auth-panel {
+      background-color: var(--color-light) !important;
+      color: var(--color-dark) !important;
+      width: 70%; /* Wider to compensate for overlap */
+      padding: 4rem 3rem 4rem 6rem; /* Extra left padding due to overlap */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border: var(--border-thickness) solid var(--color-border);
+      box-shadow: var(--shadow-offset);
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* TYPOGRAPHY OVERRIDES */
+    .story-badge, .panel-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-badge {
+      background-color: var(--color-accent) !important;
+      color: var(--color-dark) !important;
+      border: 2px solid var(--color-border);
+    }
+
+    .panel-badge {
+      background-color: var(--color-dark) !important;
+      color: var(--color-accent) !important;
+      border: 2px solid var(--color-border);
+    }
+
+    .story-title, .panel-title {
+      font-family: var(--font-heading) !important;
+      line-height: 1 !important;
+      margin-bottom: 1rem !important;
+      text-transform: uppercase;
+    }
+
+    .story-title {
+      font-size: 3rem !important;
+      color: var(--color-light) !important;
+    }
+
+    .panel-title {
+      font-size: 2.5rem !important;
+      color: var(--color-dark) !important;
+    }
+
+    .story-text, .panel-text {
+      font-family: var(--font-body) !important;
+      font-size: 1rem !important;
+      line-height: 1.5 !important;
+      font-weight: 400;
+    }
+
+    .story-text {
+      color: #CCCCCC !important;
+      margin-bottom: 0 !important;
+    }
+
+    .panel-text {
+      color: var(--color-text-muted) !important;
+      margin-bottom: 2rem !important;
+    }
+
+    /* FORM STYLING - Brutalist Sharp Edges */
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--color-dark) !important;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border-radius: var(--radius-none);
+      border: var(--border-thickness) solid var(--color-border) !important;
+      background: var(--color-light) !important;
+      color: var(--color-dark) !important;
+      padding: 1rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    /* Brutalist focus state: thicker border, no glow */
+    .field input:focus,
+    .field select:focus {
+      border-width: 4px !important;
+      transform: translate(-2px, -2px);
+    }
+
+    /* Custom Select Arrow */
+    .field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3D%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+    }
+
+    /* Brutal Button with Offset Shadow */
+    .submit-button {
+      width: 100%;
+      margin-top: 1.5rem;
+      border: var(--border-thickness) solid var(--color-border);
+      border-radius: var(--radius-none);
+      padding: 1.25rem;
+      background: var(--color-accent) !important;
+      color: var(--color-dark) !important;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: var(--shadow-offset);
+      transition: all var(--ease-brutal) 0.3s;
+    }
+
+    .submit-button:hover {
+      background: var(--color-light) !important;
+      transform: translate(4px, 4px);
+      box-shadow: 2px 2px 0px #000000;
+    }
+
+    .submit-button:active {
+      transform: translate(6px, 6px);
+      box-shadow: 0px 0px 0px #000000;
+    }
+
+    /* Meta links */
+    .meta-links {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .meta-links a {
+      color: var(--color-text-muted) !important;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+      width: fit-content;
+    }
+
+    .meta-links a:hover {
+      border-color: var(--color-text-muted);
+    }
+
+    /* RESPONSIVE: Break to vertical stack */
+    @media (max-width: 850px) {
+      .auth-shell {
+        flex-direction: column;
+        margin: 0;
+        box-shadow: none;
+      }
+
+      .auth-story {
+        width: 100%;
+        margin: 0;
+        border-bottom: none; /* Will connect with form border */
+        padding: 3rem;
+        box-shadow: 6px 6px 0px #000000;
+      }
+
+      .auth-panel {
+        width: 100%;
+        margin: 0;
+        padding: 3rem;
+        border-top: none;
+        box-shadow: 6px 6px 0px #000000;
+      }
+      
+      .story-title { font-size: 2.5rem !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-shell">
+    <section class="auth-story">
+      {% block auth_story %}{% endblock %}
+    </section>
+
+    <section class="auth-panel">
+      {% block auth_panel %}{% endblock %}
+    </section>
+  </div>
+</body>
+</html>

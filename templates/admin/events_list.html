@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Events | Revled Admin{% endblock %}
+{% block admin_heading %}Event Manager{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Calendar</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">All events</h2>
+        </div>
+        <a href="{{ url_for('admin_event_new') }}" class="inline-flex rounded-full bg-orange-500 px-5 py-3 font-semibold text-white">Create event</a>
+    </div>
+    <div class="mt-8 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Title</th>
+                    <th class="pb-3 pr-4">Type</th>
+                    <th class="pb-3 pr-4">Date</th>
+                    <th class="pb-3 pr-4">Registrations</th>
+                    <th class="pb-3 pr-4">Seats</th>
+                    <th class="pb-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for event in events %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ event['title'] }}</p>
+                        <p class="text-xs text-slate-500">{{ event['location'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ event['event_type'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ event['start_date'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ event['registration_count'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">
+                        {{ event['seats_reserved'] }}
+                        {% if event['seat_limit'] %}
+                        / {{ event['seat_limit'] }}
+                        {% else %}
+                        / open
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        <div class="flex items-center gap-4">
+                            <a href="{{ url_for('admin_event_edit', event_id=event['id']) }}" class="font-semibold text-[#0A192F]">Edit</a>
+                            <a href="{{ url_for('admin_event_registrations', event_id=event['id']) }}" class="font-semibold text-orange-600">Registrations</a>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="py-8 text-slate-500">No events yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

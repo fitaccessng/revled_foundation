@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Mentor Signups | Revled Admin{% endblock %}
+{% block admin_heading %}Mentor Signups{% endblock %}
+
+{% block admin_content %}
+<section class="rounded-[2rem] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Mentor pipeline</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0A192F]">Submitted mentor applications</h2>
+        </div>
+    </div>
+
+    <div class="mt-6 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="text-slate-400">
+                <tr>
+                    <th class="pb-3 pr-4">Mentor</th>
+                    <th class="pb-3 pr-4">Industry</th>
+                    <th class="pb-3 pr-4">Current role</th>
+                    <th class="pb-3 pr-4">Status</th>
+                    <th class="pb-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for signup in signups %}
+                <tr>
+                    <td class="py-4 pr-4">
+                        <p class="font-semibold text-slate-800">{{ signup['full_name'] }}</p>
+                        <p class="text-xs text-slate-500">{{ signup['email'] }}</p>
+                    </td>
+                    <td class="py-4 pr-4 text-slate-600">{{ signup['industry'] }}</td>
+                    <td class="py-4 pr-4 text-slate-600">{{ signup['current_role_org'] }}</td>
+                    <td class="py-4 pr-4"><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase">{{ signup['status'] }}</span></td>
+                    <td class="py-4"><a href="{{ url_for('admin_vanguard_mentor_signup_detail', mentor_id=signup['id']) }}" class="font-semibold text-[#0A192F]">Open</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="py-8 text-slate-500">No mentor applications have been submitted yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
