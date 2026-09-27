@@ -3518,7 +3518,17 @@ def program_register(program_slug):
         for key in form_data:
             form_data[key] = request.form.get(key, "").strip()
 
-        required_fields = ["full_name
+        required_fields = [
+            "full_name",
+            "email",
+            "phone",
+            "applicant_age",
+            "city",
+            "state_region",
+            "goals",
+            "interest_reason",
+        ]
+        missing = [field for field in required_fields if not form_data[field]]
 
         if missing:
             flash("Please complete all required registration fields.", "error")
