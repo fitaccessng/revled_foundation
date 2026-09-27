@@ -68,6 +68,7 @@ class UTF8FileSystemLoader(FileSystemLoader):
 app.jinja_loader = UTF8FileSystemLoader('templates')
 RESOURCE_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "uploads", "resources")
 BLOG_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "uploads", "blog")
+EVENT_UPLOAD_DIR = os.path.join(BASE_DIR, "static", "uploads", "events")
 HUB_UPLOAD_DIR = os.path.join(BASE_DIR, "uploads", "hub_private")
 ALLOWED_RESOURCE_EXTENSIONS = {"pdf", "doc", "docx", "ppt", "pptx", "zip", "png", "jpg", "jpeg", "mp4", "webm", "mov"}
 ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "gif"}
@@ -1794,6 +1795,7 @@ def init_db():
             end_date TEXT,
             booking_link TEXT,
             registration_label TEXT,
+            image_url TEXT,
             seat_limit INTEGER NOT NULL DEFAULT 0,
             requires_registration INTEGER NOT NULL DEFAULT 0,
             is_published INTEGER NOT NULL DEFAULT 1,
@@ -2110,6 +2112,7 @@ def init_db():
         """
     )
     ensure_column(db, "blog_posts", "image_url", "TEXT")
+    ensure_column(db, "events", "image_url", "TEXT")
     ensure_column(db, "events", "seat_limit", "INTEGER NOT NULL DEFAULT 0")
     ensure_column(db, "event_registrations", "seat_count", "INTEGER NOT NULL DEFAULT 1")
     ensure_column(db, "hub_members", "user_type", "TEXT NOT NULL DEFAULT 'ENTREPRENEUR'")
@@ -5108,6 +5111,7 @@ def admin_event_new():
         "end_date": "",
         "booking_link": "",
         "registration_label": "",
+        "image_url": "",
         "seat_limit": "0",
         "requires_registration": "1",
         "is_published": "1",
@@ -5116,20 +5120,28 @@ def admin_event_new():
         form_data = {key: request.form.get(key, "").strip() for key in form_data}
         slug = form_data["slug"] or slugify(form_data["title"])
         existing = fetch_one("SELECT id FROM events WHERE slug = ?", (slug,))
+        image_upload = request.files.get("image_upload")
         required = ["title", "summary", "description", "location", "start_date"]
         if any(not form_data[field] for field in required):
             flash("Please complete the required event fields.", "error")
         elif existing is not None:
             flash("That event slug already exists.", "error")
+        elif image_upload and image_upload.filename and not allowed_image_file(image_upload.filename):
+            flash("That event image file type is not supported.", "error")
         else:
+            image_url = save_public_image_file(
+                image_upload,
+                EVENT_UPLOAD_DIR,
+                url_for("static", filename="uploads/events"),
+            ) or ""
             now = timestamp()
             execute(
                 """
                 INSERT INTO events (
                     title, slug, summary, description, location, event_type, program_slug, start_date, end_date,
-                    booking_link, registration_label, seat_limit, requires_registration, is_published, created_at, updated_at
+                    booking_link, registration_label, image_url, seat_limit, requires_registration, is_published, created_at, updated_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     form_data["title"],
@@ -5143,6 +5155,7 @@ def admin_event_new():
                     form_data["end_date"] or None,
                     form_data["booking_link"],
                     form_data["registration_label"] or "Register",
+                    image_url,
                     max(0, coerce_int(form_data["seat_limit"], 0)),
                     1 if form_data["requires_registration"] == "1" else 0,
                     1 if form_data["is_published"] == "1" else 0,
@@ -5177,16 +5190,24 @@ def admin_event_edit(event_id):
         requires_registration = 1 if request.form.get("requires_registration", "0").strip() == "1" else 0
         is_published = 1 if request.form.get("is_published", "0").strip() == "1" else 0
         existing = fetch_one("SELECT id FROM events WHERE slug = ? AND id != ?", (slug, event_id))
+        image_upload = request.files.get("image_upload")
         if not all([title, summary, description, location, start_date]):
             flash("Please complete the required event fields.", "error")
         elif existing is not None:
             flash("That event slug already exists.", "error")
+        elif image_upload and image_upload.filename and not allowed_image_file(image_upload.filename):
+            flash("That event image file type is not supported.", "error")
         else:
+            image_url = save_public_image_file(
+                image_upload,
+                EVENT_UPLOAD_DIR,
+                url_for("static", filename="uploads/events"),
+            ) or event["image_url"] or ""
             execute(
                 """
                 UPDATE events
                 SET title = ?, slug = ?, summary = ?, description = ?, location = ?, event_type = ?, program_slug = ?,
-                    start_date = ?, end_date = ?, booking_link = ?, registration_label = ?, seat_limit = ?, requires_registration = ?,
+                    start_date = ?, end_date = ?, booking_link = ?, registration_label = ?, image_url = ?, seat_limit = ?, requires_registration = ?,
                     is_published = ?, updated_at = ?
                 WHERE id = ?
                 """,
@@ -5202,6 +5223,7 @@ def admin_event_edit(event_id):
                     end_date or None,
                     booking_link,
                     registration_label,
+                    image_url,
                     seat_limit,
                     requires_registration,
                     is_published,

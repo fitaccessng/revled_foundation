@@ -77,6 +77,9 @@
 
     <main class="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
         <article class="rounded-[2rem] bg-white p-8 shadow-sm shadow-slate-900/5 sm:p-10">
+            {% if event['image_url'] %}
+            <img src="{{ event['image_url'] }}" alt="{{ event['title'] }}" class="mb-8 aspect-video w-full rounded-2xl object-cover" fetchpriority="high">
+            {% endif %}
             <p class="text-[11px] font-extrabold uppercase tracking-[0.28em] text-orange-600">About this event</p>
             <div class="mt-5 whitespace-pre-line text-base leading-8 text-slate-600">
                 {{ event['description'] }}

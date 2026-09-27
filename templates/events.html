@@ -68,6 +68,12 @@
                         <span class="text-[10px] uppercase font-bold tracking-widest opacity-60">{{ event['start_date'].split(' ')[1] }}</span>
                     </div>
 
+                    {% if event['image_url'] %}
+                    <div class="w-full md:w-56 aspect-video md:aspect-square flex-shrink-0 overflow-hidden rounded-2xl">
+                        <img src="{{ event['image_url'] }}" alt="{{ event['title'] }}" class="h-full w-full object-cover" loading="lazy">
+                    </div>
+                    {% endif %}
+
                     <div class="flex-grow text-center md:text-left">
                         <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
                             <span class="text-[10px] font-bold uppercase tracking-widest text-white bg-deep-blue px-3 py-1 rounded-md">

@@ -339,6 +339,9 @@
             <div class="grid gap-6 md:grid-cols-3">
                 {% for event in featured_events %}
                 <a href="{{ url_for('event_detail', slug=event['slug']) }}" class="rounded-[2rem] bg-white p-8 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-orange-100 group">
+                    {% if event['image_url'] %}
+                    <img src="{{ event['image_url'] }}" alt="{{ event['title'] }}" class="mb-6 aspect-video w-full rounded-2xl object-cover" loading="lazy">
+                    {% endif %}
                     <div class="flex items-center gap-3 mb-4">
                         <span class="w-2 h-2 rounded-full bg-orange-500"></span>
                         <p class="text-xs uppercase tracking-[0.3em] text-slate-400">{{ event['event_type'] }}</p>

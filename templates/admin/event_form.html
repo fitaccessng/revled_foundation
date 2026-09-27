@@ -6,11 +6,19 @@
 {% block admin_content %}
 <section class="grid gap-8 xl:grid-cols-[1.1fr_0.9fr]">
     <div class="rounded-[2rem] bg-white p-6 shadow-sm">
-        <form method="post" class="space-y-6">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
             <div><label class="mb-2 block text-sm font-semibold text-slate-600">Title</label><input name="title" value="{{ form_data['title'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3"></div>
             <div><label class="mb-2 block text-sm font-semibold text-slate-600">Slug</label><input name="slug" value="{{ form_data['slug'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3"></div>
             <div><label class="mb-2 block text-sm font-semibold text-slate-600">Summary</label><textarea name="summary" rows="3" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['summary'] }}</textarea></div>
             <div><label class="mb-2 block text-sm font-semibold text-slate-600">Description</label><textarea name="description" rows="8" class="w-full rounded-2xl border border-slate-200 px-4 py-3">{{ form_data['description'] }}</textarea></div>
+            <div>
+                <label for="image_upload" class="mb-2 block text-sm font-semibold text-slate-600">Event image</label>
+                <input id="image_upload" type="file" name="image_upload" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif" class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm">
+                <p class="mt-2 text-xs text-slate-400">PNG, JPG, WEBP or GIF.</p>
+                {% if form_data['image_url'] %}
+                <img src="{{ form_data['image_url'] }}" alt="Current event image" class="mt-4 aspect-video max-h-64 w-full rounded-xl object-cover">
+                {% endif %}
+            </div>
             <div class="grid gap-4 md:grid-cols-2">
                 <div><label class="mb-2 block text-sm font-semibold text-slate-600">Location</label><input name="location" value="{{ form_data['location'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3"></div>
                 <div><label class="mb-2 block text-sm font-semibold text-slate-600">Type</label><input name="event_type" value="{{ form_data['event_type'] }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3"></div>
